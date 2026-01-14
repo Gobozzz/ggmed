@@ -27,3 +27,9 @@
 
 ### Laravel App
 - URL: http://localhost
+
+
+## Админка
+
+Логин: admin@ggmed.ru
+Пароль: ggmed_14&01&2026!
