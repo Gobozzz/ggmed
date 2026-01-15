@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Result\Pages;
+namespace App\MoonShine\Resources\Like\Pages;
 
-
-use App\MoonShine\Resources\Comment\CommentResource;
-use MoonShine\Laravel\Fields\Relationships\MorphMany;
+use App\MoonShine\Resources\User\UserResource;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -14,18 +14,14 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Like\LikeResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
 use Throwable;
 
-
 /**
- * @extends IndexPage<ResultResource>
+ * @extends IndexPage<LikeResource>
  */
-class ResultIndexPage extends IndexPage
+class LikeIndexPage extends IndexPage
 {
     protected bool $isLazy = true;
 
@@ -36,12 +32,14 @@ class ResultIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Image::make('Фото', 'images')->multiple(),
-            MorphMany::make('Комменты 💬', 'comments', resource: CommentResource::class)->relatedLink('commentable'),
-            Text::make('Кол-во графтов', 'count_grafts')->sortable(),
-            Text::make('Кол-во мес-ев', 'count_months')->sortable(),
-            Text::make('Панч', 'panch')->sortable(),
-            Url::make('Видео', 'video_url')->blank(),
+            MorphTo::make('К чему', 'likeable')
+                ->types($this->getResource()->morphTypes)
+                ->link(
+                    link: fn(string $value, MorphTo $ctx) => app($this->getResource()->morphResources[$ctx->getTypeValue()])->getDetailPageUrl($ctx->getValue()),
+                    name: fn(string $value) => $value,
+                    blank: true,
+                ),
+            BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
         ];
     }
 

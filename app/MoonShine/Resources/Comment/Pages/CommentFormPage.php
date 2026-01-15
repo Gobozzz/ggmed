@@ -2,34 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Result\Pages;
+namespace App\MoonShine\Resources\Comment\Pages;
 
-use Carbon\Carbon;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\UI\Components\Alert;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Comment\CommentResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
-use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Json;
-use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 
 /**
- * @extends FormPage<ResultResource>
+ * @extends FormPage<CommentResource>
  */
-class ResultFormPage extends FormPage
+class CommentFormPage extends FormPage
 {
     /**
      * @return list<ComponentContract|FieldContract>
@@ -39,15 +31,7 @@ class ResultFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Alert::make()->content('Лучшая растановка фото: 1-ая ДО, 2-ая ПОСЛЕ, далее без разницы'),
-                Image::make('Фото', 'images')
-                    ->customName(fn(UploadedFile $file, Field $field) => "results/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension())
-                    ->multiple()
-                    ->removable(),
-                Text::make('Кол-во графтов', 'count_grafts')->sortable(),
-                Text::make('Кол-во мес-ев', 'count_months')->sortable(),
-                Text::make('Панч', 'panch')->sortable(),
-                Url::make('Видео', 'video_url'),
+                Textarea::make('Текст', 'content')
             ]),
         ];
     }
@@ -64,14 +48,7 @@ class ResultFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [
-            'images' => $item->getKey() === null ? ['required', 'array', 'min:2'] : ['nullable'],
-            'images.*' => ['image', 'max:1024'],
-            'count_grafts' => ['nullable', 'numeric', 'min:1', 'max:50000'],
-            'count_months' => ['nullable', 'numeric', 'min:1', 'max:100'],
-            'panch' => ['nullable', 'numeric'],
-            'video_url' => ['nullable', 'url'],
-        ];
+        return [];
     }
 
     /**

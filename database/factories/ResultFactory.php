@@ -1,7 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
+use App\Models\Comment;
+use App\Models\Like;
+use App\Models\Result;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,4 +31,30 @@ class ResultFactory extends Factory
             "video_url" => rand(0, 4) ? fake()->url() : null,
         ];
     }
+
+    public function configure(): Factory
+    {
+        return $this->afterCreating(function (Result $result) {
+            Comment::factory()->count(rand(1, 5))->create([
+                'commentable_type' => Result::class,
+                'commentable_id' => $result->getKey(),
+            ]);
+
+            $users_liked = User::query()->inRandomOrder()->limit(rand(1, 5))->get();
+
+            if ($users_liked->isEmpty()) {
+                $users_liked = User::factory()->create(rand(1, 5));
+            }
+
+            foreach ($users_liked as $user) {
+                Like::factory()->create([
+                    'user_id' => $user->getKey(),
+                    'likeable_type' => Result::class,
+                    'likeable_id' => $result->getKey(),
+                ]);
+            }
+
+        });
+    }
+
 }

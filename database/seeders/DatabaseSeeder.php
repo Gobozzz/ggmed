@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Result;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +24,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('ggmed_14&01&2026!'),
         ]);
 
-        Result::factory(50)->create();
+        User::factory(30)->create();
+
+        Result::factory(30)->create();
 
     }
 }

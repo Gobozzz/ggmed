@@ -11,6 +11,9 @@ use MoonShine\Contracts\ColorManager\ColorManagerContract;
 use MoonShine\Contracts\ColorManager\PaletteContract;
 use App\MoonShine\Resources\Result\ResultResource;
 use MoonShine\MenuManager\MenuItem;
+use App\MoonShine\Resources\User\UserResource;
+use App\MoonShine\Resources\Comment\CommentResource;
+use App\MoonShine\Resources\Like\LikeResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -42,7 +45,10 @@ final class MoonShineLayout extends AppLayout
     {
         return [
             ...parent::menu(),
-            MenuItem::make(ResultResource::class, 'Результаты'),
+            MenuItem::make(ResultResource::class, 'Результаты')->icon('rectangle-stack'),
+            MenuItem::make(UserResource::class, 'Пользователи')->icon('users'),
+            MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right'),
+            MenuItem::make(LikeResource::class, 'Лайки')->icon('heart'),
         ];
     }
 

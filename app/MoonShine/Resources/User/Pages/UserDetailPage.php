@@ -2,28 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Result\Pages;
+namespace App\MoonShine\Resources\User\Pages;
 
-use App\MoonShine\Resources\Comment\CommentResource;
-use MoonShine\Laravel\Fields\Relationships\MorphMany;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\User\UserResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\Email;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Json;
+use MoonShine\UI\Fields\Phone;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
 use Throwable;
 
 
 /**
- * @extends DetailPage<ResultResource>
+ * @extends DetailPage<UserResource>
  */
-class ResultDetailPage extends DetailPage
+class UserDetailPage extends DetailPage
 {
     /**
      * @return list<FieldContract>
@@ -32,12 +29,9 @@ class ResultDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Image::make('Фото', 'images')->multiple(),
-            Text::make('Кол-во графтов', 'count_grafts')->sortable(),
-            Text::make('Кол-во мес-ев', 'count_months')->sortable(),
-            Text::make('Панч', 'panch')->sortable(),
-            Url::make('Видео', 'video_url')->blank(),
-            MorphMany::make('Комментарии', 'comments', resource: CommentResource::class)->relatedLink('commentable')->disableOutside(),
+            Text::make('Имя', 'name'),
+            Phone::make('Телефон', 'phone'),
+            Email::make('Почта', 'email'),
         ];
     }
 
