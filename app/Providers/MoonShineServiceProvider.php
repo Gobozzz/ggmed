@@ -14,6 +14,8 @@ use App\MoonShine\Resources\Result\ResultResource;
 use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Like\LikeResource;
+use App\MoonShine\Resources\Question\QuestionResource;
+use App\MoonShine\Resources\Tag\TagResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,8 @@ class MoonShineServiceProvider extends ServiceProvider
                 UserResource::class,
                 CommentResource::class,
                 LikeResource::class,
+                QuestionResource::class,
+                TagResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

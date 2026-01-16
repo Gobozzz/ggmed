@@ -16,6 +16,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use App\MoonShine\Resources\Comment\CommentResource;
 use MoonShine\Support\ListOf;
@@ -45,6 +46,7 @@ class CommentIndexPage extends IndexPage
                 ),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Textarea::make('Текст', 'content', fn($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+            Date::make('Дата', 'created_at')
         ];
     }
 
@@ -61,7 +63,9 @@ class CommentIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            BelongsTo::make('Пользователь', 'user', resource: UserResource::class)->asyncSearch()
+        ];
     }
 
     /**

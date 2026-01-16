@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use App\Models\Result;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -26,7 +28,11 @@ class DatabaseSeeder extends Seeder
 
         User::factory(30)->create();
 
+        Tag::factory(30)->create();
+
         Result::factory(30)->create();
+
+        Question::factory(30)->create();
 
     }
 }

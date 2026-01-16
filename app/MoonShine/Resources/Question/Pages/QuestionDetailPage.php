@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Result\Pages;
+namespace App\MoonShine\Resources\Question\Pages;
 
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Like\LikeResource;
@@ -17,33 +17,31 @@ use MoonShine\UI\Components\Badge;
 use MoonShine\UI\Components\Link;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Question\QuestionResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Textarea;
-use MoonShine\UI\Fields\Url;
 use Throwable;
 
 /**
- * @extends DetailPage<ResultResource>
+ * @extends DetailPage<QuestionResource>
  */
-class ResultDetailPage extends DetailPage
+class QuestionDetailPage extends DetailPage
 {
     /**
      * @return list<FieldContract>
      */
     protected function fields(): iterable
     {
-        return array(
+        return [
             ID::make(),
-            Image::make('Фото', 'images')->multiple(),
-            Text::make('Кол-во графтов', 'count_grafts')->sortable(),
-            Text::make('Кол-во мес-ев', 'count_months')->sortable(),
-            Text::make('Панч', 'panch')->sortable(),
-            Url::make('Видео', 'video_url')->blank(),
+            Textarea::make('Вопрос', 'title'),
+            Textarea::make('Ответ', 'answer'),
+            BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
+            Switcher::make('Горячий?', 'is_hot'),
+            Date::make('Дата', 'created_at'),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)
                 ->inLine(
                     separator: ' ',
@@ -66,7 +64,7 @@ class ResultDetailPage extends DetailPage
                     BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
                     Date::make('Дата', 'created_at'),
                 ])->tabMode()->searchable(),
-        );
+        ];
     }
 
     protected function buttons(): ListOf

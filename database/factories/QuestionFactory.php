@@ -1,20 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Database\Factories;
 
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Question;
 use App\Models\Result;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Result>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Question>
  */
-class ResultFactory extends Factory
+class QuestionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,22 +22,20 @@ class ResultFactory extends Factory
      */
     public function definition(): array
     {
-        $panchs = [0.65, 1, 1.3, 2];
         return [
-            "images" => ['results/2026-01/1.jpg', 'results/2026-01/2.jpg', 'results/2026-01/3.jpg', 'results/2026-01/4.jpg'],
-            "count_grafts" => rand(0, 4) ? rand(15, 50) * 100 : null,
-            "count_months" => rand(0, 4) ? rand(5, 16) : null,
-            "panch" => rand(0, 4) ? array_rand($panchs) : null,
-            "video_url" => rand(0, 4) ? fake()->url() : null,
+            'title' => $this->faker->realText(300),
+            'answer' => $this->faker->realText(800),
+            'user_id' => User::query()->inRandomOrder()->first() ?? null,
+            'is_hot' => rand(0, 1)
         ];
     }
 
     public function configure(): Factory
     {
-        return $this->afterCreating(function (Result $result) {
-            Comment::factory()->count(30)->create([
-                'commentable_type' => Result::class,
-                'commentable_id' => $result->getKey(),
+        return $this->afterCreating(function (Question $question) {
+            Comment::factory()->count(rand(1, 5))->create([
+                'commentable_type' => Question::class,
+                'commentable_id' => $question->getKey(),
             ]);
 
             $users_liked = User::query()->inRandomOrder()->limit(rand(1, 5))->get();
@@ -50,8 +47,8 @@ class ResultFactory extends Factory
             foreach ($users_liked as $user) {
                 Like::factory()->create([
                     'user_id' => $user->getKey(),
-                    'likeable_type' => Result::class,
-                    'likeable_id' => $result->getKey(),
+                    'likeable_type' => Question::class,
+                    'likeable_id' => $question->getKey(),
                 ]);
             }
 
@@ -61,7 +58,8 @@ class ResultFactory extends Factory
                 $tags = Tag::factory()->count(rand(1, 3))->create();
             }
 
-            $result->tags()->attach($tags->pluck('id')->toArray());
+            $question->tags()->attach($tags->pluck('id')->toArray());
+
         });
     }
 

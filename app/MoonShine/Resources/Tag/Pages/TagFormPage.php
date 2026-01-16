@@ -2,36 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Result\Pages;
+namespace App\MoonShine\Resources\Tag\Pages;
 
-use App\MoonShine\Resources\Tag\TagResource;
-use Carbon\Carbon;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
-use MoonShine\Laravel\Fields\Relationships\MorphToMany;
+use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\UI\Components\Alert;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Tag\TagResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
-use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
 use Throwable;
 
 
 /**
- * @extends FormPage<ResultResource>
+ * @extends FormPage<TagResource>
  */
-class ResultFormPage extends FormPage
+class TagFormPage extends FormPage
 {
     /**
      * @return list<ComponentContract|FieldContract>
@@ -41,16 +32,8 @@ class ResultFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Alert::make()->content('Лучшая растановка фото: 1-ая ДО, 2-ая ПОСЛЕ, далее без разницы'),
-                Image::make('Фото', 'images')
-                    ->customName(fn(UploadedFile $file, Field $field) => "results/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension())
-                    ->multiple()
-                    ->removable(),
-                Text::make('Кол-во графтов', 'count_grafts'),
-                Text::make('Кол-во мес-ев', 'count_months'),
-                Text::make('Панч', 'panch'),
-                Url::make('Видео', 'video_url'),
-                MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
+                Text::make('Имя', 'name'),
+                Slug::make('Слаг', 'slug')->from('name'),
             ]),
         ];
     }
@@ -68,13 +51,8 @@ class ResultFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'images' => $item->getKey() === null ? ['required', 'array', 'min:2'] : ['nullable'],
-            'images.*' => ['image', 'max:1024'],
-            'count_grafts' => ['nullable', 'numeric', 'min:1', 'max:50000'],
-            'count_months' => ['nullable', 'numeric', 'min:1', 'max:100'],
-            'panch' => ['nullable', 'numeric'],
-            'video_url' => ['nullable', 'url'],
-            'tags' => ['nullable', 'array', 'max:3'],
+            'name' => ['required', 'string', 'max:255', 'unique:tags,name' . ($item->getKey() ? ',' . $item->getKey() : '')],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:tags,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
         ];
     }
 

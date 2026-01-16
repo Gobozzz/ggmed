@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Like\Pages;
 
 use App\MoonShine\Resources\User\UserResource;
+use MoonShine\Contracts\UI\ActionButtonContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
@@ -13,6 +14,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use App\MoonShine\Resources\Like\LikeResource;
 use MoonShine\Support\ListOf;
@@ -40,6 +42,7 @@ class LikeIndexPage extends IndexPage
                     blank: true,
                 ),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
+            Date::make('Дата', 'created_at')
         ];
     }
 
@@ -51,12 +54,19 @@ class LikeIndexPage extends IndexPage
         return parent::buttons();
     }
 
+    protected function modifyCreateButton(ActionButtonContract $button): ActionButtonContract
+    {
+        return parent::modifyCreateButton($button)->canSee(fn() => false);
+    }
+
     /**
      * @return list<FieldContract>
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            BelongsTo::make('Пользователь', 'user', resource: UserResource::class)->asyncSearch()
+        ];
     }
 
     /**

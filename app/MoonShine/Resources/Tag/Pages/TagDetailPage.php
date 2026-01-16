@@ -2,26 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Like\Pages;
+namespace App\MoonShine\Resources\Tag\Pages;
 
-use App\MoonShine\Resources\User\UserResource;
-use MoonShine\Laravel\Fields\Relationships\BelongsTo;
-use MoonShine\Laravel\Fields\Relationships\MorphTo;
+use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Like\LikeResource;
+use App\MoonShine\Resources\Tag\TagResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
 /**
- * @extends DetailPage<LikeResource>
+ * @extends DetailPage<TagResource>
  */
-class LikeDetailPage extends DetailPage
+class TagDetailPage extends DetailPage
 {
     /**
      * @return list<FieldContract>
@@ -30,15 +28,8 @@ class LikeDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            MorphTo::make('К чему', 'likeable')
-                ->types($this->getResource()->morphTypes)
-                ->link(
-                    link: fn(string $value, MorphTo $ctx) => app($this->getResource()->morphResources[$ctx->getTypeValue()])->getDetailPageUrl($ctx->getValue()),
-                    name: fn(string $value) => $value,
-                    blank: true,
-                ),
-            BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
-            Date::make('Дата', 'created_at')
+            Text::make('Имя', 'name'),
+            Slug::make('Слаг', 'slug'),
         ];
     }
 

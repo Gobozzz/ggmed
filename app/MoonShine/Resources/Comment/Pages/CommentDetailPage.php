@@ -14,6 +14,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use App\MoonShine\Resources\Comment\CommentResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -40,6 +41,7 @@ class CommentDetailPage extends DetailPage
                 ),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Textarea::make('Текст', 'content'),
+            Date::make('Дата', 'created_at')
         ];
     }
 
