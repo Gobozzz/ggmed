@@ -16,6 +16,7 @@ use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Like\LikeResource;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -50,6 +51,7 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(UserResource::class, 'Пользователи')->icon('users'),
             MenuItem::make(ResultResource::class, 'Результаты')->icon('rectangle-stack'),
             MenuItem::make(QuestionResource::class, 'Вопросы')->icon('question-mark-circle'),
+            MenuItem::make(ServiceResource::class, 'Услуги')->icon('currency-dollar'),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag'),
             MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right'),
             MenuItem::make(LikeResource::class, 'Лайки')->icon('heart'),

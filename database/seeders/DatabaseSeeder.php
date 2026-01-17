@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Question;
 use App\Models\Result;
+use App\Models\Service;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -33,6 +34,8 @@ class DatabaseSeeder extends Seeder
         Result::factory(30)->create();
 
         Question::factory(30)->create();
+
+        Service::factory(30)->create();
 
     }
 }

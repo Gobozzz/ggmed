@@ -2,56 +2,49 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\User\Pages;
+namespace App\MoonShine\Resources\Service\Pages;
 
-use App\Enums\UserStatus;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
+use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\User\UserResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Email;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Phone;
-use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
+use Sckatik\MoonshineEditorJs\Fields\EditorJs;
 use Throwable;
 
 
 /**
- * @extends FormPage<UserResource>
+ * @extends FormPage<ServiceResource>
  */
-class UserFormPage extends FormPage
+class ServiceFormPage extends FormPage
 {
     /**
      * @return list<ComponentContract|FieldContract>
      */
     protected function fields(): iterable
     {
-        $statuses = [];
-        foreach (UserStatus::cases() as $status) {
-            $statuses[$status->value] = $status->label();
-        }
         return [
             Box::make([
                 ID::make(),
-                Image::make('Аватар', 'avatar')
-                    ->customName(fn(UploadedFile $file, Field $field) => "users/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension())
-                    ->removable(),
-                Text::make('Имя', 'name'),
-                Phone::make('Телефон', 'phone'),
-                Email::make('Почта', 'email'),
-                Select::make('Статус', 'status')->options($statuses),
+                Image::make('Фото', 'image')
+                    ->customName(fn(UploadedFile $file, Field $field) => "services/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
+                Text::make('Название', 'name'),
+                Slug::make('Слаг', 'slug')->from('name'),
+                Number::make('Цена, ₽', 'price'),
+                EditorJs::make('Контент', 'content'),
             ]),
         ];
     }
@@ -69,11 +62,7 @@ class UserFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'avatar' => ['nullable', 'image', 'max:1024'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
-            'phone' => ['nullable', 'string', 'max:255', 'unique:users,phone' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
-            'status' => ['required', 'string', new Enum(UserStatus::class)]
+            'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024']
         ];
     }
 
