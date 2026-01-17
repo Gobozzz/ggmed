@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
+use App\Models\Result;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,9 +22,17 @@ class DatabaseSeeder extends Seeder
     {
         MoonshineUser::factory()->create([
             'name' => 'Admin GGMED',
-            'email' => 'admin-files@ggmed.ru',
+            'email' => 'admin@ggmed.ru',
             'password' => Hash::make('ggmed_14&01&2026!'),
-            'avatar' => '/admins/admin-files.jpg'
         ]);
+
+        User::factory(30)->create();
+
+        Tag::factory(30)->create();
+
+        Result::factory(30)->create();
+
+        Question::factory(30)->create();
+
     }
 }
