@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\User\Pages;
 
+use App\Enums\UserStatus;
+use Illuminate\Database\Eloquent\Model;
+use MoonShine\Contracts\UI\ActionButtonContract;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -14,7 +17,9 @@ use MoonShine\UI\Fields\Email;
 use MoonShine\UI\Fields\ID;
 use App\MoonShine\Resources\User\UserResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Phone;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 
@@ -31,11 +36,18 @@ class UserIndexPage extends IndexPage
     protected function fields(): iterable
     {
         return [
-            ID::make(),
+            ID::make()->sortable(),
+            Image::make('Аватар', 'avatar'),
             Text::make('Имя', 'name'),
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
+            Text::make('Статус', 'status', fn(Model $model) => $model->status->label()),
         ];
+    }
+
+    protected function modifyCreateButton(ActionButtonContract $button): ActionButtonContract
+    {
+        return $button->canSee(fn() => false);
     }
 
     /**
@@ -51,11 +63,16 @@ class UserIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
+        $statuses = [];
+        foreach (UserStatus::cases() as $status) {
+            $statuses[$status->value] = $status->label();
+        }
         return [
             Text::make('ID', 'id'),
             Text::make('Имя', 'name'),
             Text::make('Телефон', 'phone'),
             Text::make('Почта', 'email'),
+            Select::make('Статус', 'status')->options($statuses),
         ];
     }
 
