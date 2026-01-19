@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Service\Pages;
 
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -15,6 +17,7 @@ use MoonShine\UI\Fields\ID;
 use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 
@@ -36,7 +39,9 @@ class ServiceIndexPage extends IndexPage
             Image::make('Фото', 'image'),
             Text::make('Название', 'name'),
             Slug::make('Слаг', 'slug'),
-            Slug::make('Цена', 'price', fn($model) => number_format($model->price, 2, '.', ' ') . " ₽")->sortable(),
+            Text::make('Цена', 'price', fn($model) => ($model->is_start_price ? "от " : "") . number_format($model->price, 2, '.', ' ') . " ₽")->sortable(),
+            BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class),
+            Text::make('Подуслуги', 'children', fn($model) => $model->children->count()),
         ];
     }
 

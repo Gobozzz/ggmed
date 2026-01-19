@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\FakeGenerators\EditorGenerator;
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,11 +25,28 @@ class ServiceFactory extends Factory
             "slug" => Str::slug($name),
             "price" => rand(2000, 190000),
             "image" => "services/2026-01/1.jpg",
-            "content" => [
-                'time' => 1275618756813,
-                'verison' => '2.2',
-                'blocks' => []
-            ],
+            "content" => json_encode(EditorGenerator::make(10)),
+            'description' => fake()->realText(255),
+            'is_start_price' => (boolean)rand(0, 2),
+            'parent_id' => null,
         ];
     }
+
+    public function withParent(Service|int|null $parent = null): static
+    {
+        return $this->state(function (array $attributes) use ($parent) {
+            if ($parent === null) {
+                $existingParent = Service::query()->whereNull('parent_id')->inRandomOrder()->first() ??
+                    Service::factory()->create();
+                return [
+                    'parent_id' => $existingParent ?? $existingParent->getKey(),
+                ];
+            }
+
+            return [
+                'parent_id' => $parent instanceof Service ? $parent->getKey() : $parent,
+            ];
+        });
+    }
+
 }

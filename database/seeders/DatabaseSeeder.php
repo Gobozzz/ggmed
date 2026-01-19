@@ -35,7 +35,10 @@ class DatabaseSeeder extends Seeder
 
         Question::factory(30)->create();
 
-        Service::factory(30)->create();
+        $parent_services = Service::factory(10)->create();
+        foreach ($parent_services as $parent_service) {
+            Service::factory(3)->withParent($parent_service)->create();
+        }
 
     }
 }

@@ -15,8 +15,11 @@ return new class extends Migration {
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->unsignedMediumInteger('price');
+            $table->boolean('is_start_price')->default(false);
             $table->string('image');
-            $table->json('content');
+            $table->text('content');
+            $table->string('description', 500);
+            $table->foreignId('parent_id')->nullable()->constrained('services')->nullOnDelete();
             $table->timestamps();
         });
     }

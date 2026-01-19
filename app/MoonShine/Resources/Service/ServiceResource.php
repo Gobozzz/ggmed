@@ -29,6 +29,8 @@ class ServiceResource extends ModelResource
         return ['id', 'name'];
     }
 
+    protected array $with = ['children', 'parent'];
+
     /**
      * @return list<class-string<PageContract>>
      */

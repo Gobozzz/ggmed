@@ -14,6 +14,12 @@ return [
             'activated' => true,
             'shortcut' => 'CMD+SHIFT+H',
         ],
+        'accordion' => [
+            'activated' => true,
+        ],
+        'columns' => [
+            'activated' => true,
+        ],
         'list' => [
             'activated' => true,
             'inlineToolbar' => true,
@@ -24,7 +30,7 @@ return [
             'shortcut' => 'CMD+SHIFT+W',
         ],
         'code' => [
-            'activated' => true,
+            'activated' => false,
             'placeholder' => '',
             'shortcut' => 'CMD+SHIFT+C',
         ],
@@ -111,6 +117,7 @@ return [
             'shortcut' => 'CMD+SHIFT+N',
         ]
     ],
+
     'renderSettings' => [
         'tools' => [
             'paragraph' => [

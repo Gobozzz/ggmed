@@ -14,13 +14,15 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use App\MoonShine\Resources\Question\QuestionResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\Tabs;
+use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
+use Sckatik\MoonshineEditorJs\Fields\EditorJs;
 use Throwable;
-
 
 /**
  * @extends FormPage<QuestionResource>
@@ -34,11 +36,27 @@ class QuestionFormPage extends FormPage
     {
         return [
             Box::make([
-                ID::make(),
-                Textarea::make('Вопрос', 'title'),
-                Textarea::make('Ответ', 'answer')->unescape(),
-                Switcher::make('Горячий?', 'is_hot'),
-                MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
+                Tabs::make([
+                    Tab::make('Вопрос', [
+                        ID::make(),
+                        Textarea::make('Вопрос', 'title'),
+                        Switcher::make('Горячий?', 'is_hot'),
+                        MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
+                    ]),
+                    Tab::make('Ответ', [
+                        EditorJs::make('Ответ', 'answer')->onApply(function ($item, $value) {
+                            try {
+                                if (count(json_decode($value, true)['blocks']) === 0) {
+                                    $value = null;
+                                }
+                            } catch (Throwable $e) {
+                                $value = null;
+                            }
+                            $item->answer = $value;
+                            return $item;
+                        }),
+                    ])
+                ]),
             ]),
         ];
     }
@@ -57,7 +75,7 @@ class QuestionFormPage extends FormPage
     {
         return [
             'title' => ['required', 'string', 'max:450'],
-            'answer' => ['nullable', 'string'],
+            'answer' => ['nullable'],
             'is_hot' => ['required', 'boolean'],
             'tags' => ['nullable', 'array', 'max:3'],
         ];

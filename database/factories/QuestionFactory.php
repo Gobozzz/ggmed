@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
+use App\FakeGenerators\EditorGenerator;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Question;
-use App\Models\Result;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,7 +24,7 @@ class QuestionFactory extends Factory
     {
         return [
             'title' => $this->faker->realText(300),
-            'answer' => $this->faker->realText(800),
+            'answer' => rand(0, 1) ? json_encode(EditorGenerator::make(10)) : null,
             'user_id' => User::query()->inRandomOrder()->first() ?? null,
             'is_hot' => rand(0, 1)
         ];

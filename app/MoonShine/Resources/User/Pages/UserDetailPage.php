@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\User\Pages;
 
+use App\MoonShine\Resources\Comment\CommentResource;
+use App\MoonShine\Resources\Like\LikeResource;
+use App\MoonShine\Resources\Question\QuestionResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use Illuminate\Database\Eloquent\Model;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -17,7 +23,6 @@ use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Phone;
 use MoonShine\UI\Fields\Text;
 use Throwable;
-
 
 /**
  * @extends DetailPage<UserResource>
@@ -36,6 +41,9 @@ class UserDetailPage extends DetailPage
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
             Text::make('Статус', 'status', fn(Model $model) => $model->status->label()),
+            HasMany::make('Вопросы', 'questions', resource: QuestionResource::class)->tabMode(),
+            HasMany::make('Лайки', 'likes', resource: LikeResource::class)->tabMode(),
+            HasMany::make('Комментарии', 'comments', resource: CommentResource::class)->tabMode(),
         ];
     }
 

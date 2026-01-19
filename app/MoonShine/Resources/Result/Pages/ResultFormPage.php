@@ -23,6 +23,7 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Json;
+use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Url;
 use Throwable;
@@ -48,7 +49,7 @@ class ResultFormPage extends FormPage
                     ->removable(),
                 Text::make('Кол-во графтов', 'count_grafts'),
                 Text::make('Кол-во мес-ев', 'count_months'),
-                Text::make('Панч', 'panch'),
+                Number::make('Панч', 'panch')->step(0.01),
                 Url::make('Видео', 'video_url'),
                 MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
             ]),

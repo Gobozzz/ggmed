@@ -38,7 +38,6 @@ class QuestionDetailPage extends DetailPage
         return [
             ID::make(),
             Textarea::make('Вопрос', 'title'),
-            Textarea::make('Ответ', 'answer'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Switcher::make('Горячий?', 'is_hot'),
             Date::make('Дата', 'created_at'),

@@ -51,7 +51,7 @@ class QuestionIndexPage extends IndexPage
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Textarea::make('Вопрос', 'title', fn($item) => mb_substr($item->title, 0, 100, 'utf-8')),
-            Textarea::make('Ответ', 'answer', fn($item) => $item ? mb_substr($item->answer, 0, 50, 'utf-8') : "Не дан"),
+            Textarea::make('Ответ', 'answer', fn($item) => $item->answer ? "Ответ есть" : "Не дан"),
             Switcher::make('Горячий?', 'is_hot'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Date::make('Дата', 'created_at'),
