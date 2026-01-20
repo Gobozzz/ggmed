@@ -23,6 +23,7 @@ class TagResource extends ModelResource
     protected string $title = 'Теги';
 
     protected string $column = 'name';
+    protected bool $withPolicy = true;
 
     protected function search(): array
     {

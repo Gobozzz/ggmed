@@ -19,7 +19,10 @@ use MoonShine\Contracts\Core\PageContract;
 class ResultResource extends ModelResource
 {
     protected string $model = Result::class;
+
     protected string $title = 'Результаты';
+
+    protected bool $withPolicy = true;
 
     /**
      * @return list<class-string<PageContract>>

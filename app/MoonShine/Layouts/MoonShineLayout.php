@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\Models\Question;
 use MoonShine\ColorManager\Palettes\GrayPalette;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\ColorManager;
 use MoonShine\Contracts\ColorManager\ColorManagerContract;
 use MoonShine\Contracts\ColorManager\PaletteContract;
 use App\MoonShine\Resources\Result\ResultResource;
+use MoonShine\Laravel\Resources\MoonShineUserResource;
+use MoonShine\Laravel\Resources\MoonShineUserRoleResource;
+use MoonShine\MenuManager\MenuGroup;
 use MoonShine\MenuManager\MenuItem;
 use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Comment\CommentResource;
@@ -47,14 +51,24 @@ final class MoonShineLayout extends AppLayout
     protected function menu(): array
     {
         return [
-            ...parent::menu(),
-            MenuItem::make(UserResource::class, 'Пользователи')->icon('users'),
-            MenuItem::make(ResultResource::class, 'Результаты')->icon('rectangle-stack'),
-            MenuItem::make(QuestionResource::class, 'Вопросы')->icon('question-mark-circle'),
-            MenuItem::make(ServiceResource::class, 'Услуги')->icon('currency-dollar'),
-            MenuItem::make(TagResource::class, 'Теги')->icon('hashtag'),
-            MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right'),
-            MenuItem::make(LikeResource::class, 'Лайки')->icon('heart'),
+            MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
+                MenuItem::make(MoonShineUserResource::class),
+                MenuItem::make(MoonShineUserRoleResource::class),
+            ])->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(UserResource::class, 'Пользователи')->icon('users')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(ResultResource::class, 'Результаты')->icon('rectangle-stack')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(QuestionResource::class, 'Вопросы')->icon('question-mark-circle')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(ServiceResource::class, 'Услуги')->icon('currency-dollar')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(LikeResource::class, 'Лайки')->icon('heart')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
         ];
     }
 

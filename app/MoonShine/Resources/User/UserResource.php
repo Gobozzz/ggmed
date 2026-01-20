@@ -27,6 +27,8 @@ class UserResource extends ModelResource
 
     protected string $column = "name";
 
+    protected bool $withPolicy = true;
+
     protected function search(): array
     {
         return ['id', 'name', 'email', 'phone'];
