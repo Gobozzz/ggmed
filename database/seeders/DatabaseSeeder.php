@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MoonshineUser;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\Service;
@@ -10,7 +11,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use MoonShine\Laravel\Models\MoonshineUser;
+use MoonShine\Laravel\Models\MoonshineUserRole;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        MoonshineUserRole::create([
+            'id' => MoonshineUser::FILIAL_MANAGER_ROLE_ID,
+            'name' => 'Управляющий филиалом',
+        ]);
         MoonshineUser::factory()->create([
             'name' => 'Admin GGMED',
             'email' => 'admin@ggmed.ru',

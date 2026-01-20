@@ -22,6 +22,8 @@ class QuestionResource extends ModelResource
 
     protected string $title = 'Вопросы';
 
+    protected bool $withPolicy = true;
+
     protected function search(): array
     {
         return ['id', 'title'];

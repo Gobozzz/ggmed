@@ -14,11 +14,11 @@ use MoonShine\Laravel\Exceptions\MoonShineNotFoundException;
 use MoonShine\Laravel\Http\Middleware\Authenticate;
 use MoonShine\Laravel\Http\Middleware\ChangeLocale;
 use MoonShine\Laravel\Layouts\AppLayout;
-use MoonShine\Laravel\Models\MoonshineUser;
 use MoonShine\Laravel\Pages\Dashboard;
 use MoonShine\Laravel\Pages\ErrorPage;
 use MoonShine\Laravel\Pages\LoginPage;
 use MoonShine\Laravel\Pages\ProfilePage;
+use App\Models\MoonshineUser;
 
 return [
     'title' => env('MOONSHINE_TITLE', 'GGMED'),

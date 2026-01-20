@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\MoonShineUser;
 
-use MoonShine\Laravel\Models\MoonshineUser;
+
+use App\Models\MoonshineUser;
 use MoonShine\Laravel\Resources\ModelResource;
 use App\MoonShine\Resources\MoonShineUser\Pages\MoonShineUserFormPage;
 use App\MoonShine\Resources\MoonShineUser\Pages\MoonShineUserIndexPage;
@@ -27,6 +28,8 @@ class MoonShineUserResource extends ModelResource
     protected string $column = 'name';
 
     protected array $with = ['moonshineUserRole'];
+
+    protected bool $withPolicy = true;
 
     protected bool $simplePaginate = true;
 
