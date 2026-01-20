@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Question\Pages;
 
 use App\MoonShine\Resources\Tag\TagResource;
+use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -39,7 +40,7 @@ class QuestionFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Вопрос', [
                         ID::make(),
-                        Textarea::make('Вопрос', 'title'),
+                        Markdown::make('Вопрос', 'title'),
                         Switcher::make('Горячий?', 'is_hot'),
                         MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                     ]),
@@ -74,7 +75,7 @@ class QuestionFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'title' => ['required', 'string', 'max:450'],
+            'title' => ['required', 'string', 'max:1200'],
             'answer' => ['nullable'],
             'is_hot' => ['required', 'boolean'],
             'tags' => ['nullable', 'array', 'max:3'],

@@ -8,6 +8,7 @@ use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Like\LikeResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
+use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphMany;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
@@ -37,7 +38,7 @@ class QuestionDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Textarea::make('Вопрос', 'title'),
+            Markdown::make('Вопрос', 'title'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Switcher::make('Горячий?', 'is_hot'),
             Date::make('Дата', 'created_at'),
