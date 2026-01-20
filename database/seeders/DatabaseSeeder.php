@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Filial;
 use App\Models\MoonshineUser;
 use App\Models\Question;
 use App\Models\Result;
@@ -44,6 +45,8 @@ class DatabaseSeeder extends Seeder
         foreach ($parent_services as $parent_service) {
             Service::factory(3)->withParent($parent_service)->create();
         }
+
+        Filial::factory(10)->create();
 
     }
 }

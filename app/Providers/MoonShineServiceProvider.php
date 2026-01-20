@@ -33,6 +33,7 @@ use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Like\LikeResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Resources\Filial\FilialResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -56,6 +57,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 QuestionResource::class,
                 TagResource::class,
                 ServiceResource::class,
+                FilialResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

@@ -21,6 +21,7 @@ use App\MoonShine\Resources\Like\LikeResource;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Resources\Filial\FilialResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -63,6 +64,7 @@ final class MoonShineLayout extends AppLayout
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(ServiceResource::class, 'Услуги')->icon('currency-dollar')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(FilialResource::class, 'Филиалы')->icon('building-office'),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right')
