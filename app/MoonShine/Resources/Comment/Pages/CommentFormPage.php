@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Comment\Pages;
 
+use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
@@ -31,7 +32,7 @@ class CommentFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Textarea::make('Текст', 'content')
+                Markdown::make('Текст', 'content'),
             ]),
         ];
     }
@@ -48,7 +49,9 @@ class CommentFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'content' => ['required', 'string', 'max:1200'],
+        ];
     }
 
     /**
