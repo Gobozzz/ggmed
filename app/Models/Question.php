@@ -25,6 +25,7 @@ class Question extends Model implements Commentable, Likeable
 
     protected $casts = [
         'is_hot' => 'boolean',
+        'answer' => 'array',
     ];
 
     public function tags(): MorphToMany

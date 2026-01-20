@@ -72,7 +72,7 @@ class UserFormPage extends FormPage
             'avatar' => ['nullable', 'image', 'max:1024'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
-            'phone' => ['required', 'string', 'max:255', 'unique:users,phone' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
+            'phone' => ['nullable', 'string', 'max:255', 'unique:users,phone' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
             'status' => ['required', 'string', new Enum(UserStatus::class)]
         ];
     }

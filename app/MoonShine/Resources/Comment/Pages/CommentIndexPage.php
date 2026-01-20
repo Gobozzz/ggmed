@@ -8,6 +8,7 @@ use App\Models\Result;
 use App\MoonShine\Resources\Result\ResultResource;
 use App\MoonShine\Resources\User\UserResource;
 use MoonShine\Contracts\UI\ActionButtonContract;
+use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
@@ -45,7 +46,7 @@ class CommentIndexPage extends IndexPage
                     blank: true,
                 ),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
-            Textarea::make('Текст', 'content', fn($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+            Markdown::make('Текст', 'content', fn($model) => mb_substr($model->content, 0, 100, 'utf-8')),
             Date::make('Дата', 'created_at')
         ];
     }

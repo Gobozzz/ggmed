@@ -32,6 +32,8 @@ class CommentResource extends ModelResource
 
     protected string $title = 'Комментарии';
 
+    protected bool $withPolicy = true;
+
     protected function search(): array
     {
         return ['id', 'content'];

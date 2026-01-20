@@ -12,12 +12,11 @@ return new class extends Migration {
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 600);
+            $table->text('title');
             $table->text('answer')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_hot')->default(false);
             $table->timestamps();
-            $table->index('title');
         });
     }
 

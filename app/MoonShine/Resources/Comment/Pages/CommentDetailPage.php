@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources\Comment\Pages;
 
 use App\Models\Result;
 use App\MoonShine\Resources\User\UserResource;
+use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
@@ -40,7 +41,7 @@ class CommentDetailPage extends DetailPage
                     blank: true,
                 ),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
-            Textarea::make('Текст', 'content'),
+            Markdown::make('Текст', 'content'),
             Date::make('Дата', 'created_at')
         ];
     }

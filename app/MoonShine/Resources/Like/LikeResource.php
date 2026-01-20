@@ -25,6 +25,8 @@ class LikeResource extends ModelResource
 
     protected string $title = 'Лайки';
 
+    protected bool $withPolicy = true;
+
     public array $morphResources = [
         Result::class => ResultResource::class,
         Question::class => QuestionResource::class,
