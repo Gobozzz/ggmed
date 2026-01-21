@@ -21,6 +21,8 @@ class ServiceFactory extends Factory
     {
         $name = $this->faker->unique()->words(3, true);
         return [
+            "meta_title" => fake()->realText(120),
+            "meta_description" => fake()->realText(500),
             "name" => $name,
             "slug" => Str::slug($name),
             "price" => rand(2000, 190000),

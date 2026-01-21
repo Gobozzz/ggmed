@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Filial extends Model
 {
@@ -28,6 +29,12 @@ class Filial extends Model
     public function manager(): BelongsTo
     {
         return $this->belongsTo(MoonshineUser::class, 'manager_id');
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'filial_service')
+            ->withPivot('meta_title', 'meta_description', 'price', 'is_start_price');
     }
 
 }

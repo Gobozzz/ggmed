@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('meta_title');
+            $table->text('meta_description');
+            $table->string('name');
             $table->string('slug')->unique();
             $table->unsignedMediumInteger('price');
             $table->boolean('is_start_price')->default(false);

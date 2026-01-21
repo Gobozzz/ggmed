@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Service\Pages;
 
+use App\MoonShine\Resources\Filial\FilialResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -49,15 +51,26 @@ class ServiceFormPage extends FormPage
                             ID::make(),
                             Image::make('Фото', 'image')
                                 ->customName(fn(UploadedFile $file, Field $field) => "services/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
-                            Text::make('Название', 'name'),
+                            Text::make('Название', 'name')->unescape(),
                             Slug::make('Слаг', 'slug')->from('name'),
+                            Text::make('Meta Заголовок', 'meta_title')->unescape(),
+                            Text::make('Meta Описание', 'meta_description')->unescape(),
                             Number::make('Цена, ₽', 'price'),
                             Switcher::make('Начальная цена?', 'is_start_price'),
-                            Textarea::make('Описание (SEO Description)', 'description'),
+                            Textarea::make('Описание (В карточке)', 'description')->unescape(),
                             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class)->searchable()->nullable(),
                         ]),
                         Tab::make('Редактор', [
                             EditorJs::make('Редактор', 'content'),
+                        ]),
+                        Tab::make(fn() => "Для филиалов (указано для " . ($this->getItem()?->filials()->count() ?? 0) . ")", [
+                            BelongsToMany::make('Инфомарция по филиалам', 'filials', resource: FilialResource::class)
+                                ->fields([
+                                    Text::make('Meta Заголовок', 'meta_title')->unescape(),
+                                    Text::make('Meta Описание', 'meta_description')->unescape(),
+                                    Number::make('Цена, ₽', 'price'),
+                                    Switcher::make('Начальная цена?', 'is_start_price'),
+                                ]),
                         ]),
                     ]
                 ),
@@ -80,12 +93,16 @@ class ServiceFormPage extends FormPage
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             "name" => ['required', 'string', 'max:255'],
-            "slug" => ['nullable', 'string', 'max:255'],
+            "meta_title" => ['required', 'string', 'max:255'],
+            "meta_description" => ['required', 'string', 'max:500'],
+            "slug" => ['nullable', 'string', 'max:255', 'unique:services,slug' . ($item->getKey() ? "," . $item->getKey() : "")],
             "price" => ['required', 'numeric', 'min:1'],
             "is_start_price" => ['required', 'boolean:'],
             "description" => ['required', 'string', 'max:255'],
             "parent_id" => ['nullable', 'numeric', 'exists:services,id'],
             "content" => ['required'],
+            "filials_pivot" => ['nullable', 'array'],
+            "filials_pivot.*.pivot.price" => ['nullable', 'numeric', 'min:1'],
         ];
     }
 
