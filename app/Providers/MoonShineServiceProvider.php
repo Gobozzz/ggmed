@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Comment;
+use App\Models\Filial;
 use App\Models\Like;
 use App\Models\MoonshineUser;
 use App\Models\Question;
@@ -14,6 +15,7 @@ use App\Models\Tag;
 use App\Models\User;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\Policies\MoonShine\CommentPolicy;
+use App\Policies\MoonShine\FilialPolicy;
 use App\Policies\MoonShine\LikePolicy;
 use App\Policies\MoonShine\MoonshineUserPolicy;
 use App\Policies\MoonShine\QuestionPolicy;
@@ -72,6 +74,7 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Tag::class, TagPolicy::class);
             Gate::policy(Comment::class, CommentPolicy::class);
             Gate::policy(Like::class, LikePolicy::class);
+            Gate::policy(Filial::class, FilialPolicy::class);
         }
     }
 }

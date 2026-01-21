@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Filial\Pages;
 
+use App\Models\MoonshineUser;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -56,7 +58,12 @@ class FilialIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            Text::make('Название', 'name'),
+            BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)->searchable()->nullable()
+                ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
+                    ->select(['id', 'name'])),
+        ];
     }
 
     /**
