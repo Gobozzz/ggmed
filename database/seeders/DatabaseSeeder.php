@@ -9,6 +9,7 @@ use App\Models\Result;
 use App\Models\Service;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\VideoReview;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +48,8 @@ class DatabaseSeeder extends Seeder
         }
 
         Filial::factory(10)->create();
+
+        VideoReview::factory(10)->create();
 
     }
 }
