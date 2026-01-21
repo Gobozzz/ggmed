@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Comment;
+use App\Models\Filial;
 use App\Models\Like;
 use App\Models\MoonshineUser;
 use App\Models\Question;
@@ -12,8 +13,10 @@ use App\Models\Result;
 use App\Models\Service;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\VideoReview;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\Policies\MoonShine\CommentPolicy;
+use App\Policies\MoonShine\FilialPolicy;
 use App\Policies\MoonShine\LikePolicy;
 use App\Policies\MoonShine\MoonshineUserPolicy;
 use App\Policies\MoonShine\QuestionPolicy;
@@ -21,6 +24,7 @@ use App\Policies\MoonShine\ResultPolicy;
 use App\Policies\MoonShine\ServicePolicy;
 use App\Policies\MoonShine\TagPolicy;
 use App\Policies\MoonShine\UserPolicy;
+use App\Policies\MoonShine\VideoReviewPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\Contracts\Core\DependencyInjection\CoreContract;
@@ -34,6 +38,7 @@ use App\MoonShine\Resources\Like\LikeResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\VideoReview\VideoReviewResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -58,6 +63,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 TagResource::class,
                 ServiceResource::class,
                 FilialResource::class,
+                VideoReviewResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -72,6 +78,8 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Tag::class, TagPolicy::class);
             Gate::policy(Comment::class, CommentPolicy::class);
             Gate::policy(Like::class, LikePolicy::class);
+            Gate::policy(Filial::class, FilialPolicy::class);
+            Gate::policy(VideoReview::class, VideoReviewPolicy::class);
         }
     }
 }

@@ -2,30 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Filial\Pages;
+namespace App\MoonShine\Resources\VideoReview\Pages;
 
-use App\Models\MoonshineUser;
-use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\Tag\TagResource;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\VideoReview\VideoReviewResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 
 /**
- * @extends IndexPage<FilialResource>
+ * @extends IndexPage<VideoReviewResource>
  */
-class FilialIndexPage extends IndexPage
+class VideoReviewIndexPage extends IndexPage
 {
     protected bool $isLazy = true;
 
@@ -36,12 +38,20 @@ class FilialIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Название', 'name')->unescape(),
-            Text::make('Слаг', 'slug')->unescape(),
-            Image::make('Фото', 'image'),
-            Text::make('Адрес', 'address')->unescape(),
-            Text::make('Рабочее время', 'work_time')->unescape(),
-            BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
+            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : "Нет")->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: "chat-bubble-left-right",
+            ),
+            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : "Нет")->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: "heart",
+            ),
+            MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
+            Image::make('Превью', 'preview'),
+            File::make('Видео', 'video'),
+            Text::make('Заголовок', 'title'),
+            Textarea::make('Описание', 'content', fn($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
+            BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
         ];
     }
 
@@ -58,15 +68,7 @@ class FilialIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [
-            Text::make('Название', 'name'),
-            BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)
-                ->searchable()
-                ->nullable()
-                ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
-                    ->select(['id', 'name']))
-                ->canSee(fn() => auth()->user()->isSuperUser()),
-        ];
+        return [];
     }
 
     /**

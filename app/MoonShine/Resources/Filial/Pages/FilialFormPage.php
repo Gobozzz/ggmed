@@ -58,9 +58,10 @@ class FilialFormPage extends FormPage
                 Number::make('Год основания', 'year'),
                 Textarea::make('Код Яндекс карт', 'map_code')->unescape(),
                 BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)
-                    ->searchable()->nullable()
+                    ->searchable()
+                    ->nullable()
                     ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
-                        ->select(['id', 'name'])),
+                        ->select(['id', 'name']))->canSee(fn() => auth()->user()->isSuperUser()),
             ]),
         ];
     }
@@ -73,6 +74,15 @@ class FilialFormPage extends FormPage
     protected function formButtons(): ListOf
     {
         return parent::formButtons();
+    }
+
+    public function prepareForValidation(): void
+    {
+        if (auth()->user()->isFilialManagerUser()) {
+            request()->merge([
+                'manager_id' => $this->getItem()->manager_id,
+            ]);
+        }
     }
 
     protected function rules(DataWrapperContract $item): array
@@ -88,7 +98,7 @@ class FilialFormPage extends FormPage
             "map_code" => ['required', 'string'],
             "work_time" => ['required', 'string', 'max:255'],
             "year" => ['required', 'numeric', 'min:2000', 'max:' . (int)date('Y') + 10],
-            "manager_id" => ['nullable', 'integer', 'exists:moonshine_users,id'],
+            'manager_id' => ['nullable', 'integer', 'exists:moonshine_users,id'],
         ];
     }
 
