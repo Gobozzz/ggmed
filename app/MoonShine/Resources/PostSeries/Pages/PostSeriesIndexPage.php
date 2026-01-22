@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Filial\Pages;
+namespace App\MoonShine\Resources\PostSeries\Pages;
 
-use App\Models\MoonshineUser;
-use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -15,17 +11,18 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 
 /**
- * @extends IndexPage<FilialResource>
+ * @extends IndexPage<PostSeriesResource>
  */
-class FilialIndexPage extends IndexPage
+class PostSeriesIndexPage extends IndexPage
 {
     protected bool $isLazy = true;
 
@@ -36,12 +33,11 @@ class FilialIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Название', 'name'),
-            Text::make('Слаг', 'slug'),
             Image::make('Фото', 'image'),
-            Text::make('Адрес', 'address', fn($item) => $item->city . ", " . $item->address),
-            Text::make('Рабочее время', 'work_time'),
-            BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
+            Text::make('Заголовок', 'title'),
+            Text::make('Слаг', 'slug'),
+            Textarea::make('Описание', 'description', fn($item) => mb_substr($item->description, 0, 100, 'utf-8')),
+            Text::make('Кол-во постов', 'posts', fn($item) => $item->posts->count()),
         ];
     }
 
@@ -58,15 +54,7 @@ class FilialIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [
-            Text::make('Название', 'name'),
-            BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)
-                ->searchable()
-                ->nullable()
-                ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
-                    ->select(['id', 'name']))
-                ->canSee(fn() => auth()->user()->isSuperUser()),
-        ];
+        return [];
     }
 
     /**

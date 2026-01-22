@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Contracts\Commentable;
+use App\Contracts\Likeable;
+use App\Contracts\Taggable;
+use App\Traits\HasCommented;
+use App\Traits\HasLiked;
+use App\Traits\HasTags;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class Post extends Model implements Commentable, Likeable, Taggable
+{
+    /** @use HasFactory<\Database\Factories\PostFactory> */
+    use HasFactory, HasCommented, HasLiked, HasTags;
+
+    protected $fillable = [
+        "meta_title",
+        "meta_description",
+        "title",
+        "description",
+        "slug",
+        "image",
+        "content",
+        "time_to_read",
+        "filial_id",
+        "author_id",
+    ];
+
+    protected $casts = [
+        'content' => 'array',
+    ];
+
+    public function filial(): BelongsTo
+    {
+        return $this->belongsTo(Filial::class);
+    }
+
+    public function series(): BelongsToMany
+    {
+        return $this->belongsToMany(PostSeries::class, 'post_post_series', 'post_id', 'series_id');
+    }
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(MoonshineUser::class, 'author_id');
+    }
+
+}

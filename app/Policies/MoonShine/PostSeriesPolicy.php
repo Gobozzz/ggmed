@@ -2,25 +2,25 @@
 
 namespace App\Policies\MoonShine;
 
-use App\Models\Filial;
 use App\Models\MoonshineUser;
+use App\Models\PostSeries;
 
-class FilialPolicy
+class PostSeriesPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(MoonshineUser $user): bool
     {
-        return $user->isSuperUser() || $user->isFilialManagerUser();
+        return $user->isSuperUser();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(MoonshineUser $user, Filial $filial): bool
+    public function view(MoonshineUser $user, PostSeries $postSeries): bool
     {
-        return $user->isSuperUser() || $filial->manager_id === $user->getKey();
+        return $user->isSuperUser();
     }
 
     /**
@@ -34,15 +34,15 @@ class FilialPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(MoonshineUser $user, Filial $filial): bool
+    public function update(MoonshineUser $user, PostSeries $postSeries): bool
     {
-        return $user->isSuperUser() || $filial->manager_id === $user->getKey();
+        return $user->isSuperUser();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(MoonshineUser $user, Filial $filial): bool
+    public function delete(MoonshineUser $user, PostSeries $postSeries): bool
     {
         return $user->isSuperUser();
     }
@@ -50,7 +50,7 @@ class FilialPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(MoonshineUser $user, Filial $filial): bool
+    public function restore(MoonshineUser $user, PostSeries $postSeries): bool
     {
         return $user->isSuperUser();
     }
@@ -58,7 +58,7 @@ class FilialPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(MoonshineUser $user, Filial $filial): bool
+    public function forceDelete(MoonshineUser $user, PostSeries $postSeries): bool
     {
         return $user->isSuperUser();
     }

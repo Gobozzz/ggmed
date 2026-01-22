@@ -8,6 +8,8 @@ use App\Models\Comment;
 use App\Models\Filial;
 use App\Models\Like;
 use App\Models\MoonshineUser;
+use App\Models\Post;
+use App\Models\PostSeries;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\Service;
@@ -19,6 +21,8 @@ use App\Policies\MoonShine\CommentPolicy;
 use App\Policies\MoonShine\FilialPolicy;
 use App\Policies\MoonShine\LikePolicy;
 use App\Policies\MoonShine\MoonshineUserPolicy;
+use App\Policies\MoonShine\PostPolicy;
+use App\Policies\MoonShine\PostSeriesPolicy;
 use App\Policies\MoonShine\QuestionPolicy;
 use App\Policies\MoonShine\ResultPolicy;
 use App\Policies\MoonShine\ServicePolicy;
@@ -39,6 +43,8 @@ use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
+use App\MoonShine\Resources\Post\PostResource;
+use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -64,6 +70,8 @@ class MoonShineServiceProvider extends ServiceProvider
                 ServiceResource::class,
                 FilialResource::class,
                 VideoReviewResource::class,
+                PostResource::class,
+                PostSeriesResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -80,6 +88,8 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Like::class, LikePolicy::class);
             Gate::policy(Filial::class, FilialPolicy::class);
             Gate::policy(VideoReview::class, VideoReviewPolicy::class);
+            Gate::policy(Post::class, PostPolicy::class);
+            Gate::policy(PostSeries::class, PostSeriesPolicy::class);
         }
     }
 }

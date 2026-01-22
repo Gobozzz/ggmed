@@ -44,9 +44,9 @@ class VideoReviewFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Image::make('Превью (не более 1мб)', 'preview')
+                Image::make('Превью (не более 1мб, вертикальное)', 'preview')
                     ->customName(fn(UploadedFile $file, Field $field) => "video-reviews-previews/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
-                File::make('Видео (не более 20мб)', 'video')
+                File::make('Видео (не более 20мб, вертикальное)', 'video')
                     ->customName(fn(UploadedFile $file, Field $field) => "video-reviews/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
                 Text::make('Заголовок', 'title'),
                 Textarea::make('Описание', 'content', fn($item) => mb_substr($item->content, 0, 100, 'utf-8')),

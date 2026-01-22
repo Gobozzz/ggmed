@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('video')->nullable();
             $table->string('image');
             $table->unsignedSmallInteger('year');
+            $table->string('city');
             $table->string('address');
             $table->string('work_time');
             $table->text('map_code');

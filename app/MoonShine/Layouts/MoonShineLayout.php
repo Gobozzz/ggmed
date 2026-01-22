@@ -23,6 +23,8 @@ use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
+use App\MoonShine\Resources\Post\PostResource;
+use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -65,8 +67,15 @@ final class MoonShineLayout extends AppLayout
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(ServiceResource::class, 'Услуги')->icon('currency-dollar')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
-            MenuItem::make(FilialResource::class, 'Филиалы')->icon('building-office'),
-            MenuItem::make(VideoReviewResource::class, 'Видео отзывы')->icon('video-camera'),
+            MenuItem::make(FilialResource::class, 'Филиалы')->icon('building-office')
+                ->canSee(fn() => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+            MenuItem::make(VideoReviewResource::class, 'Видео отзывы')->icon('video-camera')
+                ->canSee(fn() => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+            MenuGroup::make("Блог", [
+                MenuItem::make(PostResource::class, 'Посты')->icon('pencil'),
+                MenuItem::make(PostSeriesResource::class, 'Серии')->icon('rectangle-stack')
+                    ->canSee(fn() => auth()->user()->isSuperUser()),
+            ])->icon('book-open'),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right')
