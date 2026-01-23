@@ -7,6 +7,7 @@ use App\Models\MoonshineUser;
 use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Question;
+use App\Models\Recommendation;
 use App\Models\Result;
 use App\Models\Service;
 use App\Models\Tag;
@@ -72,6 +73,8 @@ class DatabaseSeeder extends Seeder
         Post::factory(30)->create();
 
         PostSeries::factory(10)->create();
+
+        Recommendation::factory(10)->create();
 
     }
 }
