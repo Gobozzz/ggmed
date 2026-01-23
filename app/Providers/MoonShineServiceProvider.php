@@ -18,6 +18,7 @@ use App\Models\Service;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\VideoReview;
+use App\Models\Worker;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\Policies\MoonShine\CommentPolicy;
 use App\Policies\MoonShine\FilialPolicy;
@@ -33,6 +34,7 @@ use App\Policies\MoonShine\ServicePolicy;
 use App\Policies\MoonShine\TagPolicy;
 use App\Policies\MoonShine\UserPolicy;
 use App\Policies\MoonShine\VideoReviewPolicy;
+use App\Policies\MoonShine\WorkerPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\Contracts\Core\DependencyInjection\CoreContract;
@@ -51,6 +53,7 @@ use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use App\MoonShine\Resources\Recomendation\RecommendationResource;
 use App\MoonShine\Resources\Mention\MentionResource;
+use App\MoonShine\Resources\Worker\WorkerResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -80,6 +83,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 PostSeriesResource::class,
                 RecommendationResource::class,
                 MentionResource::class,
+                WorkerResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -100,6 +104,7 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(PostSeries::class, PostSeriesPolicy::class);
             Gate::policy(Recommendation::class, RecommendationPolicy::class);
             Gate::policy(Mention::class, MentionPolicy::class);
+            Gate::policy(Worker::class, WorkerPolicy::class);
         }
     }
 }

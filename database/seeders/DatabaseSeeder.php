@@ -14,6 +14,7 @@ use App\Models\Service;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\VideoReview;
+use App\Models\Worker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -78,6 +79,8 @@ class DatabaseSeeder extends Seeder
         Recommendation::factory(10)->create();
 
         Mention::factory(10)->create();
+
+        Worker::factory(30)->create();
 
     }
 }
