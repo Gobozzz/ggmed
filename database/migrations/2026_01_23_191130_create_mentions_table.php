@@ -10,13 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('video_reviews', function (Blueprint $table) {
+        Schema::create('mentions', function (Blueprint $table) {
             $table->id();
-            $table->string('preview');
-            $table->string('video');
-            $table->string('title')->nullable();
-            $table->string('content', 500)->nullable();
-            $table->foreignId('filial_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('title');
+            $table->string('description', 500);
+            $table->string('image');
+            $table->string('url');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('video_reviews');
+        Schema::dropIfExists('mentions');
     }
 };

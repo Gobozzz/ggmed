@@ -26,6 +26,7 @@ use App\MoonShine\Resources\VideoReview\VideoReviewResource;
 use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use App\MoonShine\Resources\Recomendation\RecommendationResource;
+use App\MoonShine\Resources\Mention\MentionResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -78,6 +79,8 @@ final class MoonShineLayout extends AppLayout
                     ->canSee(fn() => auth()->user()->isSuperUser()),
             ])->icon('book-open'),
             MenuItem::make(RecommendationResource::class, 'Рекомендации')->icon('hand-thumb-up')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(MentionResource::class, 'Упоминания')->icon('link')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn() => auth()->user()->isSuperUser()),

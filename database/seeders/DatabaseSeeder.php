@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Filial;
+use App\Models\Mention;
 use App\Models\MoonshineUser;
 use App\Models\Post;
 use App\Models\PostSeries;
@@ -75,6 +76,8 @@ class DatabaseSeeder extends Seeder
         PostSeries::factory(10)->create();
 
         Recommendation::factory(10)->create();
+
+        Mention::factory(10)->create();
 
     }
 }
