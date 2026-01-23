@@ -27,9 +27,10 @@ class FilialFactory extends Factory
             "image" => 'filials/1.png',
             "year" => rand(2020, 2026),
             "address" => fake()->address(),
+            "city" => fake()->city(),
             "work_time" => "Пн-Пт, 09:00-20:00",
             "map_code" => '<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A28525d3136bf037fe44d77048907d41b5924cae33beae7096ee16b6ef89b9dd9&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>',
-            "manager_id" => MoonshineUser::query()->inRandomOrder()->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)->first(),
+            "manager_id" => rand(0, 2) ? MoonshineUser::query()->inRandomOrder()->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)->first() : null,
         ];
     }
 }

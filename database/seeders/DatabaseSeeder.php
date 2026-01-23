@@ -3,13 +3,18 @@
 namespace Database\Seeders;
 
 use App\Models\Filial;
+use App\Models\Mention;
 use App\Models\MoonshineUser;
+use App\Models\Post;
+use App\Models\PostSeries;
 use App\Models\Question;
+use App\Models\Recommendation;
 use App\Models\Result;
 use App\Models\Service;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\VideoReview;
+use App\Models\Worker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -28,10 +33,26 @@ class DatabaseSeeder extends Seeder
             'id' => MoonshineUser::FILIAL_MANAGER_ROLE_ID,
             'name' => 'Управляющий филиалом',
         ]);
+        MoonshineUserRole::create([
+            'id' => MoonshineUser::AUTHOR_POSTS_ROLE_ID,
+            'name' => 'Автор статей',
+        ]);
         MoonshineUser::factory()->create([
-            'name' => 'Admin GGMED',
+            'name' => 'GGMED',
             'email' => 'admin@ggmed.ru',
             'password' => Hash::make('ggmed_14&01&2026!'),
+        ]);
+        MoonshineUser::factory()->create([
+            'name' => 'Гобозов Богдан',
+            'email' => 'gobozovbogdan@gmail.com',
+            'password' => Hash::make('ggmed_14&01&2026!'),
+            'moonshine_user_role_id' => MoonshineUser::FILIAL_MANAGER_ROLE_ID,
+        ]);
+        MoonshineUser::factory()->create([
+            'name' => 'Геворгизов Артур',
+            'email' => 'author@gmail.com',
+            'password' => Hash::make('ggmed_14&01&2026!'),
+            'moonshine_user_role_id' => MoonshineUser::AUTHOR_POSTS_ROLE_ID,
         ]);
 
         User::factory(30)->create();
@@ -50,6 +71,16 @@ class DatabaseSeeder extends Seeder
         Filial::factory(10)->create();
 
         VideoReview::factory(10)->create();
+
+        Post::factory(30)->create();
+
+        PostSeries::factory(10)->create();
+
+        Recommendation::factory(10)->create();
+
+        Mention::factory(10)->create();
+
+        Worker::factory(30)->create();
 
     }
 }

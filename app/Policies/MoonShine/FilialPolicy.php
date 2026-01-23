@@ -12,7 +12,7 @@ class FilialPolicy
      */
     public function viewAny(MoonshineUser $user): bool
     {
-        return true;
+        return $user->isSuperUser() || $user->isFilialManagerUser();
     }
 
     /**
@@ -62,4 +62,10 @@ class FilialPolicy
     {
         return $user->isSuperUser();
     }
+
+    public function massDelete(MoonshineUser $user): bool
+    {
+        return $user->isSuperUser();
+    }
+
 }

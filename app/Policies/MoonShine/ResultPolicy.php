@@ -62,4 +62,10 @@ class ResultPolicy
     {
         return $user->isSuperUser();
     }
+
+    public function massDelete(MoonshineUser $user): bool
+    {
+        return $user->isSuperUser();
+    }
+
 }

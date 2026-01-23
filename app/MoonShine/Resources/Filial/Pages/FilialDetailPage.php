@@ -32,14 +32,14 @@ class FilialDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Text::make('Название', 'name')->unescape(),
-            Text::make('Слаг', 'slug')->unescape(),
-            Text::make('Meta Заголовок', 'meta_title')->unescape(),
-            Text::make('Meta Описание', 'meta_description')->unescape(),
+            Text::make('Название', 'name'),
+            Text::make('Слаг', 'slug'),
+            Text::make('Meta Заголовок', 'meta_title'),
+            Text::make('Meta Описание', 'meta_description'),
             Image::make('Фото', 'image'),
             File::make('Видео', 'video'),
-            Text::make('Адрес', 'address')->unescape(),
-            Text::make('Рабочее время', 'work_time')->unescape(),
+            Text::make('Адрес', 'address', fn($item) => $item->city . ", " . $item->address),
+            Text::make('Рабочее время', 'work_time'),
             Number::make('Год основания', 'year'),
             BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
         ];

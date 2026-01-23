@@ -49,10 +49,11 @@ class FilialFormPage extends FormPage
                 Slug::make('Слаг', 'slug')->from('name')->unescape(),
                 Text::make('Meta Заголовок', 'meta_title')->unescape(),
                 Text::make('Meta Описание', 'meta_description')->unescape(),
-                Image::make('Фото', 'image')
+                Image::make('Фото (не более 1мб, горизонтальное)', 'image')
                     ->customName(fn(UploadedFile $file, Field $field) => "filials/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
-                File::make('Видео (не более 20мб)', 'video')
+                File::make('Видео (не более 20мб, горизонтальное)', 'video')
                     ->customName(fn(UploadedFile $file, Field $field) => "filials-videos/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
+                Text::make('Город', 'city')->unescape(),
                 Text::make('Адрес', 'address')->unescape(),
                 Text::make('Рабочее время', 'work_time')->unescape(),
                 Number::make('Год основания', 'year'),
@@ -95,6 +96,7 @@ class FilialFormPage extends FormPage
             "image" => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             "video" => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             "address" => ['required', 'string', 'max:255'],
+            "city" => ['required', 'string', 'max:255'],
             "map_code" => ['required', 'string'],
             "work_time" => ['required', 'string', 'max:255'],
             "year" => ['required', 'numeric', 'min:2000', 'max:' . (int)date('Y') + 10],

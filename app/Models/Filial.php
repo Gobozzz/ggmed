@@ -21,6 +21,7 @@ class Filial extends Model
         "image",
         "year",
         "address",
+        "city",
         "work_time",
         "map_code",
         "manager_id",

@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('preview');
             $table->string('video');
             $table->string('title')->nullable();
-            $table->text('content')->nullable();
+            $table->string('content', 500)->nullable();
             $table->foreignId('filial_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

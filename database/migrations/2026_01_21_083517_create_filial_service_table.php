@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('filial_id')->constrained()->cascadeOnDelete();
             $table->foreignId('service_id')->constrained()->cascadeOnDelete();
             $table->string('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
+            $table->string('meta_description', 500)->nullable();
             $table->unsignedMediumInteger('price')->nullable();
             $table->boolean('is_start_price')->default(false);
             $table->unique(['filial_id', 'service_id']);

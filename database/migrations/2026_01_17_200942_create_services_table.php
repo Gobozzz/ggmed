@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('meta_title');
-            $table->text('meta_description');
+            $table->string('meta_description', 500);
             $table->string('name');
             $table->string('slug')->unique();
             $table->unsignedMediumInteger('price');

@@ -36,11 +36,11 @@ class FilialIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Название', 'name')->unescape(),
-            Text::make('Слаг', 'slug')->unescape(),
+            Text::make('Название', 'name'),
+            Text::make('Слаг', 'slug'),
             Image::make('Фото', 'image'),
-            Text::make('Адрес', 'address')->unescape(),
-            Text::make('Рабочее время', 'work_time')->unescape(),
+            Text::make('Адрес', 'address', fn($item) => $item->city . ", " . $item->address),
+            Text::make('Рабочее время', 'work_time'),
             BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
         ];
     }

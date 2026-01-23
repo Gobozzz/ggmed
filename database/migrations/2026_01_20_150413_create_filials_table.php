@@ -13,12 +13,13 @@ return new class extends Migration {
         Schema::create('filials', function (Blueprint $table) {
             $table->id();
             $table->string('meta_title');
-            $table->text('meta_description');
+            $table->string('meta_description', 500);
             $table->string('slug')->unique();
             $table->string('name');
             $table->string('video')->nullable();
             $table->string('image');
             $table->unsignedSmallInteger('year');
+            $table->string('city');
             $table->string('address');
             $table->string('work_time');
             $table->text('map_code');
