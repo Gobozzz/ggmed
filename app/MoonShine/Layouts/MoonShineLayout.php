@@ -29,6 +29,9 @@ use App\MoonShine\Resources\Recomendation\RecommendationResource;
 use App\MoonShine\Resources\Mention\MentionResource;
 use App\MoonShine\Resources\Worker\WorkerResource;
 use App\MoonShine\Resources\StarGuest\StarGuestResource;
+use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
+use App\MoonShine\Resources\Document\DocumentResource;
+use App\MoonShine\Resources\Product\ProductResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -87,6 +90,12 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(MentionResource::class, 'Упоминания')->icon('link')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(StarGuestResource::class, 'Звездные гости')->icon('star')
+                ->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuGroup::make('Документы, бумажки', [
+                MenuItem::make(DocumentCategoryResource::class, 'Категории')->icon('rectangle-stack'),
+                MenuItem::make(DocumentResource::class, 'Документ')->icon('document'),
+            ])->icon('paper-clip')->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(ProductResource::class, 'Товары')->icon('shopping-cart')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn() => auth()->user()->isSuperUser()),

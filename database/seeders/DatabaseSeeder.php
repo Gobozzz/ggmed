@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\Filial;
 use App\Models\Mention;
 use App\Models\MoonshineUser;
 use App\Models\Post;
 use App\Models\PostSeries;
+use App\Models\Product;
 use App\Models\Question;
 use App\Models\Recommendation;
 use App\Models\Result;
@@ -84,6 +87,12 @@ class DatabaseSeeder extends Seeder
         Worker::factory(30)->create();
 
         StarGuest::factory(15)->create();
+
+        DocumentCategory::factory(5)->create();
+
+        Document::factory(12)->create();
+
+        Product::factory(30)->create();
 
     }
 }

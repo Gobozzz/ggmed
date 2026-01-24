@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Comment;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\Filial;
 use App\Models\Like;
 use App\Models\Mention;
 use App\Models\MoonshineUser;
 use App\Models\Post;
 use App\Models\PostSeries;
+use App\Models\Product;
 use App\Models\Question;
 use App\Models\Recommendation;
 use App\Models\Result;
@@ -22,12 +25,15 @@ use App\Models\VideoReview;
 use App\Models\Worker;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\Policies\MoonShine\CommentPolicy;
+use App\Policies\MoonShine\DocumentCategoryPolicy;
+use App\Policies\MoonShine\DocumentPolicy;
 use App\Policies\MoonShine\FilialPolicy;
 use App\Policies\MoonShine\LikePolicy;
 use App\Policies\MoonShine\MentionPolicy;
 use App\Policies\MoonShine\MoonshineUserPolicy;
 use App\Policies\MoonShine\PostPolicy;
 use App\Policies\MoonShine\PostSeriesPolicy;
+use App\Policies\MoonShine\ProductPolicy;
 use App\Policies\MoonShine\QuestionPolicy;
 use App\Policies\MoonShine\RecommendationPolicy;
 use App\Policies\MoonShine\ResultPolicy;
@@ -57,6 +63,9 @@ use App\MoonShine\Resources\Recomendation\RecommendationResource;
 use App\MoonShine\Resources\Mention\MentionResource;
 use App\MoonShine\Resources\Worker\WorkerResource;
 use App\MoonShine\Resources\StarGuest\StarGuestResource;
+use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
+use App\MoonShine\Resources\Document\DocumentResource;
+use App\MoonShine\Resources\Product\ProductResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -88,6 +97,9 @@ class MoonShineServiceProvider extends ServiceProvider
                 MentionResource::class,
                 WorkerResource::class,
                 StarGuestResource::class,
+                DocumentCategoryResource::class,
+                DocumentResource::class,
+                ProductResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -110,6 +122,9 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Mention::class, MentionPolicy::class);
             Gate::policy(Worker::class, WorkerPolicy::class);
             Gate::policy(StarGuest::class, StarGuestPolicy::class);
+            Gate::policy(DocumentCategory::class, DocumentCategoryPolicy::class);
+            Gate::policy(Document::class, DocumentPolicy::class);
+            Gate::policy(Product::class, ProductPolicy::class);
         }
     }
 }
