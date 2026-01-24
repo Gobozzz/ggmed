@@ -11,6 +11,7 @@ use App\Models\Question;
 use App\Models\Recommendation;
 use App\Models\Result;
 use App\Models\Service;
+use App\Models\StarGuest;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\VideoReview;
@@ -81,6 +82,8 @@ class DatabaseSeeder extends Seeder
         Mention::factory(10)->create();
 
         Worker::factory(30)->create();
+
+        StarGuest::factory(15)->create();
 
     }
 }
