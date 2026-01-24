@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product\Pages;
 
+use App\MoonShine\Resources\Tag\TagResource;
+use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -34,7 +36,17 @@ class ProductIndexPage extends IndexPage
     {
         return [
             ID::make(),
+            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : "Нет")->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: "chat-bubble-left-right",
+            ),
+            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : "Нет")->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: "heart",
+            ),
+            MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Фото', 'images')->multiple(),
+            Text::make('Арт.', 'article'),
             Text::make('Название', 'title'),
             Number::make('Цена', 'price', fn($item) => $item->price . ", руб"),
             Number::make('Старая цена', 'old_price', fn($item) => $item->old_price ? ($item->old_price . ", руб") : ''),

@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('structure')->nullable();
             $table->string('brand')->nullable();
             $table->boolean('is_have');
+            $table->string('article')->nullable()->unique();
             $table->text('content')->nullable();
             $table->timestamps();
         });

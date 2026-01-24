@@ -7,6 +7,7 @@ use App\Models\DocumentCategory;
 use App\Models\Filial;
 use App\Models\Mention;
 use App\Models\MoonshineUser;
+use App\Models\Order;
 use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Product;
@@ -93,6 +94,8 @@ class DatabaseSeeder extends Seeder
         Document::factory(12)->create();
 
         Product::factory(30)->create();
+
+        Order::factory(30)->create();
 
     }
 }

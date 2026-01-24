@@ -29,6 +29,7 @@ class ProductFactory extends Factory
             "meta_title" => rand(0, 1) ? fake()->text(60) : null,
             "meta_description" => rand(0, 1) ? fake()->text(500) : null,
             "title" => fake()->text(60),
+            "article" => rand(0, 1) ? "A-" . fake()->unique()->numberBetween() : null,
             "description" => fake()->text(500),
             "images" => ['products/2026-01/1.png', 'products/2026-01/2.png', 'products/2026-01/3.png'],
             "price" => $price,

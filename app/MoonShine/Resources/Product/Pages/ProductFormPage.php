@@ -48,6 +48,7 @@ class ProductFormPage extends FormPage
                             ->customName(fn(UploadedFile $file, Field $field) => "products/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension())
                             ->multiple()
                             ->removable(),
+                        Text::make('Арт.(необяз)', 'article')->unescape(),
                         Text::make('Название', 'title')->unescape(),
                         Textarea::make('Короткое описание', 'description')->unescape(),
                         Number::make('Цена', 'price', fn($item) => $item->price . ", руб")->step(0.01),
@@ -82,6 +83,7 @@ class ProductFormPage extends FormPage
             'images' => $item->getKey() === null ? ['required', 'array', 'min:1'] : ['nullable'],
             'images.*' => ['image', 'max:1024'],
             "title" => ['required', 'string', 'max:255'],
+            "article" => ['nullable', 'string', 'max:255', 'unique:products,article' . ($item->getKey() !== null ? ',' . $item->getKey() : '')],
             "description" => ['required', 'string', 'max:500'],
             "price" => ['required', 'numeric', 'min:1'],
             "old_price" => ['nullable', 'numeric', 'min:1'],

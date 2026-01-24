@@ -28,7 +28,7 @@ class ProductResource extends ModelResource
 
     protected function search(): array
     {
-        return ['id', 'title'];
+        return ['id', 'title', 'article'];
     }
 
     /**
