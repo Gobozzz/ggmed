@@ -16,11 +16,11 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        "content",
-        "user_id",
-        "parent_id",
-        "commentable_type",
-        "commentable_id",
+        'content',
+        'user_id',
+        'parent_id',
+        'commentable_type',
+        'commentable_id',
     ];
 
     public function user(): BelongsTo
@@ -37,5 +37,4 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
-
 }

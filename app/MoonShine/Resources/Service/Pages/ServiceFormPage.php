@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Service\Pages;
 
 use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\UI\Components\FormBuilder;
-use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\FormBuilder;
+use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Switcher;
@@ -31,7 +31,6 @@ use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Sckatik\MoonshineEditorJs\Fields\EditorJs;
 use Throwable;
-
 
 /**
  * @extends FormPage<ServiceResource>
@@ -47,10 +46,10 @@ class ServiceFormPage extends FormPage
             Box::make([
                 Tabs::make(
                     [
-                        Tab::make("Основные данные", [
+                        Tab::make('Основные данные', [
                             ID::make(),
                             Image::make('Фото', 'image')
-                                ->customName(fn(UploadedFile $file, Field $field) => "services/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
+                                ->customName(fn (UploadedFile $file, Field $field) => 'services/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                             Text::make('Название', 'name')->unescape(),
                             Slug::make('Слаг', 'slug')->from('name'),
                             Text::make('Meta Заголовок', 'meta_title')->unescape(),
@@ -63,7 +62,7 @@ class ServiceFormPage extends FormPage
                         Tab::make('Редактор', [
                             EditorJs::make('Редактор', 'content'),
                         ]),
-                        Tab::make(fn() => "Для филиалов (указано для " . ($this->getItem()?->filials()->count() ?? 0) . ")", [
+                        Tab::make(fn () => 'Для филиалов (указано для '.($this->getItem()?->filials()->count() ?? 0).')', [
                             BelongsToMany::make('Инфомарция по филиалам', 'filials', resource: FilialResource::class)
                                 ->fields([
                                     Text::make('Meta Заголовок', 'meta_title')->unescape(),
@@ -92,23 +91,22 @@ class ServiceFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            "name" => ['required', 'string', 'max:255'],
-            "meta_title" => ['required', 'string', 'max:255'],
-            "meta_description" => ['required', 'string', 'max:500'],
-            "slug" => ['nullable', 'string', 'max:255', 'unique:services,slug' . ($item->getKey() ? "," . $item->getKey() : "")],
-            "price" => ['required', 'numeric', 'min:1'],
-            "is_start_price" => ['required', 'boolean:'],
-            "description" => ['required', 'string', 'max:255'],
-            "parent_id" => ['nullable', 'numeric', 'exists:services,id'],
-            "content" => ['required'],
-            "filials_pivot" => ['nullable', 'array'],
-            "filials_pivot.*.pivot.price" => ['nullable', 'numeric', 'min:1'],
+            'name' => ['required', 'string', 'max:255'],
+            'meta_title' => ['required', 'string', 'max:255'],
+            'meta_description' => ['required', 'string', 'max:500'],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
+            'price' => ['required', 'numeric', 'min:1'],
+            'is_start_price' => ['required', 'boolean:'],
+            'description' => ['required', 'string', 'max:255'],
+            'parent_id' => ['nullable', 'numeric', 'exists:services,id'],
+            'content' => ['required'],
+            'filials_pivot' => ['nullable', 'array'],
+            'filials_pivot.*.pivot.price' => ['nullable', 'numeric', 'min:1'],
         ];
     }
 
     /**
-     * @param FormBuilder $component
-     *
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
@@ -118,34 +116,37 @@ class ServiceFormPage extends FormPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

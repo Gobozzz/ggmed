@@ -41,7 +41,7 @@ return [
         'image' => [
             'activated' => true,
             'shortcut' => 'CMD+SHIFT+I',
-            'path' => 'uploads/' . Carbon::now()->format('Y-m'),
+            'path' => 'uploads/'.Carbon::now()->format('Y-m'),
             'disk' => 'public',
             'alterations' => [
                 'resize' => [
@@ -106,7 +106,7 @@ return [
             'inlineToolbar' => true,
         ],
         'raw' => [
-            'activated' => true
+            'activated' => true,
         ],
         'vkVideo' => [
             'activated' => true,
@@ -115,7 +115,7 @@ return [
         'youtube' => [
             'activated' => true,
             'shortcut' => 'CMD+SHIFT+N',
-        ]
+        ],
     ],
 
     'renderSettings' => [
@@ -158,7 +158,7 @@ return [
                         ],
                         'description' => [
                             'type' => 'string',
-                            'required' => false
+                            'required' => false,
                         ],
                         'imageUrl' => [
                             'type' => 'string',
@@ -259,23 +259,23 @@ return [
             ],
             'youtube' => [
                 'service' => [
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 'source' => [
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 'embed' => [
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 'width' => [
-                    'type' => 'integer'
+                    'type' => 'integer',
                 ],
                 'height' => [
-                    'type' => 'integer'
+                    'type' => 'integer',
                 ],
                 'caption' => [
-                    'type' => 'string'
-                ]
+                    'type' => 'string',
+                ],
             ],
             'vkVideo' => [
                 'url' => [
@@ -314,5 +314,5 @@ return [
             //     'title' => 'string',
             // ]
         ],
-    ]
+    ],
 ];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -8,6 +10,7 @@ use MoonShine\Laravel\Models\MoonshineUser as Admin;
 class MoonshineUser extends Admin
 {
     final public const FILIAL_MANAGER_ROLE_ID = 2;
+
     final public const AUTHOR_POSTS_ROLE_ID = 3;
 
     public function isFilialManagerUser(): bool
@@ -24,5 +27,4 @@ class MoonshineUser extends Admin
     {
         return $this->hasMany(Filial::class, 'manager_id');
     }
-
 }

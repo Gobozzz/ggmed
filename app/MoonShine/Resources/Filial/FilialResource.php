@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Filial;
 
 use App\Models\Filial;
-use App\MoonShine\Resources\Filial\Pages\FilialIndexPage;
-use App\MoonShine\Resources\Filial\Pages\FilialFormPage;
 use App\MoonShine\Resources\Filial\Pages\FilialDetailPage;
-
+use App\MoonShine\Resources\Filial\Pages\FilialFormPage;
+use App\MoonShine\Resources\Filial\Pages\FilialIndexPage;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<Filial, FilialIndexPage, FilialFormPage, FilialDetailPage>
@@ -25,6 +24,8 @@ class FilialResource extends ModelResource
     protected string $column = 'name';
 
     protected bool $withPolicy = true;
+
+    protected array $with = ['manager'];
 
     protected function search(): array
     {

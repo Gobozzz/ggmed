@@ -20,11 +20,12 @@ class PostSeriesFactory extends Factory
     public function definition(): array
     {
         $name = fake()->unique()->words(3, true);
+
         return [
-            "title" => $name,
-            "slug" => Str::slug($name),
-            "description" => fake()->text(350),
-            "image" => "posts-series/2026-01/1.png",
+            'title' => $name,
+            'slug' => Str::slug($name),
+            'description' => fake()->text(350),
+            'image' => 'posts-series/2026-01/1.png',
         ];
     }
 
@@ -38,5 +39,4 @@ class PostSeriesFactory extends Factory
             $series->posts()->attach($posts->pluck('id')->toArray());
         });
     }
-
 }

@@ -13,10 +13,9 @@ class Mention extends Model
     use HasFactory;
 
     protected $fillable = [
-        "title",
-        "description",
-        "image",
-        "url",
+        'title',
+        'description',
+        'image',
+        'url',
     ];
-
 }

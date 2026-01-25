@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Contracts\Commentable;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Question extends Model implements Commentable, Likeable
 {
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
-    use HasFactory, HasCommented, HasLiked;
+    use HasCommented, HasFactory, HasLiked;
 
     protected $fillable = [
         'title',
@@ -37,5 +39,4 @@ class Question extends Model implements Commentable, Likeable
     {
         return $this->belongsTo(User::class);
     }
-
 }

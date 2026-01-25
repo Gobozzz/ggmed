@@ -69,5 +69,4 @@ class WorkerPolicy
     {
         return $user->isSuperUser();
     }
-
 }

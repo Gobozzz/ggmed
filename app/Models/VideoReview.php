@@ -17,19 +17,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class VideoReview extends Model implements Commentable, Likeable, Taggable
 {
     /** @use HasFactory<\Database\Factories\VideoReviewFactory> */
-    use HasFactory, HasCommented, HasLiked, HasTags;
+    use HasCommented, HasFactory, HasLiked, HasTags;
 
     protected $fillable = [
-        "preview",
-        "video",
-        "title",
-        "content",
-        "filial_id",
+        'preview',
+        'video',
+        'title',
+        'content',
+        'filial_id',
     ];
 
     public function filial(): BelongsTo
     {
         return $this->belongsTo(Filial::class);
     }
-
 }

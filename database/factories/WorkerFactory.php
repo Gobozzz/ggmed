@@ -18,12 +18,12 @@ class WorkerFactory extends Factory
     public function definition(): array
     {
         return [
-            "image" => "workers/2026-01/1.png",
-            "surname" => fake()->name(),
-            "name" => fake()->firstName(),
-            "patronymic" => rand(0, 3) ? fake()->lastName() : null,
-            "post" => fake()->words(3, true),
-            "filial_id" => rand(0, 1) ? Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create() : null,
+            'image' => 'workers/2026-01/1.png',
+            'surname' => fake()->name(),
+            'name' => fake()->firstName(),
+            'patronymic' => rand(0, 3) ? fake()->lastName() : null,
+            'post' => fake()->words(3, true),
+            'filial_id' => rand(0, 1) ? Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create() : null,
         ];
     }
 }

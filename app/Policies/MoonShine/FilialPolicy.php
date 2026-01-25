@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies\MoonShine;
 
 use App\Models\Filial;
@@ -67,5 +69,4 @@ class FilialPolicy
     {
         return $user->isSuperUser();
     }
-
 }

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\User\Pages;
 
 use App\Enums\UserStatus;
+use App\MoonShine\Resources\User\UserResource;
 use Illuminate\Database\Eloquent\Model;
 use MoonShine\Contracts\UI\ActionButtonContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
+use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Email;
 use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\User\UserResource;
-use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Phone;
 use MoonShine\UI\Fields\Select;
@@ -41,13 +41,13 @@ class UserIndexPage extends IndexPage
             Text::make('Имя', 'name'),
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
-            Text::make('Статус', 'status', fn(Model $model) => $model->status->label()),
+            Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
         ];
     }
 
     protected function modifyCreateButton(ActionButtonContract $button): ActionButtonContract
     {
-        return $button->canSee(fn() => false);
+        return $button->canSee(fn () => false);
     }
 
     /**
@@ -67,6 +67,7 @@ class UserIndexPage extends IndexPage
         foreach (UserStatus::cases() as $status) {
             $statuses[$status->value] = $status->label();
         }
+
         return [
             Text::make('ID', 'id'),
             Text::make('Имя', 'name'),
@@ -93,8 +94,7 @@ class UserIndexPage extends IndexPage
     }
 
     /**
-     * @param TableBuilder $component
-     *
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
@@ -104,34 +104,37 @@ class UserIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

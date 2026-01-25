@@ -13,5 +13,4 @@ trait HasLiked
     {
         return $this->morphMany(Like::class, 'likeable');
     }
-
 }

@@ -6,10 +6,7 @@ namespace App\FakeGenerators;
 
 final class EditorGenerator
 {
-
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     const VERSION = '2.29.1';
 
@@ -28,7 +25,7 @@ final class EditorGenerator
 
     public static function make(int $blocksCount = 3): array
     {
-        $object = new self();
+        $object = new self;
 
         $blocks = [];
 
@@ -89,7 +86,7 @@ final class EditorGenerator
             'list' => [
                 'style' => fake()->randomElement(['ordered', 'unordered']),
                 'items' => array_map(
-                    fn() => fake()->sentence(),
+                    fn () => fake()->sentence(),
                     array_fill(0, rand(2, 6), null)
                 ),
             ],
@@ -142,7 +139,7 @@ final class EditorGenerator
      */
     private function getRandomImageUrl(): string
     {
-        return 'https://picsum.photos/800/600?random=' . rand(1, 100);
+        return 'https://picsum.photos/800/600?random='.rand(1, 100);
     }
 
     /**
@@ -168,5 +165,4 @@ final class EditorGenerator
 
         return $content;
     }
-
 }

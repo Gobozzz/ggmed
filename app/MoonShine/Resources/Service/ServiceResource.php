@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Service;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Service;
-use App\MoonShine\Resources\Service\Pages\ServiceIndexPage;
-use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
 use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
+use App\MoonShine\Resources\Service\Pages\ServiceIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<Service, ServiceIndexPage, ServiceFormPage, ServiceDetailPage>
@@ -31,7 +29,7 @@ class ServiceResource extends ModelResource
         return ['id', 'name'];
     }
 
-    protected array $with = ['children', 'parent'];
+    protected array $with = ['children', 'parent', 'filials'];
 
     /**
      * @return list<class-string<PageContract>>

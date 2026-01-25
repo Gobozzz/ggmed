@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies\MoonShine;
 
 use App\Models\MoonshineUser;
@@ -35,7 +37,7 @@ class MoonshineUserPolicy
      */
     public function update(MoonshineUser $user, MoonshineUser $moonshineUser): bool
     {
-        return $user->isSuperUser() && !$moonshineUser->isSuperUser();
+        return $user->isSuperUser() && ! $moonshineUser->isSuperUser();
     }
 
     /**
@@ -43,7 +45,7 @@ class MoonshineUserPolicy
      */
     public function delete(MoonshineUser $user, MoonshineUser $moonshineUser): bool
     {
-        return $user->isSuperUser() && !$moonshineUser->isSuperUser();
+        return $user->isSuperUser() && ! $moonshineUser->isSuperUser();
     }
 
     /**
@@ -66,5 +68,4 @@ class MoonshineUserPolicy
     {
         return $user->isSuperUser();
     }
-
 }

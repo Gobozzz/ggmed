@@ -16,16 +16,16 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        "meta_title",
-        "meta_description",
-        "name",
-        "slug",
-        "price",
-        "image",
-        "content",
+        'meta_title',
+        'meta_description',
+        'name',
+        'slug',
+        'price',
+        'image',
+        'content',
         'description',
-        "is_start_price",
-        "parent_id",
+        'is_start_price',
+        'parent_id',
     ];
 
     protected $casts = [
@@ -48,5 +48,4 @@ class Service extends Model
         return $this->belongsToMany(Filial::class, 'filial_service')
             ->withPivot('meta_title', 'meta_description', 'price', 'is_start_price');
     }
-
 }

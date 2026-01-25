@@ -17,10 +17,10 @@ class MentionFactory extends Factory
     public function definition(): array
     {
         return [
-            "title" => fake()->words(rand(5, 7), true),
-            "description" => fake()->text(500),
-            "image" => "mentions/2026-01/1.png",
-            "url" => fake()->url(),
+            'title' => fake()->words(rand(5, 7), true),
+            'description' => fake()->text(500),
+            'image' => 'mentions/2026-01/1.png',
+            'url' => fake()->url(),
         ];
     }
 }
