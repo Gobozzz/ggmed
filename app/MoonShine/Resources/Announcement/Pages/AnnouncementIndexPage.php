@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Announcement\Pages;
 
+use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
@@ -13,7 +14,6 @@ use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
-use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
@@ -35,7 +35,7 @@ class AnnouncementIndexPage extends IndexPage
         return [
             ID::make(),
             Image::make('Фото', 'image'),
-            File::make('Видео', 'video'),
+            Video::make('Видео', 'video'),
             Text::make('Заголовок', 'title'),
             Textarea::make('Описание', 'description', fn ($item) => mb_substr($item->description ?? '', 0, 100, 'utf-8')),
             Text::make('Meta Заголовок', 'meta_title'),

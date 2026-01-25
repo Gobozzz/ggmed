@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Filial\Pages;
 
+use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -12,7 +13,6 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
@@ -36,7 +36,7 @@ class FilialDetailPage extends DetailPage
             Text::make('Meta Заголовок', 'meta_title'),
             Text::make('Meta Описание', 'meta_description'),
             Image::make('Фото', 'image'),
-            File::make('Видео', 'video'),
+            Video::make('Видео', 'video'),
             Text::make('Адрес', 'address', fn ($item) => $item->city.', '.$item->address),
             Text::make('Рабочее время', 'work_time'),
             Number::make('Год основания', 'year'),

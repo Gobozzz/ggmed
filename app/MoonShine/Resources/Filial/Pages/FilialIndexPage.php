@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Filial\Pages;
 
 use App\Models\MoonshineUser;
+use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -38,6 +39,7 @@ class FilialIndexPage extends IndexPage
             Text::make('Название', 'name'),
             Text::make('Слаг', 'slug'),
             Image::make('Фото', 'image'),
+            Video::make('Видео', 'video'),
             Text::make('Адрес', 'address', fn ($item) => $item->city.', '.$item->address),
             Text::make('Рабочее время', 'work_time'),
             BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
