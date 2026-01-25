@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\VideoReview\Pages;
 
+use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
@@ -16,7 +17,6 @@ use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
@@ -47,7 +47,7 @@ class VideoReviewIndexPage extends IndexPage
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Превью', 'preview'),
-            File::make('Видео', 'video'),
+            Video::make('Видео', 'video'),
             Text::make('Заголовок', 'title'),
             Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),

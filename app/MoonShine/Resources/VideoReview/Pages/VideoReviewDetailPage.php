@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\VideoReview\Pages;
 
+use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\Like\LikeResource;
@@ -21,7 +22,6 @@ use MoonShine\UI\Components\Badge;
 use MoonShine\UI\Components\Link;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
-use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
@@ -41,7 +41,7 @@ class VideoReviewDetailPage extends DetailPage
         return [
             ID::make(),
             Image::make('Превью', 'preview'),
-            File::make('Видео', 'video'),
+            Video::make('Видео', 'video'),
             Text::make('Заголовок', 'title'),
             Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),

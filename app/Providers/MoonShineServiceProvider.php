@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Announcement;
 use App\Models\Comment;
 use App\Models\Document;
 use App\Models\DocumentCategory;
@@ -27,6 +28,7 @@ use App\Models\User;
 use App\Models\Vacancy;
 use App\Models\VideoReview;
 use App\Models\Worker;
+use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Document\DocumentResource;
 use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
@@ -51,6 +53,7 @@ use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Vacancy\VacancyResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
 use App\MoonShine\Resources\Worker\WorkerResource;
+use App\Policies\MoonShine\AnnouncementPolicy;
 use App\Policies\MoonShine\CommentPolicy;
 use App\Policies\MoonShine\DocumentCategoryPolicy;
 use App\Policies\MoonShine\DocumentPolicy;
@@ -114,6 +117,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 OrderItemResource::class,
                 VacancyResource::class,
                 FactResource::class,
+                AnnouncementResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -143,6 +147,7 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Order::class, OrderPolicy::class);
             Gate::policy(Vacancy::class, VacancyPolicy::class);
             Gate::policy(Fact::class, FactPolicy::class);
+            Gate::policy(Announcement::class, AnnouncementPolicy::class);
         }
     }
 }

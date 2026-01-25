@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
+use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\Fact;
@@ -102,6 +105,8 @@ class DatabaseSeeder extends Seeder
         Vacancy::factory(30)->create();
 
         Fact::factory(10)->create();
+
+        Announcement::factory(20)->create();
 
     }
 }
