@@ -13,5 +13,4 @@ trait HasCommented
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-
 }

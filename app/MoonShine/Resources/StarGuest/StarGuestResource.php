@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\StarGuest;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\StarGuest;
-use App\MoonShine\Resources\StarGuest\Pages\StarGuestIndexPage;
-use App\MoonShine\Resources\StarGuest\Pages\StarGuestFormPage;
 use App\MoonShine\Resources\StarGuest\Pages\StarGuestDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\StarGuest\Pages\StarGuestFormPage;
+use App\MoonShine\Resources\StarGuest\Pages\StarGuestIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<StarGuest, StarGuestIndexPage, StarGuestFormPage, StarGuestDetailPage>

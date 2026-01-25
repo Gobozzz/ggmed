@@ -3,22 +3,21 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('/ping', fn() => "Pong");
+Route::get('/ping', fn () => 'Pong');
 
 //
-//Route::get('/comments', function (Request $request) {
+// Route::get('/comments', function (Request $request) {
 //    if (!Gate::allows('viewAny', \App\Models\Comment::class)) {
 //        abort(403);
 //    }
 //    return \App\Models\Comment::all();
-//})->middleware('auth:sanctum');
+// })->middleware('auth:sanctum');
 //
-//Route::get('/comments/{comment}', function (Request $request, \App\Models\Comment $comment) {
+// Route::get('/comments/{comment}', function (Request $request, \App\Models\Comment $comment) {
 //    return $comment->delete();
-//})->middleware('auth:sanctum');
+// })->middleware('auth:sanctum');
 //
-//Route::post('/login', function (Request $request) {
+// Route::post('/login', function (Request $request) {
 //    $credentials = $request->validate([
 //        'email' => 'required|email',
 //        'password' => 'required',
@@ -39,13 +38,13 @@ Route::get('/ping', fn() => "Pong");
 //    }
 //
 //    return response()->json(['message' => 'Неверные учётные данные'], 401);
-//});
+// });
 //
-//// Маршрут для выхода
-//Route::post('/logout', function (Request $request) {
+// // Маршрут для выхода
+// Route::post('/logout', function (Request $request) {
 //    Auth::guard('web')->logout();
 //    $request->session()->invalidate();
 //    $request->session()->regenerateToken();
 //
 //    return response()->json(['message' => 'Вышел']);
-//})->middleware('auth:sanctum');
+// })->middleware('auth:sanctum');

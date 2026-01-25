@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Fact;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Fact;
-use App\MoonShine\Resources\Fact\Pages\FactIndexPage;
-use App\MoonShine\Resources\Fact\Pages\FactFormPage;
 use App\MoonShine\Resources\Fact\Pages\FactDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\Fact\Pages\FactFormPage;
+use App\MoonShine\Resources\Fact\Pages\FactIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<Fact, FactIndexPage, FactFormPage, FactDetailPage>

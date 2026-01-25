@@ -13,5 +13,4 @@ class Fact extends Model
     use HasFactory;
 
     protected $fillable = ['content'];
-
 }

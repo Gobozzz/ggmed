@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\PostSeries;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\PostSeries;
-use App\MoonShine\Resources\PostSeries\Pages\PostSeriesIndexPage;
-use App\MoonShine\Resources\PostSeries\Pages\PostSeriesFormPage;
 use App\MoonShine\Resources\PostSeries\Pages\PostSeriesDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\PostSeries\Pages\PostSeriesFormPage;
+use App\MoonShine\Resources\PostSeries\Pages\PostSeriesIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<PostSeries, PostSeriesIndexPage, PostSeriesFormPage, PostSeriesDetailPage>

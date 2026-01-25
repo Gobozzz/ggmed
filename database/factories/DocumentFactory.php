@@ -18,9 +18,9 @@ class DocumentFactory extends Factory
     public function definition(): array
     {
         return [
-            "title" => fake()->words(3, true),
-            "file" => "/documents/2026-01/1.pdf",
-            "document_category_id" => rand(0, 2) ? DocumentCategory::query()->inRandomOrder()->first() ?? DocumentCategory::factory()->create() : null,
+            'title' => fake()->words(3, true),
+            'file' => '/documents/2026-01/1.pdf',
+            'document_category_id' => rand(0, 2) ? DocumentCategory::query()->inRandomOrder()->first() ?? DocumentCategory::factory()->create() : null,
         ];
     }
 }

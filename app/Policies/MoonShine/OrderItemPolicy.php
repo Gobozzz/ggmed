@@ -69,5 +69,4 @@ class OrderItemPolicy
     {
         return false;
     }
-
 }

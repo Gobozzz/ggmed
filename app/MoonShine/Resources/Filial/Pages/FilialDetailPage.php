@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Filial\Pages;
 
+use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Filial\FilialResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
 use Throwable;
-
 
 /**
  * @extends DetailPage<FilialResource>
@@ -38,7 +37,7 @@ class FilialDetailPage extends DetailPage
             Text::make('Meta Описание', 'meta_description'),
             Image::make('Фото', 'image'),
             File::make('Видео', 'video'),
-            Text::make('Адрес', 'address', fn($item) => $item->city . ", " . $item->address),
+            Text::make('Адрес', 'address', fn ($item) => $item->city.', '.$item->address),
             Text::make('Рабочее время', 'work_time'),
             Number::make('Год основания', 'year'),
             BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
@@ -51,8 +50,7 @@ class FilialDetailPage extends DetailPage
     }
 
     /**
-     * @param TableBuilder $component
-     *
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract
@@ -62,34 +60,37 @@ class FilialDetailPage extends DetailPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

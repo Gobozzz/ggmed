@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Service\Pages;
 
 use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\Service\ServiceResource;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
@@ -39,7 +39,7 @@ class ServiceDetailPage extends DetailPage
             Slug::make('Слаг', 'slug'),
             Text::make('Meta Заголовок', 'meta_title'),
             Text::make('Meta Описание', 'meta_description'),
-            Text::make('Цена', 'price', fn($model) => ($model->is_start_price ? "от " : "") . number_format($model->price, 2, '.', ' ') . " ₽")->sortable(),
+            Text::make('Цена', 'price', fn ($model) => ($model->is_start_price ? 'от ' : '').number_format($model->price, 2, '.', ' ').' ₽')->sortable(),
             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class),
             HasMany::make('Подуслуги', 'children', resource: ServiceResource::class)->tabMode(),
             BelongsToMany::make('Инфомарция по филиалам', 'filials', resource: FilialResource::class)
@@ -58,8 +58,7 @@ class ServiceDetailPage extends DetailPage
     }
 
     /**
-     * @param TableBuilder $component
-     *
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract
@@ -69,34 +68,37 @@ class ServiceDetailPage extends DetailPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

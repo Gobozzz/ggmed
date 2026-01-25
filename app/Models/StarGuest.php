@@ -13,19 +13,18 @@ class StarGuest extends Model
     use HasFactory;
 
     protected $fillable = [
-        "meta_title",
-        "meta_description",
-        "slug",
-        "name",
-        "points",
-        "url",
-        "content",
-        "image",
+        'meta_title',
+        'meta_description',
+        'slug',
+        'name',
+        'points',
+        'url',
+        'content',
+        'image',
     ];
 
     protected $casts = [
         'content' => 'array',
         'points' => 'array',
     ];
-
 }

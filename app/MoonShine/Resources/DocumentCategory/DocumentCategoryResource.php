@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\DocumentCategory;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\DocumentCategory;
-use App\MoonShine\Resources\DocumentCategory\Pages\DocumentCategoryIndexPage;
-use App\MoonShine\Resources\DocumentCategory\Pages\DocumentCategoryFormPage;
 use App\MoonShine\Resources\DocumentCategory\Pages\DocumentCategoryDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\DocumentCategory\Pages\DocumentCategoryFormPage;
+use App\MoonShine\Resources\DocumentCategory\Pages\DocumentCategoryIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<DocumentCategory, DocumentCategoryIndexPage, DocumentCategoryFormPage, DocumentCategoryDetailPage>
@@ -25,6 +23,8 @@ class DocumentCategoryResource extends ModelResource
     protected string $column = 'name';
 
     protected bool $withPolicy = true;
+
+    protected array $with = ['documents'];
 
     protected function search(): array
     {

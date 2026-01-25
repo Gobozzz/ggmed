@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,18 +15,18 @@ class Filial extends Model
     use HasFactory;
 
     protected $fillable = [
-        "meta_title",
-        "meta_description",
-        "slug",
-        "name",
-        "video",
-        "image",
-        "year",
-        "address",
-        "city",
-        "work_time",
-        "map_code",
-        "manager_id",
+        'meta_title',
+        'meta_description',
+        'slug',
+        'name',
+        'video',
+        'image',
+        'year',
+        'address',
+        'city',
+        'work_time',
+        'map_code',
+        'manager_id',
     ];
 
     public function manager(): BelongsTo
@@ -37,5 +39,4 @@ class Filial extends Model
         return $this->belongsToMany(Service::class, 'filial_service')
             ->withPivot('meta_title', 'meta_description', 'price', 'is_start_price');
     }
-
 }

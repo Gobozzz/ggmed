@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Comment\Pages;
 
-use App\Models\Result;
-use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\User\UserResource;
 use MoonShine\Contracts\UI\ActionButtonContract;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
+use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\Comment\CommentResource;
-use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 /**
@@ -41,13 +38,13 @@ class CommentIndexPage extends IndexPage
             MorphTo::make('К чему', 'commentable')
                 ->types($this->getResource()->morphTypes)
                 ->link(
-                    link: fn(string $value, MorphTo $ctx) => app($this->getResource()->morphResources[$ctx->getTypeValue()])->getDetailPageUrl($ctx->getValue()),
-                    name: fn(string $value) => $value,
+                    link: fn (string $value, MorphTo $ctx) => app($this->getResource()->morphResources[$ctx->getTypeValue()])->getDetailPageUrl($ctx->getValue()),
+                    name: fn (string $value) => $value,
                     blank: true,
                 ),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
-            Markdown::make('Текст', 'content', fn($model) => mb_substr($model->content, 0, 100, 'utf-8')),
-            Date::make('Дата', 'created_at')
+            Markdown::make('Текст', 'content', fn ($model) => mb_substr($model->content, 0, 100, 'utf-8')),
+            Date::make('Дата', 'created_at'),
         ];
     }
 
@@ -65,7 +62,7 @@ class CommentIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            BelongsTo::make('Пользователь', 'user', resource: UserResource::class)->asyncSearch()
+            BelongsTo::make('Пользователь', 'user', resource: UserResource::class)->asyncSearch(),
         ];
     }
 
@@ -87,12 +84,11 @@ class CommentIndexPage extends IndexPage
 
     protected function modifyCreateButton(ActionButtonContract $button): ActionButtonContract
     {
-        return parent::modifyCreateButton($button)->canSee(fn() => false);
+        return parent::modifyCreateButton($button)->canSee(fn () => false);
     }
 
     /**
-     * @param TableBuilder $component
-     *
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
@@ -102,34 +98,37 @@ class CommentIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

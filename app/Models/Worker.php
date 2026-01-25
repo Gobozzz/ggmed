@@ -14,17 +14,16 @@ class Worker extends Model
     use HasFactory;
 
     protected $fillable = [
-        "image",
-        "surname",
-        "name",
-        "patronymic",
-        "post",
-        "filial_id",
+        'image',
+        'surname',
+        'name',
+        'patronymic',
+        'post',
+        'filial_id',
     ];
 
     public function filial(): BelongsTo
     {
         return $this->belongsTo(Filial::class);
     }
-
 }

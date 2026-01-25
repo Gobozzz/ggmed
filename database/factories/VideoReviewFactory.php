@@ -23,11 +23,11 @@ class VideoReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            "preview" => "video-reviews-previews/2026-01/1.png",
-            "video" => "video-reviews/2026-01/1.png",
-            "title" => fake()->text(50),
-            "content" => fake()->text(500),
-            "filial_id" => rand(0, 1) ? Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create() : null,
+            'preview' => 'video-reviews-previews/2026-01/1.png',
+            'video' => 'video-reviews/2026-01/1.png',
+            'title' => fake()->text(50),
+            'content' => fake()->text(500),
+            'filial_id' => rand(0, 1) ? Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create() : null,
         ];
     }
 
@@ -63,5 +63,4 @@ class VideoReviewFactory extends Factory
 
         });
     }
-
 }

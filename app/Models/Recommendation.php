@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,17 +13,16 @@ class Recommendation extends Model
     use HasFactory;
 
     protected $fillable = [
-        "image",
-        "title",
-        "slug",
-        "description",
-        "meta_title",
-        "meta_description",
-        "content",
+        'image',
+        'title',
+        'slug',
+        'description',
+        'meta_title',
+        'meta_description',
+        'content',
     ];
 
     protected $casts = [
         'content' => 'array',
     ];
-
 }

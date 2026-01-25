@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies\MoonShine;
 
 use App\Models\Mention;
 use App\Models\MoonshineUser;
-use App\Models\User;
 
 class MentionPolicy
 {

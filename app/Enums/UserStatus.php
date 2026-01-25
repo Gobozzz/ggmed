@@ -6,8 +6,8 @@ namespace App\Enums;
 
 enum UserStatus: string
 {
-    case ACTIVED = "actived";
-    case BLOCKED = "blocked";
+    case ACTIVED = 'actived';
+    case BLOCKED = 'blocked';
 
     public function label(): string
     {
@@ -16,5 +16,4 @@ enum UserStatus: string
             self::BLOCKED => 'Заблокирован',
         };
     }
-
 }

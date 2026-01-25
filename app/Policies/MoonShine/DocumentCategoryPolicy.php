@@ -69,5 +69,4 @@ class DocumentCategoryPolicy
     {
         return $user->isSuperUser();
     }
-
 }

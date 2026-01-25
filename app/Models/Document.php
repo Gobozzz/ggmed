@@ -14,14 +14,13 @@ class Document extends Model
     use HasFactory;
 
     protected $fillable = [
-        "title",
-        "file",
-        "document_category_id",
+        'title',
+        'file',
+        'document_category_id',
     ];
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(DocumentCategory::class, 'document_category_id');
     }
-
 }

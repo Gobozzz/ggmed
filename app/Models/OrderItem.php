@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderItem extends Model
 {
     protected $fillable = [
-        "order_id",
-        "product_id",
-        "title",
-        "image",
-        "price",
-        "old_price",
-        "quantity",
-        "article",
+        'order_id',
+        'product_id',
+        'title',
+        'image',
+        'price',
+        'old_price',
+        'quantity',
+        'article',
     ];
 
     protected $casts = [
@@ -35,5 +35,4 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
 }

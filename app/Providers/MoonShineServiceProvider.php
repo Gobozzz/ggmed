@@ -27,7 +27,30 @@ use App\Models\User;
 use App\Models\Vacancy;
 use App\Models\VideoReview;
 use App\Models\Worker;
+use App\MoonShine\Resources\Comment\CommentResource;
+use App\MoonShine\Resources\Document\DocumentResource;
+use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
+use App\MoonShine\Resources\Fact\FactResource;
+use App\MoonShine\Resources\Filial\FilialResource;
+use App\MoonShine\Resources\Like\LikeResource;
+use App\MoonShine\Resources\Mention\MentionResource;
+use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
+use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
+use App\MoonShine\Resources\Order\OrderResource;
+use App\MoonShine\Resources\OrderItem\OrderItemResource;
+use App\MoonShine\Resources\Post\PostResource;
+use App\MoonShine\Resources\PostSeries\PostSeriesResource;
+use App\MoonShine\Resources\Product\ProductResource;
 use App\MoonShine\Resources\Question\QuestionResource;
+use App\MoonShine\Resources\Recomendation\RecommendationResource;
+use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Resources\StarGuest\StarGuestResource;
+use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\User\UserResource;
+use App\MoonShine\Resources\Vacancy\VacancyResource;
+use App\MoonShine\Resources\VideoReview\VideoReviewResource;
+use App\MoonShine\Resources\Worker\WorkerResource;
 use App\Policies\MoonShine\CommentPolicy;
 use App\Policies\MoonShine\DocumentCategoryPolicy;
 use App\Policies\MoonShine\DocumentPolicy;
@@ -55,38 +78,13 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\Contracts\Core\DependencyInjection\CoreContract;
 use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
-use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
-use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
-use App\MoonShine\Resources\Result\ResultResource;
-use App\MoonShine\Resources\User\UserResource;
-use App\MoonShine\Resources\Comment\CommentResource;
-use App\MoonShine\Resources\Like\LikeResource;
-use App\MoonShine\Resources\Tag\TagResource;
-use App\MoonShine\Resources\Service\ServiceResource;
-use App\MoonShine\Resources\Filial\FilialResource;
-use App\MoonShine\Resources\VideoReview\VideoReviewResource;
-use App\MoonShine\Resources\Post\PostResource;
-use App\MoonShine\Resources\PostSeries\PostSeriesResource;
-use App\MoonShine\Resources\Recomendation\RecommendationResource;
-use App\MoonShine\Resources\Mention\MentionResource;
-use App\MoonShine\Resources\Worker\WorkerResource;
-use App\MoonShine\Resources\StarGuest\StarGuestResource;
-use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
-use App\MoonShine\Resources\Document\DocumentResource;
-use App\MoonShine\Resources\Product\ProductResource;
-use App\MoonShine\Resources\Order\OrderResource;
-use App\MoonShine\Resources\OrderItem\OrderItemResource;
-use App\MoonShine\Resources\Vacancy\VacancyResource;
-use App\MoonShine\Resources\Fact\FactResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     /**
-     * @param CoreContract<MoonShineConfigurator> $core
+     * @param  CoreContract<MoonShineConfigurator>  $core
      */
     public function boot(CoreContract $core): void
     {

@@ -25,14 +25,14 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            "meta_title" => rand(0, 1) ? fake()->text(100) : null,
-            "meta_description" => rand(0, 1) ? fake()->text(500) : null,
-            "title" => fake()->text(100),
-            "description" => fake()->text(500),
-            "slug" => fake()->unique()->slug(),
-            "image" => "posts/2026-01/1.png",
-            "content" => json_encode(EditorGenerator::make(20)),
-            "time_to_read" => rand(5, 30),
+            'meta_title' => rand(0, 1) ? fake()->text(100) : null,
+            'meta_description' => rand(0, 1) ? fake()->text(500) : null,
+            'title' => fake()->text(100),
+            'description' => fake()->text(500),
+            'slug' => fake()->unique()->slug(),
+            'image' => 'posts/2026-01/1.png',
+            'content' => json_encode(EditorGenerator::make(20)),
+            'time_to_read' => rand(5, 30),
             'filial_id' => rand(0, 2) ? null : Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create(),
             'author_id' => rand(0, 2) ? MoonshineUser::query()->inRandomOrder()->first() ?? MoonshineUser::factory()->create() : null,
         ];
@@ -70,5 +70,4 @@ class PostFactory extends Factory
 
         });
     }
-
 }

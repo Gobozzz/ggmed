@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Tag;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Tag;
-use App\MoonShine\Resources\Tag\Pages\TagIndexPage;
-use App\MoonShine\Resources\Tag\Pages\TagFormPage;
 use App\MoonShine\Resources\Tag\Pages\TagDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\Tag\Pages\TagFormPage;
+use App\MoonShine\Resources\Tag\Pages\TagIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 
 /**
  * @extends ModelResource<Tag, TagIndexPage, TagFormPage, TagDetailPage>
@@ -23,6 +21,7 @@ class TagResource extends ModelResource
     protected string $title = 'Теги';
 
     protected string $column = 'name';
+
     protected bool $withPolicy = true;
 
     protected function search(): array

@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\StarGuest\Pages;
 
+use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
-use MoonShine\Laravel\Pages\Crud\FormPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\UI\Components\FormBuilder;
-use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\StarGuest\StarGuestResource;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Contracts\UI\FormBuilderContract;
+use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\FormBuilder;
+use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Text;
@@ -44,7 +44,7 @@ class StarGuestFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Основная информация', [
                         Image::make('Фото', 'image')
-                            ->customName(fn(UploadedFile $file, Field $field) => "stars-guests/" . Carbon::now()->format('Y-m') . "/" . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'stars-guests/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Имя', 'name')->unescape(),
                         Url::make('Видео', 'url')->unescape(),
                         Text::make('Слаг', 'slug')->unescape(),
@@ -62,6 +62,7 @@ class StarGuestFormPage extends FormPage
                                 $value = null;
                             }
                             $item->content = $value;
+
                             return $item;
                         }),
                     ]),
@@ -84,19 +85,18 @@ class StarGuestFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            "name" => ['required', 'string', 'max:255'],
-            "url" => ['required', 'string', 'max:255'],
-            "slug" => ['required', 'string', 'max:255', 'unique:star_guests,slug' . ($item->getKey() !== null ? "," . $item->getKey() : null)],
-            "meta_title" => ['required', 'string', 'max:255'],
-            "meta_description" => ['required', 'string', 'max:500'],
-            "points" => ['required', 'array', 'min:1'],
-            "content" => ['nullable'],
+            'name' => ['required', 'string', 'max:255'],
+            'url' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:star_guests,slug'.($item->getKey() !== null ? ','.$item->getKey() : null)],
+            'meta_title' => ['required', 'string', 'max:255'],
+            'meta_description' => ['required', 'string', 'max:500'],
+            'points' => ['required', 'array', 'min:1'],
+            'content' => ['nullable'],
         ];
     }
 
     /**
-     * @param FormBuilder $component
-     *
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
@@ -106,34 +106,37 @@ class StarGuestFormPage extends FormPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

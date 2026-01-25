@@ -6,23 +6,22 @@ namespace App\MoonShine\Resources\VideoReview\Pages;
 
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\VideoReview\VideoReviewResource;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
+use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\VideoReview\VideoReviewResource;
-use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
-
 
 /**
  * @extends IndexPage<VideoReviewResource>
@@ -38,19 +37,19 @@ class VideoReviewIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : "Нет")->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
-                icon: "chat-bubble-left-right",
+            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: 'chat-bubble-left-right',
             ),
-            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : "Нет")->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
-                icon: "heart",
+            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Превью', 'preview'),
             File::make('Видео', 'video'),
             Text::make('Заголовок', 'title'),
-            Textarea::make('Описание', 'content', fn($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
+            Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
         ];
     }
@@ -88,8 +87,7 @@ class VideoReviewIndexPage extends IndexPage
     }
 
     /**
-     * @param TableBuilder $component
-     *
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
@@ -99,34 +97,37 @@ class VideoReviewIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

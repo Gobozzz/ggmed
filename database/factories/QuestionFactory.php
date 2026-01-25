@@ -26,7 +26,7 @@ class QuestionFactory extends Factory
             'title' => $this->faker->realText(300),
             'answer' => rand(0, 1) ? json_encode(EditorGenerator::make(10)) : null,
             'user_id' => User::query()->inRandomOrder()->first() ?? null,
-            'is_hot' => rand(0, 1)
+            'is_hot' => rand(0, 1),
         ];
     }
 
@@ -62,5 +62,4 @@ class QuestionFactory extends Factory
 
         });
     }
-
 }

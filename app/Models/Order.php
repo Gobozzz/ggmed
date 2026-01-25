@@ -15,16 +15,16 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        "user_id",
-        "email",
-        "phone",
-        "name",
-        "city",
-        "street",
-        "house",
-        "total_price",
-        "count_positions",
-        "comment",
+        'user_id',
+        'email',
+        'phone',
+        'name',
+        'city',
+        'street',
+        'house',
+        'total_price',
+        'count_positions',
+        'comment',
     ];
 
     protected $casts = [
@@ -41,5 +41,4 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
-
 }

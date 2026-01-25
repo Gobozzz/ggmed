@@ -25,19 +25,20 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         $price = fake()->randomFloat(2, 3000, 120000);
+
         return [
-            "meta_title" => rand(0, 1) ? fake()->text(60) : null,
-            "meta_description" => rand(0, 1) ? fake()->text(500) : null,
-            "title" => fake()->text(60),
-            "article" => rand(0, 1) ? "A-" . fake()->unique()->numberBetween() : null,
-            "description" => fake()->text(500),
-            "images" => ['products/2026-01/1.png', 'products/2026-01/2.png', 'products/2026-01/3.png'],
-            "price" => $price,
-            "old_price" => rand(0, 1) ? $price + rand(1000, 5000) : null,
-            "structure" => fake()->text(50),
-            "brand" => fake()->randomElement(["GGMED", fake()->text(50)]),
-            "is_have" => rand(0, 1),
-            "content" => rand(0, 2) ? json_encode(EditorGenerator::make(15)) : null,
+            'meta_title' => rand(0, 1) ? fake()->text(60) : null,
+            'meta_description' => rand(0, 1) ? fake()->text(500) : null,
+            'title' => fake()->text(60),
+            'article' => rand(0, 1) ? 'A-'.fake()->unique()->numberBetween() : null,
+            'description' => fake()->text(500),
+            'images' => ['products/2026-01/1.png', 'products/2026-01/2.png', 'products/2026-01/3.png'],
+            'price' => $price,
+            'old_price' => rand(0, 1) ? $price + rand(1000, 5000) : null,
+            'structure' => fake()->text(50),
+            'brand' => fake()->randomElement(['GGMED', fake()->text(50)]),
+            'is_have' => rand(0, 1),
+            'content' => rand(0, 2) ? json_encode(EditorGenerator::make(15)) : null,
         ];
     }
 
@@ -72,6 +73,4 @@ class ProductFactory extends Factory
             $product->tags()->attach($tags->pluck('id')->toArray());
         });
     }
-
-
 }

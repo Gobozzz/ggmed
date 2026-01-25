@@ -69,5 +69,4 @@ class VacancyPolicy
     {
         return $user->isSuperUser();
     }
-
 }

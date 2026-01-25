@@ -23,16 +23,16 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => rand(0, 2) ? User::query()->inRandomOrder()->first() ?? User::factory()->create() : null,
-            "email" => fake()->email(),
-            "phone" => "+7" . rand(1000000000, 9999999999),
-            "name" => fake()->name(),
-            "city" => fake()->city(),
-            "street" => fake()->streetName(),
-            "house" => rand(1, 250),
-            "total_price" => fake()->randomFloat(2, 1000, 9999999.99),
-            "count_positions" => rand(1, 5),
-            "comment" => rand(0, 1) ? fake()->text(500) : null,
+            'user_id' => rand(0, 2) ? User::query()->inRandomOrder()->first() ?? User::factory()->create() : null,
+            'email' => fake()->email(),
+            'phone' => '+7'.rand(1000000000, 9999999999),
+            'name' => fake()->name(),
+            'city' => fake()->city(),
+            'street' => fake()->streetName(),
+            'house' => rand(1, 250),
+            'total_price' => fake()->randomFloat(2, 1000, 9999999.99),
+            'count_positions' => rand(1, 5),
+            'comment' => rand(0, 1) ? fake()->text(500) : null,
         ];
     }
 
@@ -50,18 +50,17 @@ class OrderFactory extends Factory
             foreach ($products as $product) {
                 $quantity = rand(1, 3);
                 OrderItem::create([
-                    "product_id" => $product->getKey(),
-                    "order_id" => $order->getKey(),
-                    "quantity" => $quantity,
-                    "price" => $summa_for_one_position / $quantity,
-                    "old_price" => rand(0, 1) ? $summa_for_one_position + rand(100, 700) : null,
-                    "article" => $product->article,
-                    "title" => $product->title,
-                    "image" => $product->images[0],
+                    'product_id' => $product->getKey(),
+                    'order_id' => $order->getKey(),
+                    'quantity' => $quantity,
+                    'price' => $summa_for_one_position / $quantity,
+                    'old_price' => rand(0, 1) ? $summa_for_one_position + rand(100, 700) : null,
+                    'article' => $product->article,
+                    'title' => $product->title,
+                    'image' => $product->images[0],
                 ]);
             }
 
         });
     }
-
 }

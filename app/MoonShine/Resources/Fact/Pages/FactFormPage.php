@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Fact\Pages;
 
+use App\MoonShine\Resources\Fact\FactResource;
+use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Pages\Crud\FormPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\UI\Components\FormBuilder;
-use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\Fact\FactResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\ID;
 use Throwable;
 
 /**
@@ -54,8 +54,7 @@ class FactFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
-     *
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
@@ -65,34 +64,37 @@ class FactFormPage extends FormPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

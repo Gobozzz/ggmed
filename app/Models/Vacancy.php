@@ -14,16 +14,16 @@ class Vacancy extends Model
     use HasFactory;
 
     protected $fillable = [
-        "title",
-        "content",
-        "address",
-        "url",
-        "salary",
-        "valute",
-        "what_pay",
-        "responsible",
-        "author_id",
-        "filial_id",
+        'title',
+        'content',
+        'address',
+        'url',
+        'salary',
+        'valute',
+        'what_pay',
+        'responsible',
+        'author_id',
+        'filial_id',
     ];
 
     public function author(): BelongsTo
@@ -35,5 +35,4 @@ class Vacancy extends Model
     {
         return $this->belongsTo(Filial::class, 'filial_id');
     }
-
 }

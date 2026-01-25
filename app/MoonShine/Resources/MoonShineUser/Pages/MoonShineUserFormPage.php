@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\MoonShineUser\Pages;
 
+use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
+use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password as PasswordRule;
@@ -14,8 +16,6 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Models\MoonshineUser;
 use MoonShine\Laravel\Models\MoonshineUserRole;
 use MoonShine\Laravel\Pages\Crud\FormPage;
-use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
-use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
 use MoonShine\UI\Components\Collapse;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Flex;
@@ -48,10 +48,10 @@ final class MoonShineUserFormPage extends FormPage
                         BelongsTo::make(
                             __('moonshine::ui.resource.role'),
                             'moonshineUserRole',
-                            formatted: static fn(MoonshineUserRole $model) => $model->name,
+                            formatted: static fn (MoonshineUserRole $model) => $model->name,
                             resource: MoonShineUserRoleResource::class,
                         )
-                            ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_roles.id', '!=', MoonshineUserRole::DEFAULT_ROLE_ID)
+                            ->valuesQuery(static fn (Builder $q) => $q->where('moonshine_user_roles.id', '!=', MoonshineUserRole::DEFAULT_ROLE_ID)
                                 ->select(['id', 'name'])),
 
                         Flex::make([
@@ -68,7 +68,7 @@ final class MoonShineUserFormPage extends FormPage
                             ->allowedExtensions(['jpg', 'png', 'jpeg', 'gif']),
 
                         Date::make(__('moonshine::ui.resource.created_at'), 'created_at')
-                            ->format("d.m.Y")
+                            ->format('d.m.Y')
                             ->default(now()->toDateTimeString()),
                     ])->icon('user-circle'),
 
