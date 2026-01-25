@@ -85,11 +85,11 @@ class StarGuestFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:100'],
             'url' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255', 'unique:star_guests,slug'.($item->getKey() !== null ? ','.$item->getKey() : null)],
-            'meta_title' => ['required', 'string', 'max:255'],
-            'meta_description' => ['required', 'string', 'max:500'],
+            'slug' => ['required', 'string', 'max:200', 'unique:star_guests,slug'.($item->getKey() !== null ? ','.$item->getKey() : null)],
+            'meta_title' => ['required', 'string', 'max:100'],
+            'meta_description' => ['required', 'string', 'max:160'],
             'points' => ['required', 'array', 'min:1'],
             'content' => ['nullable'],
         ];

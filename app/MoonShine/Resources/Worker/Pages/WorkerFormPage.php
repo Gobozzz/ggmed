@@ -67,10 +67,10 @@ class WorkerFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'surname' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'patronymic' => ['nullable', 'string', 'max:255'],
-            'post' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:80'],
+            'name' => ['required', 'string', 'max:80'],
+            'patronymic' => ['nullable', 'string', 'max:80'],
+            'post' => ['required', 'string', 'max:80'],
             'filial_id' => ['nullable', 'integer', 'exists:filials,id'],
         ];
     }

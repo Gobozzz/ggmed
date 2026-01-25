@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title', 100);
             $table->text('content')->nullable();
-            $table->string('address');
+            $table->string('address', 100);
             $table->string('url')->nullable();
             $table->string('salary', 50)->nullable();
             $table->string('valute', 10);
             $table->string('what_pay', 50);
-            $table->string('responsible');
+            $table->string('responsible', 100);
             $table->foreignId('filial_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('author_id')->nullable()->constrained('moonshine_users')->nullOnDelete();
             $table->timestamps();

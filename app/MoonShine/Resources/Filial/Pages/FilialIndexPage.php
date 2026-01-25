@@ -19,6 +19,7 @@ use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Phone;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 
@@ -42,6 +43,7 @@ class FilialIndexPage extends IndexPage
             Video::make('Видео', 'video'),
             Text::make('Адрес', 'address', fn ($item) => $item->city.', '.$item->address),
             Text::make('Рабочее время', 'work_time'),
+            Phone::make('Телефон', 'phone'),
             BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class),
         ];
     }

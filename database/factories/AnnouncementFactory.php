@@ -22,11 +22,11 @@ class AnnouncementFactory extends Factory
         return [
             'title' => fake()->text(100),
             'slug' => fake()->unique()->slug(),
-            'description' => fake()->realText(500),
+            'description' => fake()->realText(255),
             'image' => 'anons/2026-1/1.png',
             'video' => rand(0, 1) ? 'anons-videos/2026-1/1.png' : null,
-            'meta_title' => rand(0, 1) ? fake()->title(100) : null,
-            'meta_description' => rand(0, 1) ? fake()->title(500) : null,
+            'meta_title' => rand(0, 1) ? fake()->text(100) : null,
+            'meta_description' => rand(0, 1) ? fake()->text(160) : null,
             'content' => rand(0, 1) ? json_encode(EditorGenerator::make(10)) : null,
         ];
     }

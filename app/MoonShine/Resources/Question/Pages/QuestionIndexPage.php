@@ -9,7 +9,6 @@ use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
@@ -47,7 +46,7 @@ class QuestionIndexPage extends IndexPage
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
-            Markdown::make('Вопрос', 'title', fn ($model) => mb_substr($model->title, 0, 100, 'utf-8')),
+            Text::make('Вопрос', 'title', fn ($model) => mb_substr($model->title, 0, 100, 'utf-8')),
             Textarea::make('Ответ', 'answer', fn ($item) => $item->answer ? 'Ответ есть' : 'Не дан'),
             Switcher::make('Горячий?', 'is_hot'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),

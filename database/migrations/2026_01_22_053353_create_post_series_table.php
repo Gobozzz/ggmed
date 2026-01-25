@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('post_series', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->string('description', 500);
+            $table->string('title', 100);
+            $table->string('slug', 200)->unique();
+            $table->string('description');
             $table->string('image');
             $table->timestamps();
         });

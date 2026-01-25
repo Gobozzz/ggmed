@@ -60,8 +60,8 @@ class MentionFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:500'],
+            'title' => ['required', 'string', 'max:100'],
+            'description' => ['required', 'string', 'max:255'],
             'url' => ['required', 'string', 'max:255'],
         ];
     }

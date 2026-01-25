@@ -72,11 +72,11 @@ class RecommendationFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:500'],
-            'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:500'],
+            'title' => ['required', 'string', 'max:100'],
+            'slug' => ['nullable', 'string', 'max:200'],
+            'description' => ['required', 'string', 'max:255'],
+            'meta_title' => ['nullable', 'string', 'max:100'],
+            'meta_description' => ['nullable', 'string', 'max:160'],
             'content' => ['required'],
         ];
     }

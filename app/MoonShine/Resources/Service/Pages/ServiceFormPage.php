@@ -91,10 +91,10 @@ class ServiceFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'name' => ['required', 'string', 'max:255'],
-            'meta_title' => ['required', 'string', 'max:255'],
-            'meta_description' => ['required', 'string', 'max:500'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
+            'name' => ['required', 'string', 'max:160'],
+            'meta_title' => ['required', 'string', 'max:100'],
+            'meta_description' => ['required', 'string', 'max:160'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
             'price' => ['required', 'numeric', 'min:1'],
             'is_start_price' => ['required', 'boolean:'],
             'description' => ['required', 'string', 'max:255'],

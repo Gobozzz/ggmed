@@ -58,7 +58,7 @@ class DocumentFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:100'],
             'file' => [$item->getKey() !== null ? 'nullable' : 'required', 'file', 'mimes:pdf,doc,docx', 'max:10400'],
             'category_id' => ['nullable', 'integer', 'exists:document_categories,id'],
         ];

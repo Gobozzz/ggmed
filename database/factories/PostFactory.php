@@ -26,9 +26,9 @@ class PostFactory extends Factory
     {
         return [
             'meta_title' => rand(0, 1) ? fake()->text(100) : null,
-            'meta_description' => rand(0, 1) ? fake()->text(500) : null,
+            'meta_description' => rand(0, 1) ? fake()->text(160) : null,
             'title' => fake()->text(100),
-            'description' => fake()->text(500),
+            'description' => fake()->text(255),
             'slug' => fake()->unique()->slug(),
             'image' => 'posts/2026-01/1.png',
             'content' => json_encode(EditorGenerator::make(20)),

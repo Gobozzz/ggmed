@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_description', 500)->nullable();
-            $table->string('title');
-            $table->string('description', 500);
-            $table->string('slug')->unique();
+            $table->string('meta_title', 100)->nullable();
+            $table->string('meta_description', 160)->nullable();
+            $table->string('title', 100);
+            $table->string('description');
+            $table->string('slug', 200)->unique();
             $table->string('image');
             $table->text('content');
             $table->unsignedTinyInteger('time_to_read')->default(5);

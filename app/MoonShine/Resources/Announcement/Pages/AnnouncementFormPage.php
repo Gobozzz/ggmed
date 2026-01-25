@@ -89,10 +89,10 @@ class AnnouncementFormPage extends FormPage
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             'title' => ['required', 'string', 'max:100'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:announcements,slug'.($item->getKey() ? ','.$item->getKey() : '')],
-            'description' => ['required', 'string', 'max:500'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:announcements,slug'.($item->getKey() ? ','.$item->getKey() : '')],
+            'description' => ['required', 'string', 'max:255'],
             'meta_title' => ['nullable', 'string', 'max:100'],
-            'meta_description' => ['nullable', 'string', 'max:500'],
+            'meta_description' => ['nullable', 'string', 'max:160'],
             'content' => ['nullable'],
         ];
     }

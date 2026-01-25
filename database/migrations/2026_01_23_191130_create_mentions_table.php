@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('mentions', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description', 500);
+            $table->string('title', 100);
+            $table->string('description');
             $table->string('image');
             $table->string('url');
             $table->timestamps();

@@ -20,7 +20,7 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => $this->faker->sentence(),
+            'content' => $this->faker->text(350),
             'user_id' => User::query()->inRandomOrder()->first() ?? User::factory()->create(),
             'parent_id' => null,
             'commentable_type' => null,

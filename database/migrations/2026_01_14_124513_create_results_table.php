@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->json('images');
+            $table->text('images');
             $table->unsignedSmallInteger('count_grafts')->nullable();
             $table->unsignedTinyInteger('count_months')->nullable();
             $table->decimal('panch', 8, 2)->nullable();

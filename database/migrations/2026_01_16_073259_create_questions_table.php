@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->text('title');
+            $table->string('title', 500);
             $table->text('answer')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_hot')->default(false);

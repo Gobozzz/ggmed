@@ -50,8 +50,8 @@ class DocumentCategoryFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:500'],
+            'name' => ['required', 'string', 'max:100'],
+            'description' => ['nullable', 'string', 'max:255'],
         ];
     }
 

@@ -48,7 +48,7 @@ class CommentFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'content' => ['required', 'string', 'max:1200'],
+            'content' => ['required', 'string', 'max:900'],
         ];
     }
 

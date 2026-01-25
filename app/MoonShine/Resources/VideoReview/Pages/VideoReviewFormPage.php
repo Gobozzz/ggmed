@@ -72,7 +72,7 @@ class VideoReviewFormPage extends FormPage
         return [
             'preview' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'video' => [$item->getKey() === null ? 'required' : 'nullable', 'file', 'mimes:mp4', 'max:22000'],
-            'title' => ['nullable', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:100'],
             'content' => ['nullable', 'string', 'max:500'],
             'filial_id' => ['nullable', 'integer', 'exists:filials,id'],
             'tags' => ['nullable', 'array', 'max:3'],

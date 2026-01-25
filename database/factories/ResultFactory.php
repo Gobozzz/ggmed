@@ -29,7 +29,7 @@ class ResultFactory extends Factory
             'images' => ['results/2026-01/1.jpg', 'results/2026-01/2.jpg', 'results/2026-01/3.jpg', 'results/2026-01/4.jpg'],
             'count_grafts' => rand(0, 4) ? rand(15, 50) * 100 : null,
             'count_months' => rand(0, 4) ? rand(5, 16) : null,
-            'panch' => rand(0, 4) ? array_rand($panchs) : null,
+            'panch' => rand(0, 4) ? fake()->randomElement($panchs) : null,
             'video_url' => rand(0, 4) ? fake()->url() : null,
         ];
     }

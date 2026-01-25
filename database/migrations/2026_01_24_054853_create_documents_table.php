@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title', 100);
             $table->string('file');
             $table->foreignId('document_category_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();

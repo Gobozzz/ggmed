@@ -27,16 +27,16 @@ class ProductFactory extends Factory
         $price = fake()->randomFloat(2, 3000, 120000);
 
         return [
-            'meta_title' => rand(0, 1) ? fake()->text(60) : null,
-            'meta_description' => rand(0, 1) ? fake()->text(500) : null,
-            'title' => fake()->text(60),
-            'article' => rand(0, 1) ? 'A-'.fake()->unique()->numberBetween() : null,
-            'description' => fake()->text(500),
+            'meta_title' => rand(0, 1) ? fake()->text(100) : null,
+            'meta_description' => rand(0, 1) ? fake()->text(160) : null,
+            'title' => fake()->text(100),
+            'article' => rand(0, 1) ? 'A-'.rand(100, 100000) : null,
+            'description' => fake()->text(255),
             'images' => ['products/2026-01/1.png', 'products/2026-01/2.png', 'products/2026-01/3.png'],
             'price' => $price,
             'old_price' => rand(0, 1) ? $price + rand(1000, 5000) : null,
-            'structure' => fake()->text(50),
-            'brand' => fake()->randomElement(['GGMED', fake()->text(50)]),
+            'structure' => fake()->text(100),
+            'brand' => fake()->randomElement(['GGMED', fake()->text(30)]),
             'is_have' => rand(0, 1),
             'content' => rand(0, 2) ? json_encode(EditorGenerator::make(15)) : null,
         ];
