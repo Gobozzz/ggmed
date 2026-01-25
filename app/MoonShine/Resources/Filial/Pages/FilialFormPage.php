@@ -26,6 +26,7 @@ use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Phone;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -53,6 +54,7 @@ class FilialFormPage extends FormPage
                     ->customName(fn (UploadedFile $file, Field $field) => 'filials-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 Text::make('Город', 'city')->unescape(),
                 Text::make('Адрес', 'address')->unescape(),
+                Phone::make('Телефон', 'phone')->unescape(),
                 Text::make('Рабочее время', 'work_time')->unescape(),
                 Number::make('Год основания', 'year'),
                 Textarea::make('Код Яндекс карт', 'map_code')->unescape(),
@@ -87,16 +89,17 @@ class FilialFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:filials,slug'.($item->getKey() === null ? '' : ','.$item->getKey())],
-            'meta_title' => ['required', 'string', 'max:255'],
-            'meta_description' => ['required', 'string', 'max:500'],
+            'name' => ['required', 'string', 'max:100'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:filials,slug'.($item->getKey() === null ? '' : ','.$item->getKey())],
+            'meta_title' => ['required', 'string', 'max:100'],
+            'meta_description' => ['required', 'string', 'max:160'],
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
-            'address' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'map_code' => ['required', 'string'],
-            'work_time' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:70'],
+            'city' => ['required', 'string', 'max:50'],
+            'phone' => ['required', 'string', 'max:40'],
+            'map_code' => ['required', 'string', 'max:500'],
+            'work_time' => ['required', 'string', 'max:70'],
             'year' => ['required', 'numeric', 'min:2000', 'max:'.(int) date('Y') + 10],
             'manager_id' => ['nullable', 'integer', 'exists:moonshine_users,id'],
         ];

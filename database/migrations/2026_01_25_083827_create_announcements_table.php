@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
-            $table->string('slug')->unique();
-            $table->string('description', 500);
+            $table->string('slug', 200)->unique();
+            $table->string('description');
             $table->string('image');
             $table->string('video')->nullable();
             $table->string('meta_title', 100)->nullable();
-            $table->string('meta_description', 200)->nullable();
+            $table->string('meta_description', 160)->nullable();
             $table->text('content')->nullable();
             $table->timestamps();
         });

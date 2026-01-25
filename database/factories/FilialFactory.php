@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\MoonshineUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Filial>
@@ -17,13 +18,14 @@ class FilialFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->company();
+        $name = fake()->unique()->company();
 
         return [
-            'meta_title' => fake()->realText(120),
-            'meta_description' => fake()->realText(500),
-            'slug' => fake()->unique()->slug(),
+            'meta_title' => fake()->realText(100),
+            'meta_description' => fake()->realText(160),
+            'slug' => Str::slug($name),
             'name' => $name,
+            'phone' => '+7'.rand(1000000000, 9999999999),
             'video' => rand(0, 1) ? '/filials-videos/1.mp4' : null,
             'image' => 'filials/1.png',
             'year' => rand(2020, 2026),

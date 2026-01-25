@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('star_guests', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_title');
-            $table->string('meta_description', 500);
-            $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('meta_title', 100);
+            $table->string('meta_description', 160);
+            $table->string('name', 100);
+            $table->string('slug', 200)->unique();
             $table->text('points');
             $table->string('url');
             $table->text('content')->nullable();

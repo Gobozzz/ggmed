@@ -10,7 +10,6 @@ use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
@@ -20,6 +19,7 @@ use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
+use MoonShine\UI\Fields\Text;
 use Sckatik\MoonshineEditorJs\Fields\EditorJs;
 use Throwable;
 
@@ -38,7 +38,7 @@ class QuestionFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Вопрос', [
                         ID::make(),
-                        Markdown::make('Вопрос', 'title'),
+                        Text::make('Вопрос', 'title'),
                         Switcher::make('Горячий?', 'is_hot'),
                         MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                     ]),
@@ -74,7 +74,7 @@ class QuestionFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'title' => ['required', 'string', 'max:1200'],
+            'title' => ['required', 'string', 'max:500'],
             'answer' => ['nullable'],
             'is_hot' => ['required', 'boolean'],
             'tags' => ['nullable', 'array', 'max:3'],

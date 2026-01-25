@@ -25,7 +25,7 @@ class VideoReviewFactory extends Factory
         return [
             'preview' => 'video-reviews-previews/2026-01/1.png',
             'video' => 'video-reviews/2026-01/1.png',
-            'title' => fake()->text(50),
+            'title' => fake()->text(100),
             'content' => fake()->text(500),
             'filial_id' => rand(0, 1) ? Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create() : null,
         ];

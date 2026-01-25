@@ -19,6 +19,7 @@ class Filial extends Model
         'meta_description',
         'slug',
         'name',
+        'phone',
         'video',
         'image',
         'year',

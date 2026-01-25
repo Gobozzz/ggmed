@@ -20,7 +20,7 @@ class DocumentCategoryFactory extends Factory
     {
         return [
             'name' => fake()->words(rand(1, 2), true),
-            'description' => fake()->realText(500),
+            'description' => rand(0, 1) ? fake()->realText(255) : null,
         ];
     }
 }

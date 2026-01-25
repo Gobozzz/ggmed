@@ -23,7 +23,7 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->realText(300),
+            'title' => $this->faker->realText(500),
             'answer' => rand(0, 1) ? json_encode(EditorGenerator::make(10)) : null,
             'user_id' => User::query()->inRandomOrder()->first() ?? null,
             'is_hot' => rand(0, 1),

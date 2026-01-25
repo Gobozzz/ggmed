@@ -60,9 +60,9 @@ class PostSeriesFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:post_series,slug'.($item->getKey() === null ? ','.$item->getKey() : '')],
-            'description' => ['required', 'string', 'max:500'],
+            'title' => ['required', 'string', 'max:100'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:post_series,slug'.($item->getKey() === null ? ','.$item->getKey() : '')],
+            'description' => ['required', 'string', 'max:255'],
         ];
     }
 

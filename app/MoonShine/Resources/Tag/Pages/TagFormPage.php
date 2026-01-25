@@ -50,8 +50,8 @@ class TagFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:tags,name'.($item->getKey() ? ','.$item->getKey() : '')],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:tags,slug'.($item->getKey() ? ','.$item->getKey() : '')],
+            'name' => ['required', 'string', 'max:50', 'unique:tags,name'.($item->getKey() ? ','.$item->getKey() : '')],
+            'slug' => ['nullable', 'string', 'max:100', 'unique:tags,slug'.($item->getKey() ? ','.$item->getKey() : '')],
         ];
     }
 

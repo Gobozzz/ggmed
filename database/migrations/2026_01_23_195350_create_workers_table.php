@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('workers', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->string('surname');
-            $table->string('name');
-            $table->string('patronymic')->nullable();
-            $table->string('post');
+            $table->string('surname', 80);
+            $table->string('name', 80);
+            $table->string('patronymic', 80)->nullable();
+            $table->string('post', 80);
             $table->foreignId('filial_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

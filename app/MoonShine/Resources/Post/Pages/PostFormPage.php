@@ -106,11 +106,11 @@ class PostFormPage extends FormPage
     {
         return [
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
-            'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:500'],
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:500'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
+            'meta_title' => ['nullable', 'string', 'max:100'],
+            'meta_description' => ['nullable', 'string', 'max:160'],
+            'title' => ['required', 'string', 'max:100'],
+            'description' => ['required', 'string', 'max:255'],
             'time_to_read' => ['required', 'numeric', 'min:1', 'max:200'],
             'content' => ['required'],
             'filial_id' => ['nullable', 'integer', 'exists:filials,id'],

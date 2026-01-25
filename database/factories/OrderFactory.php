@@ -32,7 +32,7 @@ class OrderFactory extends Factory
             'house' => rand(1, 250),
             'total_price' => fake()->randomFloat(2, 1000, 9999999.99),
             'count_positions' => rand(1, 5),
-            'comment' => rand(0, 1) ? fake()->text(500) : null,
+            'comment' => rand(0, 1) ? fake()->text(700) : null,
         ];
     }
 

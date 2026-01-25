@@ -49,7 +49,7 @@ class FactFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'content' => ['required', 'string', 'max:900'],
+            'content' => ['required', 'string', 'max:500'],
         ];
     }
 

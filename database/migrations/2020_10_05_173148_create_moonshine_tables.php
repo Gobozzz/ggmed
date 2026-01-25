@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->string('email', 190)->unique();
             $table->string('password');
-            $table->string('name');
+            $table->string('name', 50);
             $table->string('avatar')->nullable();
             $table->string('remember_token', 100)->nullable();
             $table->timestamps();

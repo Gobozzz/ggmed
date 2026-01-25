@@ -91,7 +91,7 @@ final class MoonShineUserFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|max:50',
             'moonshine_user_role_id' => 'required',
             'email' => [
                 'sometimes',

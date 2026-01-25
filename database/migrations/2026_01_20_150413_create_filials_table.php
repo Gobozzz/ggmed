@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('filials', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_title');
-            $table->string('meta_description', 500);
-            $table->string('slug')->unique();
-            $table->string('name');
+            $table->string('meta_title', 100);
+            $table->string('meta_description', 160);
+            $table->string('slug', 200)->unique();
+            $table->string('phone', 40);
+            $table->string('name', 100);
             $table->string('video')->nullable();
             $table->string('image');
             $table->unsignedSmallInteger('year');
-            $table->string('city');
-            $table->string('address');
-            $table->string('work_time');
-            $table->text('map_code');
+            $table->string('city', 50);
+            $table->string('address', 70);
+            $table->string('work_time', 70);
+            $table->string('map_code', 500);
             $table->foreignId('manager_id')->nullable()->constrained('moonshine_users')->nullOnDelete();
             $table->timestamps();
         });

@@ -11,7 +11,6 @@ use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\MorphMany;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
@@ -23,6 +22,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
+use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
@@ -38,7 +38,7 @@ class QuestionDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Markdown::make('Вопрос', 'title'),
+            Text::make('Вопрос', 'title'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Switcher::make('Горячий?', 'is_hot'),
             Date::make('Дата', 'created_at'),

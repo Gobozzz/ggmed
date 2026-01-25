@@ -81,16 +81,16 @@ class ProductFormPage extends FormPage
         return [
             'images' => $item->getKey() === null ? ['required', 'array', 'min:1'] : ['nullable'],
             'images.*' => ['image', 'max:1024'],
-            'title' => ['required', 'string', 'max:255'],
-            'article' => ['nullable', 'string', 'max:255', 'unique:products,article'.($item->getKey() !== null ? ','.$item->getKey() : '')],
-            'description' => ['required', 'string', 'max:500'],
+            'title' => ['required', 'string', 'max:100'],
+            'article' => ['nullable', 'string', 'max:50', 'unique:products,article'.($item->getKey() !== null ? ','.$item->getKey() : '')],
+            'description' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:1'],
             'old_price' => ['nullable', 'numeric', 'min:1'],
             'is_have' => ['required', 'boolean'],
-            'brand' => ['nullable', 'string', 'max:255'],
-            'structure' => ['nullable', 'string', 'max:255'],
-            'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:500'],
+            'brand' => ['nullable', 'string', 'max:50'],
+            'structure' => ['nullable', 'string', 'max:100'],
+            'meta_title' => ['nullable', 'string', 'max:100'],
+            'meta_description' => ['nullable', 'string', 'max:160'],
             'content' => ['nullable'],
         ];
     }

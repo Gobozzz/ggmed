@@ -18,6 +18,7 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 /**
@@ -34,7 +35,7 @@ class OrderItemIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Название', 'title'),
+            Textarea::make('Название', 'title'),
             Text::make('Артикул', 'article'),
             Image::make('Фото', 'image'),
             Number::make('Цена', 'price'),
@@ -76,7 +77,7 @@ class OrderItemIndexPage extends IndexPage
     }
 
     /**
-     * @param  TableBuilder  $component
+     * @param TableBuilder $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
