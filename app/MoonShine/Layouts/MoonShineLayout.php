@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Document\DocumentResource;
 use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
@@ -106,6 +107,8 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(VacancyResource::class, 'Вакансии')->icon('briefcase')
                 ->canSee(fn () => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
             MenuItem::make(FactResource::class, 'Факты')->icon('ellipsis-horizontal-circle')
+                ->canSee(fn () => auth()->user()->isSuperUser()),
+            MenuItem::make(AnnouncementResource::class, 'Анонсы')->icon('fire')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn () => auth()->user()->isSuperUser()),

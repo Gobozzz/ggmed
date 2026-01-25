@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Announcement extends Model
+{
+    /** @use HasFactory<\Database\Factories\AnnouncementFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+        'video',
+        'meta_title',
+        'meta_description',
+        'content',
+    ];
+
+    protected $casts = ['content' => 'array'];
+}
