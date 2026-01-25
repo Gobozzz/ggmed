@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Document;
 use App\Models\DocumentCategory;
+use App\Models\Fact;
 use App\Models\Filial;
 use App\Models\Mention;
 use App\Models\MoonshineUser;
@@ -18,6 +19,7 @@ use App\Models\Service;
 use App\Models\StarGuest;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Vacancy;
 use App\Models\VideoReview;
 use App\Models\Worker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -96,6 +98,10 @@ class DatabaseSeeder extends Seeder
         Product::factory(30)->create();
 
         Order::factory(30)->create();
+
+        Vacancy::factory(30)->create();
+
+        Fact::factory(10)->create();
 
     }
 }

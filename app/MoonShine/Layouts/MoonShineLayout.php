@@ -32,6 +32,10 @@ use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
 use App\MoonShine\Resources\Document\DocumentResource;
 use App\MoonShine\Resources\Product\ProductResource;
+use App\MoonShine\Resources\Order\OrderResource;
+use App\MoonShine\Resources\OrderItem\OrderItemResource;
+use App\MoonShine\Resources\Vacancy\VacancyResource;
+use App\MoonShine\Resources\Fact\FactResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -95,7 +99,14 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(DocumentCategoryResource::class, 'Категории')->icon('rectangle-stack'),
                 MenuItem::make(DocumentResource::class, 'Документ')->icon('document'),
             ])->icon('paper-clip')->canSee(fn() => auth()->user()->isSuperUser()),
-            MenuItem::make(ProductResource::class, 'Товары')->icon('shopping-cart')
+            MenuGroup::make('Магазин', [
+                MenuItem::make(ProductResource::class, 'Товары')->icon('shopping-bag'),
+                MenuItem::make(OrderResource::class, 'Заказы')->icon('archive-box'),
+                MenuItem::make(OrderItemResource::class, 'Заказаные позиции')->canSee(fn() => false),
+            ])->icon('shopping-cart')->canSee(fn() => auth()->user()->isSuperUser()),
+            MenuItem::make(VacancyResource::class, 'Вакансии')->icon('briefcase')
+                ->canSee(fn() => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+            MenuItem::make(FactResource::class, 'Факты')->icon('ellipsis-horizontal-circle')
                 ->canSee(fn() => auth()->user()->isSuperUser()),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn() => auth()->user()->isSuperUser()),

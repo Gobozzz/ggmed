@@ -7,10 +7,13 @@ namespace App\Providers;
 use App\Models\Comment;
 use App\Models\Document;
 use App\Models\DocumentCategory;
+use App\Models\Fact;
 use App\Models\Filial;
 use App\Models\Like;
 use App\Models\Mention;
 use App\Models\MoonshineUser;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Product;
@@ -21,16 +24,20 @@ use App\Models\Service;
 use App\Models\StarGuest;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Vacancy;
 use App\Models\VideoReview;
 use App\Models\Worker;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\Policies\MoonShine\CommentPolicy;
 use App\Policies\MoonShine\DocumentCategoryPolicy;
 use App\Policies\MoonShine\DocumentPolicy;
+use App\Policies\MoonShine\FactPolicy;
 use App\Policies\MoonShine\FilialPolicy;
 use App\Policies\MoonShine\LikePolicy;
 use App\Policies\MoonShine\MentionPolicy;
 use App\Policies\MoonShine\MoonshineUserPolicy;
+use App\Policies\MoonShine\OrderItemPolicy;
+use App\Policies\MoonShine\OrderPolicy;
 use App\Policies\MoonShine\PostPolicy;
 use App\Policies\MoonShine\PostSeriesPolicy;
 use App\Policies\MoonShine\ProductPolicy;
@@ -41,6 +48,7 @@ use App\Policies\MoonShine\ServicePolicy;
 use App\Policies\MoonShine\StarGuestPolicy;
 use App\Policies\MoonShine\TagPolicy;
 use App\Policies\MoonShine\UserPolicy;
+use App\Policies\MoonShine\VacancyPolicy;
 use App\Policies\MoonShine\VideoReviewPolicy;
 use App\Policies\MoonShine\WorkerPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -66,6 +74,10 @@ use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use App\MoonShine\Resources\DocumentCategory\DocumentCategoryResource;
 use App\MoonShine\Resources\Document\DocumentResource;
 use App\MoonShine\Resources\Product\ProductResource;
+use App\MoonShine\Resources\Order\OrderResource;
+use App\MoonShine\Resources\OrderItem\OrderItemResource;
+use App\MoonShine\Resources\Vacancy\VacancyResource;
+use App\MoonShine\Resources\Fact\FactResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -100,6 +112,10 @@ class MoonShineServiceProvider extends ServiceProvider
                 DocumentCategoryResource::class,
                 DocumentResource::class,
                 ProductResource::class,
+                OrderResource::class,
+                OrderItemResource::class,
+                VacancyResource::class,
+                FactResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -125,6 +141,10 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(DocumentCategory::class, DocumentCategoryPolicy::class);
             Gate::policy(Document::class, DocumentPolicy::class);
             Gate::policy(Product::class, ProductPolicy::class);
+            Gate::policy(OrderItem::class, OrderItemPolicy::class);
+            Gate::policy(Order::class, OrderPolicy::class);
+            Gate::policy(Vacancy::class, VacancyPolicy::class);
+            Gate::policy(Fact::class, FactPolicy::class);
         }
     }
 }

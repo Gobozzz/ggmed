@@ -48,11 +48,12 @@ class OrderFactory extends Factory
             $summa_for_one_position = $order->total_price / $order->count_positions;
 
             foreach ($products as $product) {
+                $quantity = rand(1, 3);
                 OrderItem::create([
                     "product_id" => $product->getKey(),
                     "order_id" => $order->getKey(),
-                    "quantity" => rand(1, 3),
-                    "price" => $summa_for_one_position,
+                    "quantity" => $quantity,
+                    "price" => $summa_for_one_position / $quantity,
                     "old_price" => rand(0, 1) ? $summa_for_one_position + rand(100, 700) : null,
                     "article" => $product->article,
                     "title" => $product->title,
