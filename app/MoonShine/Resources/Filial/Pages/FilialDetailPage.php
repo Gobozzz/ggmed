@@ -38,7 +38,7 @@ class FilialDetailPage extends DetailPage
             Text::make('Meta Описание', 'meta_description'),
             Image::make('Фото', 'image'),
             Video::make('Видео', 'video'),
-            Text::make('Адрес', 'address', fn($item) => $item->city . ', ' . $item->address),
+            Text::make('Адрес', 'address', fn ($item) => $item->city.', '.$item->address),
             Phone::make('Телефон', 'phone'),
             Text::make('Рабочее время', 'work_time'),
             Number::make('Год основания', 'year'),
@@ -52,7 +52,7 @@ class FilialDetailPage extends DetailPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract

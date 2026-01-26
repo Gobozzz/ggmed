@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\Question;
 use App\Models\Result;
+use App\Models\Test;
 use App\Models\VideoReview;
 use App\MoonShine\Resources\Comment\Pages\CommentDetailPage;
 use App\MoonShine\Resources\Comment\Pages\CommentFormPage;
@@ -17,6 +18,7 @@ use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\MoonShine\Resources\Result\ResultResource;
+use App\MoonShine\Resources\Test\TestResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Resources\ModelResource;
@@ -45,6 +47,7 @@ class CommentResource extends ModelResource
         VideoReview::class => VideoReviewResource::class,
         Post::class => PostResource::class,
         Product::class => ProductResource::class,
+        Test::class => TestResource::class,
     ];
 
     public array $morphTypes = [
@@ -53,6 +56,7 @@ class CommentResource extends ModelResource
         VideoReview::class => ['id', 'Видео отзыв'],
         Post::class => ['id', 'Пост'],
         Product::class => ['title', 'Товар'],
+        Test::class => ['title', 'Тест'],
     ];
 
     /**

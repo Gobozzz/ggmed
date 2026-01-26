@@ -21,6 +21,7 @@ use App\Models\Result;
 use App\Models\Service;
 use App\Models\StarGuest;
 use App\Models\Tag;
+use App\Models\Test;
 use App\Models\User;
 use App\Models\Vacancy;
 use App\Models\VideoReview;
@@ -107,6 +108,8 @@ class DatabaseSeeder extends Seeder
         Fact::factory(10)->create();
 
         Announcement::factory(20)->create();
+
+        Test::factory(20)->create();
 
     }
 }

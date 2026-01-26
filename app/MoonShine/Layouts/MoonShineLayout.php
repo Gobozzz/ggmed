@@ -23,6 +23,7 @@ use App\MoonShine\Resources\Result\ResultResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\Test\TestResource;
 use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Vacancy\VacancyResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
@@ -109,6 +110,8 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(FactResource::class, 'Факты')->icon('ellipsis-horizontal-circle')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(AnnouncementResource::class, 'Анонсы')->icon('fire')
+                ->canSee(fn () => auth()->user()->isSuperUser()),
+            MenuItem::make(TestResource::class, 'Тесты')->icon('academic-cap')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
