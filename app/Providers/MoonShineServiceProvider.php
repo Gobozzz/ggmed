@@ -24,6 +24,7 @@ use App\Models\Result;
 use App\Models\Service;
 use App\Models\StarGuest;
 use App\Models\Tag;
+use App\Models\Test;
 use App\Models\User;
 use App\Models\Vacancy;
 use App\Models\VideoReview;
@@ -49,6 +50,7 @@ use App\MoonShine\Resources\Result\ResultResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\Test\TestResource;
 use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Vacancy\VacancyResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
@@ -73,6 +75,7 @@ use App\Policies\MoonShine\ResultPolicy;
 use App\Policies\MoonShine\ServicePolicy;
 use App\Policies\MoonShine\StarGuestPolicy;
 use App\Policies\MoonShine\TagPolicy;
+use App\Policies\MoonShine\TestPolicy;
 use App\Policies\MoonShine\UserPolicy;
 use App\Policies\MoonShine\VacancyPolicy;
 use App\Policies\MoonShine\VideoReviewPolicy;
@@ -118,6 +121,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 VacancyResource::class,
                 FactResource::class,
                 AnnouncementResource::class,
+                TestResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -148,6 +152,7 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Vacancy::class, VacancyPolicy::class);
             Gate::policy(Fact::class, FactPolicy::class);
             Gate::policy(Announcement::class, AnnouncementPolicy::class);
+            Gate::policy(Test::class, TestPolicy::class);
         }
     }
 }

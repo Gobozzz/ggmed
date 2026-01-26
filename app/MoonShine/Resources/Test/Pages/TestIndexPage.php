@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\OrderItem\Pages;
+namespace App\MoonShine\Resources\Test\Pages;
 
-use App\MoonShine\Resources\OrderItem\OrderItemResource;
-use App\MoonShine\Resources\Product\ProductResource;
+use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\Test\TestResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
@@ -16,15 +16,14 @@ use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 /**
- * @extends IndexPage<OrderItemResource>
+ * @extends IndexPage<TestResource>
  */
-class OrderItemIndexPage extends IndexPage
+class TestIndexPage extends IndexPage
 {
     protected bool $isLazy = true;
 
@@ -35,12 +34,19 @@ class OrderItemIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Textarea::make('Название', 'title'),
-            Text::make('Артикул', 'article'),
+            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: 'chat-bubble-left-right',
+            ),
+            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+                icon: 'heart',
+            ),
+            MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Фото', 'image'),
-            Number::make('Цена', 'price'),
-            Number::make('Кол-во', 'quantity'),
-            BelongsTo::make('Ссылка на товар', 'product', resource: ProductResource::class),
+            Text::make('Название', 'title'),
+            Textarea::make('Описание', 'description'),
+            Text::make('Кол-во упр.', 'exercises', fn ($item) => count($item->exercises)),
         ];
     }
 
