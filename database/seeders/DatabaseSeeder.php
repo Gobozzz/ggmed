@@ -16,6 +16,7 @@ use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Product;
 use App\Models\Question;
+use App\Models\Raffle;
 use App\Models\Recommendation;
 use App\Models\Result;
 use App\Models\Service;
@@ -110,6 +111,8 @@ class DatabaseSeeder extends Seeder
         Announcement::factory(20)->create();
 
         Test::factory(20)->create();
+
+        Raffle::factory(20)->create();
 
     }
 }

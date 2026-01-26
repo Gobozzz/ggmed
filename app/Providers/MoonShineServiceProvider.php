@@ -19,6 +19,7 @@ use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Product;
 use App\Models\Question;
+use App\Models\Raffle;
 use App\Models\Recommendation;
 use App\Models\Result;
 use App\Models\Service;
@@ -45,6 +46,7 @@ use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use App\MoonShine\Resources\Question\QuestionResource;
+use App\MoonShine\Resources\Raffle\RaffleResource;
 use App\MoonShine\Resources\Recomendation\RecommendationResource;
 use App\MoonShine\Resources\Result\ResultResource;
 use App\MoonShine\Resources\Service\ServiceResource;
@@ -70,6 +72,7 @@ use App\Policies\MoonShine\PostPolicy;
 use App\Policies\MoonShine\PostSeriesPolicy;
 use App\Policies\MoonShine\ProductPolicy;
 use App\Policies\MoonShine\QuestionPolicy;
+use App\Policies\MoonShine\RafflePolicy;
 use App\Policies\MoonShine\RecommendationPolicy;
 use App\Policies\MoonShine\ResultPolicy;
 use App\Policies\MoonShine\ServicePolicy;
@@ -122,6 +125,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 FactResource::class,
                 AnnouncementResource::class,
                 TestResource::class,
+                RaffleResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
@@ -153,6 +157,7 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Fact::class, FactPolicy::class);
             Gate::policy(Announcement::class, AnnouncementPolicy::class);
             Gate::policy(Test::class, TestPolicy::class);
+            Gate::policy(Raffle::class, RafflePolicy::class);
         }
     }
 }

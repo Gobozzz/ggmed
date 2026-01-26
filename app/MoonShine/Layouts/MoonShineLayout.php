@@ -18,6 +18,7 @@ use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use App\MoonShine\Resources\Question\QuestionResource;
+use App\MoonShine\Resources\Raffle\RaffleResource;
 use App\MoonShine\Resources\Recomendation\RecommendationResource;
 use App\MoonShine\Resources\Result\ResultResource;
 use App\MoonShine\Resources\Service\ServiceResource;
@@ -112,6 +113,8 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(AnnouncementResource::class, 'Анонсы')->icon('fire')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(TestResource::class, 'Тесты')->icon('academic-cap')
+                ->canSee(fn () => auth()->user()->isSuperUser()),
+            MenuItem::make(RaffleResource::class, 'Розыгрыши')->icon('gift')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
