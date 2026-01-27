@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\LevelHipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('count_months')->nullable();
             $table->decimal('panch', 8, 2)->nullable();
             $table->string('video_url')->nullable();
+            $table->unsignedTinyInteger('level_hipe')->default(LevelHipe::LOW);
             $table->timestamps();
         });
     }

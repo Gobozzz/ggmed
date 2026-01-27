@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Test\Pages;
 
+use App\Enums\LevelHipe;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Test\TestResource;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -16,6 +17,7 @@ use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -47,6 +49,7 @@ class TestIndexPage extends IndexPage
             Text::make('Название', 'title'),
             Textarea::make('Описание', 'description'),
             Text::make('Кол-во упр.', 'exercises', fn ($item) => count($item->exercises)),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
         ];
     }
 
@@ -63,7 +66,9 @@ class TestIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+        ];
     }
 
     /**

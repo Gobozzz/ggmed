@@ -39,6 +39,7 @@ class ResultDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             Image::make('Фото', 'images')->multiple(),
             Text::make('Кол-во графтов', 'count_grafts')->sortable(),
             Text::make('Кол-во мес-ев', 'count_months')->sortable(),

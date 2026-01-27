@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\LevelHipe;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,11 +27,13 @@ class Service extends Model
         'description',
         'is_start_price',
         'parent_id',
+        'level_hipe',
     ];
 
     protected $casts = [
         'content' => 'array',
         'is_start_price' => 'boolean',
+        'level_hipe' => LevelHipe::class,
     ];
 
     public function children(): HasMany

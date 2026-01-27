@@ -43,6 +43,7 @@ class PostDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
             Image::make('Фото', 'image'),
             Text::make('Meta заголовок', 'meta_title'),

@@ -23,9 +23,9 @@ class VideoReviewFactory extends Factory
     public function definition(): array
     {
         return [
+            'images_before' => rand(0, 1) ? ['video-reviews-before/2026-01/1.jpg', 'video-reviews-before/2026-01/2.jpg', 'video-reviews-before/2026-01/3.jpg', 'video-reviews-before/2026-01/4.jpg'] : null,
             'preview' => 'video-reviews-previews/2026-01/1.png',
             'video' => 'video-reviews/2026-01/1.png',
-            'title' => fake()->text(100),
             'content' => fake()->text(500),
             'filial_id' => rand(0, 1) ? Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create() : null,
         ];

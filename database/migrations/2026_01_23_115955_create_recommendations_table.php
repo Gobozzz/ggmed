@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\LevelHipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->string('meta_title', 100)->nullable();
             $table->string('meta_description', 160)->nullable();
             $table->text('content');
+            $table->unsignedTinyInteger('level_hipe')->default(LevelHipe::LOW);
             $table->timestamps();
         });
     }

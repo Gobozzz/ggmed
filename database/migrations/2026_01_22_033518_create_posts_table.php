@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\LevelHipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('time_to_read')->default(5);
             $table->foreignId('filial_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('author_id')->nullable()->constrained('moonshine_users')->nullOnDelete();
+            $table->unsignedTinyInteger('level_hipe')->default(LevelHipe::LOW);
             $table->timestamps();
         });
     }

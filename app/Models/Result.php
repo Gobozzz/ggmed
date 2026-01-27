@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Contracts\Commentable;
 use App\Contracts\Likeable;
 use App\Contracts\Taggable;
+use App\Enums\LevelHipe;
 use App\Traits\HasCommented;
 use App\Traits\HasLiked;
 use App\Traits\HasTags;
@@ -24,9 +25,11 @@ class Result extends Model implements Commentable, Likeable, Taggable
         'count_months',
         'panch',
         'video_url',
+        'level_hipe',
     ];
 
     protected $casts = [
         'images' => 'array',
+        'level_hipe' => LevelHipe::class,
     ];
 }

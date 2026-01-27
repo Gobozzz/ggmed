@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Post\Pages;
 
+use App\Enums\LevelHipe;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\Post\PostResource;
@@ -23,6 +24,7 @@ use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 
@@ -56,6 +58,7 @@ class PostIndexPage extends IndexPage
             Date::make('Дата', 'created_at'),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
         ];
     }
 
@@ -73,6 +76,7 @@ class PostIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
             Text::make('Заголовок', 'title'),
             Date::make('Дата', 'created_at'),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)->nullable(),

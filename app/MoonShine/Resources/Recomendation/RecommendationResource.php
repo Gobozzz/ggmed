@@ -20,7 +20,7 @@ class RecommendationResource extends ModelResource
 
     protected string $title = 'Рекомендации';
 
-    protected string $column = 'name';
+    protected string $column = 'title';
 
     protected bool $withPolicy = true;
 

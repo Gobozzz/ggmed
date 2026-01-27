@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Contracts\Commentable;
 use App\Contracts\Likeable;
 use App\Contracts\Taggable;
+use App\Enums\LevelHipe;
 use App\Traits\HasCommented;
 use App\Traits\HasLiked;
 use App\Traits\HasTags;
@@ -31,10 +32,12 @@ class Post extends Model implements Commentable, Likeable, Taggable
         'time_to_read',
         'filial_id',
         'author_id',
+        'level_hipe',
     ];
 
     protected $casts = [
         'content' => 'array',
+        'level_hipe' => LevelHipe::class,
     ];
 
     public function filial(): BelongsTo
