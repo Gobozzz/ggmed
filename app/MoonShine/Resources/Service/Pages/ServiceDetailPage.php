@@ -39,6 +39,7 @@ class ServiceDetailPage extends DetailPage
             Slug::make('Слаг', 'slug'),
             Text::make('Meta Заголовок', 'meta_title'),
             Text::make('Meta Описание', 'meta_description'),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             Text::make('Цена', 'price', fn ($model) => ($model->is_start_price ? 'от ' : '').number_format($model->price, 2, '.', ' ').' ₽')->sortable(),
             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class),
             HasMany::make('Подуслуги', 'children', resource: ServiceResource::class)->tabMode(),

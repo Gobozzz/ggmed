@@ -48,7 +48,7 @@ class VideoReviewIndexPage extends IndexPage
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Превью', 'preview'),
             Video::make('Видео', 'video'),
-            Text::make('Заголовок', 'title'),
+            Image::make('Фото ДО', 'images_before')->multiple(),
             Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
         ];

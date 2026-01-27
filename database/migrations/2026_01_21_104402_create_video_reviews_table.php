@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\LevelHipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('preview');
             $table->string('video');
-            $table->string('title', 100)->nullable();
+            $table->text('images_before')->nullable();
             $table->string('content', 500)->nullable();
             $table->foreignId('filial_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedTinyInteger('level_hipe')->default(LevelHipe::LOW);
             $table->timestamps();
         });
     }

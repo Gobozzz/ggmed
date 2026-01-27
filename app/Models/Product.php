@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Contracts\Commentable;
 use App\Contracts\Likeable;
 use App\Contracts\Taggable;
+use App\Enums\LevelHipe;
 use App\Traits\HasCommented;
 use App\Traits\HasLiked;
 use App\Traits\HasTags;
@@ -31,11 +32,13 @@ class Product extends Model implements Commentable, Likeable, Taggable
         'brand',
         'is_have',
         'content',
+        'level_hipe',
     ];
 
     protected $casts = [
         'content' => 'array',
         'images' => 'array',
         'is_have' => 'boolean',
+        'level_hipe' => LevelHipe::class,
     ];
 }

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Contracts\Commentable;
 use App\Contracts\Likeable;
 use App\Contracts\Taggable;
+use App\Enums\LevelHipe;
 use App\Traits\HasCommented;
 use App\Traits\HasLiked;
 use App\Traits\HasTags;
@@ -25,6 +26,8 @@ class Test extends Model implements Commentable, Likeable, Taggable
         'meta_description',
         'exercises',
         'image',
+        'level_hipe',
+        'level_hipe' => LevelHipe::class,
     ];
 
     protected $casts = [

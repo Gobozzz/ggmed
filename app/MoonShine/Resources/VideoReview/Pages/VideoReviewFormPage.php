@@ -25,7 +25,6 @@ use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
@@ -46,7 +45,10 @@ class VideoReviewFormPage extends FormPage
                     ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews-previews/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 File::make('Видео (не более 20мб, вертикальное)', 'video')
                     ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                Text::make('Заголовок', 'title'),
+                Image::make('Фотки ДО (вертикальные, необяз)', 'images_before')
+                    ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews-before/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())
+                    ->multiple()
+                    ->removable(),
                 Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
                 BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
                     ->nullable(fn () => auth()->user()->isSuperUser())
@@ -70,9 +72,10 @@ class VideoReviewFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
+            'images_before' => ['nullable', 'array', 'min:1'],
+            'images_before.*' => ['image', 'max:1024'],
             'preview' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'video' => [$item->getKey() === null ? 'required' : 'nullable', 'file', 'mimes:mp4', 'max:22000'],
-            'title' => ['nullable', 'string', 'max:100'],
             'content' => ['nullable', 'string', 'max:500'],
             'filial_id' => ['nullable', 'integer', 'exists:filials,id'],
             'tags' => ['nullable', 'array', 'max:3'],

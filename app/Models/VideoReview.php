@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Contracts\Commentable;
 use App\Contracts\Likeable;
 use App\Contracts\Taggable;
+use App\Enums\LevelHipe;
 use App\Traits\HasCommented;
 use App\Traits\HasLiked;
 use App\Traits\HasTags;
@@ -25,6 +26,13 @@ class VideoReview extends Model implements Commentable, Likeable, Taggable
         'title',
         'content',
         'filial_id',
+        'images_before',
+        'level_hipe',
+    ];
+
+    protected $casts = [
+        'images_before' => 'array',
+        'level_hipe' => LevelHipe::class,
     ];
 
     public function filial(): BelongsTo

@@ -24,7 +24,6 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
-use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
@@ -42,8 +41,8 @@ class VideoReviewDetailPage extends DetailPage
             ID::make(),
             Image::make('Превью', 'preview'),
             Video::make('Видео', 'video'),
-            Text::make('Заголовок', 'title'),
-            Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+            Image::make('Фотки ДО', 'images_before')->multiple(),
+            Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)
                 ->inLine(
