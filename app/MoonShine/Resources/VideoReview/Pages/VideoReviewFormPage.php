@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\VideoReview\Pages;
 
+use App\Enums\LevelHipe;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
@@ -25,6 +27,7 @@ use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
@@ -41,6 +44,7 @@ class VideoReviewFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
+                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
                 Image::make('Превью (не более 1мб, вертикальное)', 'preview')
                     ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews-previews/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 File::make('Видео (не более 20мб, вертикальное)', 'video')
@@ -72,6 +76,7 @@ class VideoReviewFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
+            'level_hipe' => ['required', new Enum(LevelHipe::class)],
             'images_before' => ['nullable', 'array', 'min:1'],
             'images_before.*' => ['image', 'max:1024'],
             'preview' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],

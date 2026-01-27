@@ -11,3 +11,11 @@
     border-radius: 8px;
 }
 
+@media (min-width: 651px) {
+    .codex-editor--narrow .ce-toolbar__actions {
+        right: calc(100% + 30px) !important;
+    }
+}
+
+
+

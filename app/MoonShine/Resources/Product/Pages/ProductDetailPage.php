@@ -40,6 +40,7 @@ class ProductDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             Image::make('Фото', 'images')->multiple(),
             Text::make('Арт.', 'article'),
             Text::make('Название', 'title'),

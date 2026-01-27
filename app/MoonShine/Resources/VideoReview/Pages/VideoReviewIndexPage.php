@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\VideoReview\Pages;
 
+use App\Enums\LevelHipe;
 use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\Tag\TagResource;
@@ -19,6 +20,7 @@ use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -51,6 +53,7 @@ class VideoReviewIndexPage extends IndexPage
             Image::make('Фото ДО', 'images_before')->multiple(),
             Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
         ];
     }
 
@@ -67,7 +70,9 @@ class VideoReviewIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+        ];
     }
 
     /**

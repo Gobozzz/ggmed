@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Announcement\Pages;
 
+use App\Enums\LevelHipe;
 use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -16,6 +17,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -41,6 +43,7 @@ class AnnouncementIndexPage extends IndexPage
             Text::make('Meta Заголовок', 'meta_title'),
             Textarea::make('Meta Описание', 'meta_description', fn ($item) => mb_substr($item->meta_description ?? '', 0, 100, 'utf-8')),
             Date::make('Дата создания', 'created_at'),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
         ];
     }
 
@@ -57,7 +60,9 @@ class AnnouncementIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+        ];
     }
 
     /**

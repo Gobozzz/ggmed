@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Test\Pages;
 
+use App\Enums\LevelHipe;
 use App\Enums\TypeExercise;
 use App\MoonShine\Resources\Test\TestResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
@@ -50,6 +52,7 @@ class TestFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Основные данные', [
                         ID::make(),
+                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
                         Image::make('Фото', 'image')
                             ->customName(fn (UploadedFile $file, Field $field) => 'tests/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Название', 'title')->unescape(),
@@ -91,6 +94,7 @@ class TestFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
+            'level_hipe' => ['required', new Enum(LevelHipe::class)],
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:255'],

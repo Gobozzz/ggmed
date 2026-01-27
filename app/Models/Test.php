@@ -32,5 +32,6 @@ class Test extends Model implements Commentable, Likeable, Taggable
 
     protected $casts = [
         'exercises' => 'array',
+        'level_hipe' => LevelHipe::class,
     ];
 }

@@ -24,6 +24,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
@@ -39,6 +40,7 @@ class VideoReviewDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             Image::make('Превью', 'preview'),
             Video::make('Видео', 'video'),
             Image::make('Фотки ДО', 'images_before')->multiple(),

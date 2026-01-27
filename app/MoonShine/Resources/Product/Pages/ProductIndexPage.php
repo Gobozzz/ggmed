@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product\Pages;
 
+use App\Enums\LevelHipe;
 use App\MoonShine\Resources\Product\ProductResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -17,6 +18,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use Throwable;
@@ -51,6 +53,7 @@ class ProductIndexPage extends IndexPage
             Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price ? ($item->old_price.', руб') : ''),
             Switcher::make('В наличии?', 'is_have'),
             Text::make('Бренд', 'brand'),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
         ];
     }
 
@@ -67,7 +70,9 @@ class ProductIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+        ];
     }
 
     /**

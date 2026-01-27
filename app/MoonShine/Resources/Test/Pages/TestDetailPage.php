@@ -42,6 +42,7 @@ class TestDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             Image::make('Фото', 'image'),
             Text::make('Название', 'title'),
             Textarea::make('Описание', 'description'),
