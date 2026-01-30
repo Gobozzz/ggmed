@@ -14,6 +14,10 @@ final class GetWinnerRaffleController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, Raffle $raffle): Response|View
     {
+        if (! $this->auth()->user()->isSuperUser()) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
         return view('admin.modals.raffle-winner', ['winner' => $raffle->winner]);
     }
 }

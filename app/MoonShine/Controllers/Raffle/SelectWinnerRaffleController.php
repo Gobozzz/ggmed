@@ -15,6 +15,10 @@ final class SelectWinnerRaffleController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, Raffle $raffle): Response
     {
+        if (! $this->auth()->user()->isSuperUser()) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
         $winner = $this->getWinner($raffle);
         if ($winner === null) {
             return $this->json(message: 'Не нашлось победителя', status: Response::HTTP_NOT_FOUND);
