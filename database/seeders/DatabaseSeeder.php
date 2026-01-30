@@ -23,6 +23,7 @@ use App\Models\Service;
 use App\Models\StarGuest;
 use App\Models\Tag;
 use App\Models\Test;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Vacancy;
 use App\Models\VideoReview;
@@ -113,6 +114,8 @@ class DatabaseSeeder extends Seeder
         Test::factory(20)->create();
 
         Raffle::factory(20)->create();
+
+        Transaction::factory(1000)->create();
 
     }
 }

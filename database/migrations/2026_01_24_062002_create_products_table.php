@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->string('description');
             $table->text('images');
-            $table->decimal('price', 9);
+            $table->decimal('price', 10, 2);
             $table->decimal('old_price', 9)->nullable();
             $table->string('structure', 100)->nullable();
             $table->string('brand', 50)->nullable();
