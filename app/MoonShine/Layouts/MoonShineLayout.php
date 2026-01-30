@@ -25,6 +25,7 @@ use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\Test\TestResource;
+use App\MoonShine\Resources\Transaction\TransactionResource;
 use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Vacancy\VacancyResource;
 use App\MoonShine\Resources\VideoReview\VideoReviewResource;
@@ -106,6 +107,9 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(OrderResource::class, 'Заказы')->icon('archive-box'),
                 MenuItem::make(OrderItemResource::class, 'Заказаные позиции')->canSee(fn () => false),
             ])->icon('shopping-cart')->canSee(fn () => auth()->user()->isSuperUser()),
+            MenuGroup::make('GG COIN Игра', [
+                MenuItem::make(TransactionResource::class, 'Транзакции')->icon('currency-dollar'),
+            ])->icon('puzzle-piece')->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(VacancyResource::class, 'Вакансии')->icon('briefcase')
                 ->canSee(fn () => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
             MenuItem::make(FactResource::class, 'Факты')->icon('ellipsis-horizontal-circle')
