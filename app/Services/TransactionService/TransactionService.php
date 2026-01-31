@@ -25,15 +25,10 @@ final class TransactionService implements TransactionServiceContract
     {
     }
 
-    public function getBalanceUser(int $user_id): float
-    {
-        return $this->balanceCacheManager->get($user_id);
-    }
-
     public function payAdminReplenished(AdminReplenishedPayDTO $data): void
     {
         DB::transaction(function () use ($data) {
-            $this->userRepository->getByIdForUpdate($data->user_id);
+            $this->userRepository->lockForUpdateById($data->user_id);
 
             $this->checkCorrectAmount($data->amount);
 
@@ -57,7 +52,7 @@ final class TransactionService implements TransactionServiceContract
     public function writeOffAdmin(AdminWriteOffDTO $data): void
     {
         DB::transaction(function () use ($data) {
-            $this->userRepository->getByIdForUpdate($data->user_id);
+            $this->userRepository->lockForUpdateById($data->user_id);
 
             $this->checkCorrectAmount($data->amount);
 

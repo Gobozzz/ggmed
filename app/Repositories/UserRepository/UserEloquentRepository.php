@@ -6,10 +6,10 @@ namespace App\Repositories\UserRepository;
 
 use App\Models\User;
 
-class UserEloquentRepository implements UserRepositoryContract
+final class UserEloquentRepository implements UserRepositoryContract
 {
-    public function getByIdForUpdate(int $user_id): User
+    public function lockForUpdateById(int $user_id): void
     {
-        return User::query()->where('id', $user_id)->lockForUpdate()->firstOrFail();
+        User::query()->where('id', $user_id)->lockForUpdate()->exists();
     }
 }
