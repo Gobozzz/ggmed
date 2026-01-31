@@ -49,7 +49,7 @@ class UserDetailPage extends DetailPage
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
             Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
-            Text::make('Баланс, GG COIN', 'balance', fn () => (string) app(BalanceCacheManager::class)->getBalance($this->getItem()->getKey())),
+            Text::make('Баланс, GG COIN', 'balance', fn () => (string) app(BalanceCacheManager::class)->get($this->getItem()->getKey())),
             HasMany::make('Вопросы', 'questions', resource: QuestionResource::class)->tabMode(),
             HasMany::make('Лайки', 'likes', resource: LikeResource::class)->tabMode(),
             HasMany::make('Комментарии', 'comments', resource: CommentResource::class)->tabMode(),

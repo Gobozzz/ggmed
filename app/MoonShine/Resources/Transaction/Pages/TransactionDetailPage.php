@@ -20,7 +20,7 @@ use Throwable;
 
 /**
  * @extends DetailPage<TransactionResource>
- */
+*/
 class TransactionDetailPage extends DetailPage
 {
     /**
@@ -30,10 +30,11 @@ class TransactionDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Text::make('Тип', 'type', fn ($item) => $item->type->label()),
+            Text::make('Тип', 'type', fn($item) => $item->type->label()),
             Textarea::make('Комментарий', 'description'),
             Number::make('Сумма', 'amount'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
+            Textarea::make('Meta информация', 'metadata', fn($item) => json_encode($item->metadata) ?? "Отсутствует"),
         ];
     }
 
@@ -43,7 +44,7 @@ class TransactionDetailPage extends DetailPage
     }
 
     /**
-     * @param  TableBuilder  $component
+     * @param TableBuilder $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract

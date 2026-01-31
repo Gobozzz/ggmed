@@ -13,7 +13,7 @@ final class BalanceCacheManager
 
     public function __construct(private readonly TransactionRepositoryContract $transactionRepository) {}
 
-    public function getBalance(int $user_id): float
+    public function get(int $user_id): float
     {
         return (float) Cache::remember(
             $this->getCacheKeyForBalanceUser($user_id),
@@ -22,7 +22,7 @@ final class BalanceCacheManager
         );
     }
 
-    public function removeBalance(int $user_id): void
+    public function forget(int $user_id): void
     {
         Cache::forget($this->getCacheKeyForBalanceUser($user_id));
     }
