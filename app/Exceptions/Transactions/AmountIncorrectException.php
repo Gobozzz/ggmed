@@ -12,7 +12,7 @@ class AmountIncorrectException extends Exception
     public function __construct()
     {
         parent::__construct(
-            "Amount incorrect",
+            'Amount incorrect',
             TransactionException::AMOUNT_INCORRECT->value,
         );
     }

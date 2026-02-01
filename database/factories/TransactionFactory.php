@@ -27,8 +27,8 @@ class TransactionFactory extends Factory
         // Определяем тип на основе суммы
         $type = $amount >= 0 ? TypeTransaction::ADMIN_REPLENISHED : TypeTransaction::ADMIN_WRITE_OFF;
 
-        // Генерируем случайную дату в пределах последних 365 дней
-        $createdAt = $this->faker->dateTimeBetween('-365 days', 'now');
+        // Генерируем случайную дату в пределах последних 180 дней
+        $createdAt = $this->faker->dateTimeBetween('-180 days');
 
         return [
             'user_id' => $user->id,

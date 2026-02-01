@@ -16,12 +16,11 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 
     public function __construct(
         private LoggerContract $loger,
-        private string         $bot_token,
-        private string         $chat_id,
-        int|string|Level       $level = Level::Debug,
-        bool                   $bubble = true
-    )
-    {
+        private string $bot_token,
+        private string $chat_id,
+        int|string|Level $level = Level::Debug,
+        bool $bubble = true
+    ) {
         parent::__construct($level, $bubble);
     }
 
@@ -32,7 +31,8 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 
     private function getFormattedMessage(string $message, array $context, Level $level): string
     {
-        $message = "[{$level->getName()}]: " . $message . "\n\n" . json_encode($context, JSON_PRETTY_PRINT);
+        $message = "[{$level->getName()}]: ".$message."\n\n".json_encode($context, JSON_PRETTY_PRINT);
+
         return substr($message, 0, self::MAX_LENGTH_MESSAGE);
     }
 
@@ -54,5 +54,4 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
             // $this->loger->error("Ошибка запроса к ТГ:" . $e->getMessage());
         }
     }
-
 }

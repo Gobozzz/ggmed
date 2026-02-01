@@ -31,6 +31,7 @@ use App\Models\User;
 use App\Models\Vacancy;
 use App\Models\VideoReview;
 use App\Models\Worker;
+use App\MoonShine\Pages\Analytics;
 use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Document\DocumentResource;
@@ -133,6 +134,7 @@ class MoonShineServiceProvider extends ServiceProvider
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
+                Analytics::class,
             ]);
 
         if (request()->is('admin*')) {

@@ -24,5 +24,4 @@ abstract class BaseApiException extends Exception
             'message' => $this->getMessage(),
         ], $this->code);
     }
-
 }

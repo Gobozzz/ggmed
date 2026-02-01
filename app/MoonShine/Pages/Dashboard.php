@@ -6,9 +6,9 @@ namespace App\MoonShine\Pages;
 
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Laravel\Pages\Page;
+use MoonShine\UI\Components\Link;
 
 #[\MoonShine\MenuManager\Attributes\SkipMenu]
-
 class Dashboard extends Page
 {
     /**
@@ -31,6 +31,9 @@ class Dashboard extends Page
      */
     protected function components(): iterable
     {
-        return [];
+        return [
+            Link::make(fn () => app(Analytics::class)->getUrl(), 'Аналитика')->icon('chart-bar')
+                ->canSee(fn () => auth()->user()->isSuperUser()),
+        ];
     }
 }

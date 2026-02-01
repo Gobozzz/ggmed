@@ -12,6 +12,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
@@ -20,7 +21,7 @@ use Throwable;
 
 /**
  * @extends DetailPage<TransactionResource>
-*/
+ */
 class TransactionDetailPage extends DetailPage
 {
     /**
@@ -30,11 +31,12 @@ class TransactionDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Text::make('Тип', 'type', fn($item) => $item->type->label()),
+            Text::make('Тип', 'type', fn ($item) => $item->type->label()),
             Textarea::make('Комментарий', 'description'),
             Number::make('Сумма', 'amount'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
-            Textarea::make('Meta информация', 'metadata', fn($item) => json_encode($item->metadata) ?? "Отсутствует"),
+            Textarea::make('Meta информация', 'metadata', fn ($item) => json_encode($item->metadata) ?? 'Отсутствует'),
+            Date::make('Дата', 'created_at'),
         ];
     }
 
@@ -44,7 +46,7 @@ class TransactionDetailPage extends DetailPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract

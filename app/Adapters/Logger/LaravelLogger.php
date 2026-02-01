@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Log;
 
 final class LaravelLogger implements LoggerContract
 {
-    private array|null $channels = null;
+    private ?array $channels = null;
 
     public function channels(array $channels): self
     {
         $this->channels = $channels;
+
         return $this;
     }
 

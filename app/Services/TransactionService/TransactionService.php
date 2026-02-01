@@ -19,11 +19,9 @@ final class TransactionService implements TransactionServiceContract
 {
     public function __construct(
         private readonly TransactionRepositoryContract $transactionRepository,
-        private readonly UserRepositoryContract        $userRepository,
-        private readonly BalanceCacheManager           $balanceCacheManager,
-    )
-    {
-    }
+        private readonly UserRepositoryContract $userRepository,
+        private readonly BalanceCacheManager $balanceCacheManager,
+    ) {}
 
     public function payAdminReplenished(AdminReplenishedPayDTO $data): void
     {
@@ -80,14 +78,14 @@ final class TransactionService implements TransactionServiceContract
     private function checkCorrectAmount(float $amount): void
     {
         if ($amount < config('transactions.min_amount_transaction') || $amount > config('transactions.max_amount_transaction')) {
-            throw new AmountIncorrectException();
+            throw new AmountIncorrectException;
         }
     }
 
     private function checkBalanceForWriteOff(float $balance, float $amount): void
     {
         if ($balance < $amount) {
-            throw new InsufficientFundsException();
+            throw new InsufficientFundsException;
         }
     }
 }
