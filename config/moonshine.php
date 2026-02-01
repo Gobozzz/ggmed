@@ -92,6 +92,7 @@ return [
     ],
 
     'pages' => [
+        'analytics' => App\MoonShine\Pages\Analytics::class,
         'dashboard' => App\MoonShine\Pages\Dashboard::class,
         'profile' => ProfilePage::class,
         'login' => LoginPage::class,

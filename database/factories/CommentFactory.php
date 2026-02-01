@@ -19,12 +19,16 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        $createdAt = $this->faker->dateTimeBetween('-180 days');
+
         return [
             'content' => $this->faker->text(350),
             'user_id' => User::query()->inRandomOrder()->first() ?? User::factory()->create(),
             'parent_id' => null,
             'commentable_type' => null,
             'commentable_id' => null,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 }

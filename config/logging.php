@@ -52,6 +52,16 @@ return [
 
     'channels' => [
 
+        'telegram_errors' => [
+            'driver' => 'monolog',
+            'level' => 'error',
+            'handler' => \App\Logging\TelegramLoggingHandler::class,
+            'handler_with' => [
+                'bot_token' => env('TELEGRAM_ERROR_LOG_BOT_TOKEN'),
+                'chat_id' => env('TELEGRAM_ERROR_LOG_CHAT_ID'),
+            ],
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', (string) env('LOG_STACK', 'single')),

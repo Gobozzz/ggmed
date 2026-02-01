@@ -14,10 +14,10 @@ use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 /**
@@ -35,9 +35,10 @@ class TransactionIndexPage extends IndexPage
         return [
             ID::make(),
             Text::make('Тип', 'type', fn ($item) => $item->type->label()),
-            Textarea::make('Комментарий', 'description'),
+            Text::make('Комментарий', 'description'),
             Number::make('Сумма', 'amount'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
+            Date::make('Дата', 'created_at'),
         ];
     }
 

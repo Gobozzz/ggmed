@@ -9,6 +9,8 @@ use App\DTO\Transaction\AdminReplenishedPayDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
 use App\DTO\Transaction\CreateTransactionDTO;
 use App\Enums\TypeTransaction;
+use App\Exceptions\Transactions\AmountIncorrectException;
+use App\Exceptions\Transactions\InsufficientFundsException;
 use App\Repositories\TransactionRepository\TransactionRepositoryContract;
 use App\Repositories\UserRepository\UserRepositoryContract;
 use Illuminate\Support\Facades\DB;
@@ -21,15 +23,10 @@ final class TransactionService implements TransactionServiceContract
         private readonly BalanceCacheManager $balanceCacheManager,
     ) {}
 
-    public function getBalanceUser(int $user_id): float
-    {
-        return $this->balanceCacheManager->getBalance($user_id);
-    }
-
     public function payAdminReplenished(AdminReplenishedPayDTO $data): void
     {
         DB::transaction(function () use ($data) {
-            $this->userRepository->getByIdForUpdate($data->user_id);
+            $this->userRepository->lockForUpdateById($data->user_id);
 
             $this->checkCorrectAmount($data->amount);
 
@@ -44,7 +41,7 @@ final class TransactionService implements TransactionServiceContract
             $this->transactionRepository->create($createDTO);
 
             DB::afterCommit(function () use ($data) {
-                $this->balanceCacheManager->removeBalance($data->user_id);
+                $this->balanceCacheManager->forget($data->user_id);
             });
 
         }, config('transactions.count_attempts_transaction'));
@@ -53,7 +50,7 @@ final class TransactionService implements TransactionServiceContract
     public function writeOffAdmin(AdminWriteOffDTO $data): void
     {
         DB::transaction(function () use ($data) {
-            $this->userRepository->getByIdForUpdate($data->user_id);
+            $this->userRepository->lockForUpdateById($data->user_id);
 
             $this->checkCorrectAmount($data->amount);
 
@@ -72,7 +69,7 @@ final class TransactionService implements TransactionServiceContract
             $this->transactionRepository->create($createDTO);
 
             DB::afterCommit(function () use ($data) {
-                $this->balanceCacheManager->removeBalance($data->user_id);
+                $this->balanceCacheManager->forget($data->user_id);
             });
 
         }, config('transactions.count_attempts_transaction'));
@@ -80,18 +77,15 @@ final class TransactionService implements TransactionServiceContract
 
     private function checkCorrectAmount(float $amount): void
     {
-        if ($amount < config('transactions.min_amount_transaction')) {
-            throw new \Exception('Minimal amount: '.config('transactions.min_amount_transaction'));
-        }
-        if ($amount > config('transactions.max_amount_transaction')) {
-            throw new \Exception('Maximal amount: '.config('transactions.max_amount_transaction'));
+        if ($amount < config('transactions.min_amount_transaction') || $amount > config('transactions.max_amount_transaction')) {
+            throw new AmountIncorrectException;
         }
     }
 
     private function checkBalanceForWriteOff(float $balance, float $amount): void
     {
         if ($balance < $amount) {
-            throw new \Exception("There are insufficient funds on the user's balance");
+            throw new InsufficientFundsException;
         }
     }
 }

@@ -19,7 +19,7 @@ use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
-use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Sckatik\MoonshineEditorJs\Fields\EditorJs;
 use Throwable;
 
@@ -38,7 +38,7 @@ class QuestionFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Вопрос', [
                         ID::make(),
-                        Text::make('Вопрос', 'title'),
+                        Textarea::make('Вопрос', 'title'),
                         Switcher::make('Горячий?', 'is_hot'),
                         MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                     ]),

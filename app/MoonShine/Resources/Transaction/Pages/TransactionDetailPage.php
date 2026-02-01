@@ -12,6 +12,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
@@ -34,6 +35,8 @@ class TransactionDetailPage extends DetailPage
             Textarea::make('Комментарий', 'description'),
             Number::make('Сумма', 'amount'),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
+            Textarea::make('Meta информация', 'metadata', fn ($item) => json_encode($item->metadata) ?? 'Отсутствует'),
+            Date::make('Дата', 'created_at'),
         ];
     }
 

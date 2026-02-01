@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Adapters\Logger\LaravelLogger;
+use App\Adapters\Logger\LoggerContract;
 use App\Repositories\TransactionRepository\TransactionEloquentRepository;
 use App\Repositories\TransactionRepository\TransactionRepositoryContract;
 use App\Repositories\UserRepository\UserEloquentRepository;
@@ -22,6 +24,8 @@ class BindServiceProvider extends ServiceProvider
         // Repo
         $this->app->bind(TransactionRepositoryContract::class, TransactionEloquentRepository::class);
         $this->app->bind(UserRepositoryContract::class, UserEloquentRepository::class);
+        // Adapters
+        $this->app->bind(LoggerContract::class, LaravelLogger::class);
     }
 
     /**

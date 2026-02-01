@@ -9,8 +9,6 @@ use App\DTO\Transaction\AdminWriteOffDTO;
 
 interface TransactionServiceContract
 {
-    public function getBalanceUser(int $user_id): float;
-
     public function payAdminReplenished(AdminReplenishedPayDTO $data): void;
 
     public function writeOffAdmin(AdminWriteOffDTO $data): void;

@@ -17,10 +17,14 @@ class LikeFactory extends Factory
      */
     public function definition(): array
     {
+        $createdAt = $this->faker->dateTimeBetween('-180 days');
+
         return [
             'user_id' => User::query()->inRandomOrder()->first() ?? User::factory()->create(),
             'likeable_type' => null,
             'likeable_id' => null,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 }
