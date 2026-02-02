@@ -82,7 +82,7 @@ class QuestionFormPage extends FormPage
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

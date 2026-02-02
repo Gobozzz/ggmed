@@ -52,19 +52,28 @@ return [
 
     'channels' => [
 
+        'telegram_info' => [
+            'driver' => 'monolog',
+            'handler' => \App\Logging\TelegramLoggingHandler::class,
+            'handler_with' => [
+                'bot_token' => env('TELEGRAM_INFO_LOG_BOT_TOKEN'),
+                'chat_ids' => env('TELEGRAM_INFO_LOG_CHAT_IDS'),
+            ],
+        ],
+
         'telegram_errors' => [
             'driver' => 'monolog',
             'level' => 'error',
             'handler' => \App\Logging\TelegramLoggingHandler::class,
             'handler_with' => [
                 'bot_token' => env('TELEGRAM_ERROR_LOG_BOT_TOKEN'),
-                'chat_id' => env('TELEGRAM_ERROR_LOG_CHAT_ID'),
+                'chat_ids' => env('TELEGRAM_ERROR_LOG_CHAT_IDS'),
             ],
         ],
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', (string) env('LOG_STACK', 'single')),
+            'channels' => explode(',', (string)env('LOG_STACK', 'single')),
             'ignore_exceptions' => false,
         ],
 
@@ -99,7 +108,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
         ],

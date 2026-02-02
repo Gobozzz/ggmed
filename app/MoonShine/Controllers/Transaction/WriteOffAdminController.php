@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Controllers\Transaction;
 
-use App\DTO\Transaction\AdminWriteOffDTO;
+use App\Enums\DTO\Transaction\AdminWriteOffDTO;
 use App\Models\User;
 use App\Services\TransactionService\TransactionServiceContract;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;

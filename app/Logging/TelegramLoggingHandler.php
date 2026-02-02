@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Logging;
 
-use App\Adapters\Logger\LoggerContract;
+use App\Enums\ChannelLog;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Level;
 use Monolog\LogRecord;
@@ -14,14 +15,17 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 {
     const MAX_LENGTH_MESSAGE = 4096;
 
+    private array $chat_ids;
+
     public function __construct(
-        private LoggerContract $loger,
-        private string $bot_token,
-        private string $chat_id,
-        int|string|Level $level = Level::Debug,
-        bool $bubble = true
-    ) {
+        private readonly string $bot_token,
+        string                  $chat_ids,
+        int|string|Level        $level = Level::Debug,
+        bool                    $bubble = true
+    )
+    {
         parent::__construct($level, $bubble);
+        $this->chat_ids = explode(',', $chat_ids);
     }
 
     protected function write(LogRecord $record): void
@@ -31,7 +35,7 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 
     private function getFormattedMessage(string $message, array $context, Level $level): string
     {
-        $message = "[{$level->getName()}]: ".$message."\n\n".json_encode($context, JSON_PRETTY_PRINT);
+        $message = "[{$level->getName()}]: " . $message . "\n\n" . json_encode($context, JSON_PRETTY_PRINT);
 
         return substr($message, 0, self::MAX_LENGTH_MESSAGE);
     }
@@ -43,15 +47,16 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 
     private function send(string $message): void
     {
-        try {
-            Http::post($this->getUrl(), [
-                'chat_id' => $this->chat_id,
-                'text' => $message,
-            ]);
-        } catch (\Exception $e) {
-            // Если оставлю этот код, то вызовы зациклятся
-            //
-            // $this->loger->error("Ошибка запроса к ТГ:" . $e->getMessage());
+        foreach ($this->chat_ids as $chat_id) {
+            try {
+                Http::post($this->getUrl(), [
+                    'chat_id' => $chat_id,
+                    'text' => $message,
+                ]);
+            } catch (\Exception $e) {
+                Log::channel(ChannelLog::FILE->value)->info('Telegram Log Error: ' . $e->getMessage());
+            }
         }
     }
+
 }
