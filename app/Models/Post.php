@@ -33,11 +33,13 @@ class Post extends Model implements Commentable, Likeable, Taggable
         'filial_id',
         'author_id',
         'level_hipe',
+        'is_published',
     ];
 
     protected $casts = [
         'content' => 'array',
         'level_hipe' => LevelHipe::class,
+        'is_published' => 'boolean',
     ];
 
     public function filial(): BelongsTo

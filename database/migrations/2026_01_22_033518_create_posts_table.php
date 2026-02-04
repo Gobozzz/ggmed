@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,7 +20,8 @@ return new class extends Migration
             $table->string('slug', 200)->unique();
             $table->string('image');
             $table->text('content');
-            $table->unsignedTinyInteger('time_to_read')->default(5);
+            $table->unsignedTinyInteger('time_to_read')->default(7);
+            $table->boolean('is_published')->default(false);
             $table->foreignId('filial_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('author_id')->nullable()->constrained('moonshine_users')->nullOnDelete();
             $table->unsignedTinyInteger('level_hipe')->default(LevelHipe::LOW);

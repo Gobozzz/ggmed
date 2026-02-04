@@ -45,8 +45,8 @@ class QuestionDetailPage extends DetailPage
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)
                 ->inLine(
                     separator: ' ',
-                    badge: fn($model, $value) => Badge::make((string)$value, 'primary'),
-                    link: fn($property, $value, $field): string|Link => Link::make(
+                    badge: fn ($model, $value) => Badge::make((string) $value, 'primary'),
+                    link: fn ($property, $value, $field): string|Link => Link::make(
                         app(TagResource::class)->getDetailPageUrl($property->id),
                         $value
                     )
@@ -54,7 +54,7 @@ class QuestionDetailPage extends DetailPage
             MorphMany::make('Комментарии 💬', 'comments', resource: CommentResource::class)
                 ->fields([
                     ID::make(),
-                    Textarea::make('Текст', 'content', fn($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+                    Textarea::make('Текст', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
                     BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
                     Date::make('Дата', 'created_at'),
                 ])->tabMode(),
@@ -73,7 +73,7 @@ class QuestionDetailPage extends DetailPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract

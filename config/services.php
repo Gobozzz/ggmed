@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'giga_chat' => [
+        'key' => env('GIGA_CHAT_ASSISTANT_AUTH_KEY', 'key'),
+        'client_id' => env('GIGA_CHAT_CLIENT_ID', 'id'),
+        'scope' => env('GIGA_CHAT_SCOPE', 'scope'),
+        'model' => env('GIGA_CHAT_MODEL', 'model'),
+        'certificate_path' => env('GIGA_CHAT_CERT_PATH', 'path'),
+    ],
+
 ];

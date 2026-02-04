@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\TransactionRepository;
 
-use App\Enums\DTO\Transaction\CreateTransactionDTO;
+use App\DTO\Transaction\CreateTransactionDTO;
 use App\Models\Transaction;
 
 final class TransactionEloquentRepository implements TransactionRepositoryContract

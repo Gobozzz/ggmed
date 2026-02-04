@@ -17,15 +17,23 @@ use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
+use MoonShine\Support\AlpineJs;
+use MoonShine\Support\Enums\JsEvent;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
+use MoonShine\UI\Components\FormBuilder;
+use MoonShine\UI\Components\Layout\LineBreak;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\UI\Components\Modal;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 /**
@@ -43,22 +51,23 @@ class PostIndexPage extends IndexPage
         return [
             ID::make(),
             Image::make('Фото', 'image'),
-            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
-                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'chat-bubble-left-right',
             ),
-            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
-                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Text::make('Заголовок', 'title'),
-            Text::make('Слаг', 'slug'),
-            Number::make('Время на чтение', 'time_to_read', fn ($item) => $item->time_to_read.' мин.'),
-            Date::make('Дата', 'created_at'),
+            Number::make('Время на чтение', 'time_to_read', fn($item) => $item->time_to_read . ' мин.'),
+            Date::make('Дата', 'created_at')->updateOnPreview(),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Switcher::make('Опубликована?', 'is_published')->updateOnPreview(),
+//            Select::make('Продвижение', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+            Text::make('Продвижение', 'level_hipe', fn($model) => $model->level_hipe->label())->sortable(),
         ];
     }
 
@@ -76,6 +85,7 @@ class PostIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
+            Switcher::make('Опубликованные', 'is_published'),
             Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
             Text::make('Заголовок', 'title'),
             Date::make('Дата', 'created_at'),
@@ -102,7 +112,7 @@ class PostIndexPage extends IndexPage
     }
 
     /**
-     * @param  TableBuilder  $component
+     * @param TableBuilder $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
@@ -119,6 +129,28 @@ class PostIndexPage extends IndexPage
     {
         return [
             ...parent::topLayer(),
+            ActionButton::make('Сгенерировать через AI')
+                ->inModal(
+                    title: 'Генерация статьи через искуственный интелект',
+                    content: 'Укажите тему статьи',
+                    name: 'post-generate-ai-modal',
+                    builder: fn(Modal $modal, ActionButton $ctx) => $modal,
+                    components: [
+                        FormBuilder::make(fields: [
+                            Textarea::make('Тема статьи (макс. 500 символов)', 'theme'),
+                            Image::make('Фото (рек. горизонтальное)', 'image'),
+                        ],
+                        )->name('post-generate-ai-form')
+                            ->async(
+                                url: route('admin.posts.generate-ai'),
+                                events: [
+                                    AlpineJs::event(JsEvent::FORM_RESET, 'post-generate-ai-form'),
+                                    AlpineJs::event(JsEvent::TABLE_UPDATED, $this->getListComponentName()),
+                                ]
+                            ),
+                    ],
+                )->icon('bolt')->canSee(fn() => auth()->user()->isSuperUser()),
+            LineBreak::make(),
         ];
     }
 

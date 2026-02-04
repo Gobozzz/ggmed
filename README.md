@@ -17,17 +17,16 @@
 - `composer setup`
 - `php artisan migrate`
 
-### From the second time onwards
+### Для остальных инициализаций
 
 `docker compose up -d`
 
-### env.example -> .env
+### Создане .env файла
 
 `cp .env.example .env`
 
 ### Laravel App
 - URL: http://localhost
-
 
 ## Админка
 

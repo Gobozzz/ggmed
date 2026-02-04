@@ -46,10 +46,10 @@ class RaffleFormPage extends FormPage
                 ID::make(),
                 Tabs::make([
                     Tab::make('Основная информация', [
-                        Image::make('Фото (не более 1мб, горизонтальное)', 'image')
+                        Image::make('Фото (необяз, не более 1мб, горизонтальное)', 'image')
                             ->removable()
                             ->customName(fn (UploadedFile $file, Field $field) => 'raffles/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                        File::make('Видео (не более 20мб, горизонтальное)', 'video')
+                        File::make('Запись розыгрыша (необяз, не более 20мб, горизонтальное)', 'video')
                             ->removable()
                             ->customName(fn (UploadedFile $file, Field $field) => 'raffles-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Заголовок', 'title'),

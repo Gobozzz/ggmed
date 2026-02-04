@@ -17,6 +17,7 @@ use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Textarea;
@@ -38,6 +39,7 @@ class QuestionFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Вопрос', [
                         ID::make(),
+                        Date::make('Дата', 'created_at'),
                         Textarea::make('Вопрос', 'title'),
                         Switcher::make('Горячий?', 'is_hot'),
                         MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
