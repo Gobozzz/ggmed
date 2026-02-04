@@ -16,7 +16,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use MoonShine\Contracts\UI\ActionButtonContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
@@ -25,8 +24,6 @@ use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
-use MoonShine\Support\AlpineJs;
-use MoonShine\Support\Enums\JsEvent;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
@@ -64,18 +61,18 @@ class PostFormPage extends FormPage
                         Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
                         Switcher::make('Опубликовать?', 'is_published'),
                         Image::make('Фото (рек. горизонтальное)', 'image')
-                            ->customName(fn(UploadedFile $file, Field $field) => 'posts/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'posts/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
-                        Number::make('Время на чтение, мин.', 'time_to_read', fn($item) => $item->time_to_read . ' мин.'),
+                        Number::make('Время на чтение, мин.', 'time_to_read', fn ($item) => $item->time_to_read.' мин.'),
                         MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                         BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
-                            ->nullable(fn() => auth()->user()->isSuperUser() || auth()->user()->isAuthorPostsUser())
+                            ->nullable(fn () => auth()->user()->isSuperUser() || auth()->user()->isAuthorPostsUser())
                             ->searchable()
-                            ->valuesQuery(static fn(Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn(Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
+                            ->valuesQuery(static fn (Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn (Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
                                 ->select(['id', 'name'])),
-                        BelongsTo::make('Автор', 'author', formatted: fn($item) => $item->name . ' (' . $item->moonshineUserRole->name . ')', resource: MoonShineUserResource::class)->nullable()
-                            ->canSee(fn() => $this->getItem() !== null && auth()->user()->isSuperUser()),
+                        BelongsTo::make('Автор', 'author', formatted: fn ($item) => $item->name.' ('.$item->moonshineUserRole->name.')', resource: MoonShineUserResource::class)->nullable()
+                            ->canSee(fn () => $this->getItem() !== null && auth()->user()->isSuperUser()),
                         Date::make('Дата публикации', 'created_at'),
                     ]),
                     Tab::make('Редактор', [
@@ -86,7 +83,7 @@ class PostFormPage extends FormPage
                         Text::make('Meta заголовок (необязательно)', 'meta_title')->unescape(),
                         Textarea::make('Meta описание (необязательно)', 'meta_description')->unescape(),
                     ]),
-                    Tab::make('Серии ' . ($this->getItem()?->series->count() ?? ''), [
+                    Tab::make('Серии '.($this->getItem()?->series->count() ?? ''), [
                         BelongsToMany::make('Серии', 'series', resource: PostSeriesResource::class),
                     ]),
                 ]),
@@ -110,7 +107,7 @@ class PostFormPage extends FormPage
             request()->merge([
                 'author_id' => auth()->user()->getKey(),
             ]);
-        } elseif (!auth()->user()->isSuperUser()) {
+        } elseif (! auth()->user()->isSuperUser()) {
             request()->merge([
                 'author_id' => $this->getItem()->author_id,
             ]);
@@ -123,7 +120,7 @@ class PostFormPage extends FormPage
             'is_published' => ['required', 'boolean'],
             'level_hipe' => ['required', new Enum(LevelHipe::class)],
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
             'meta_title' => ['nullable', 'string', 'max:100'],
             'meta_description' => ['nullable', 'string', 'max:160'],
             'title' => ['required', 'string', 'max:100'],
@@ -136,7 +133,7 @@ class PostFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

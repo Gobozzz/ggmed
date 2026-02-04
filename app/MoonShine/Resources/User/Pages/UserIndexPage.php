@@ -43,13 +43,13 @@ class UserIndexPage extends IndexPage
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
             Date::make('Дата регистрации', 'created_at'),
-            Text::make('Статус', 'status', fn(Model $model) => $model->status->label()),
+            Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
         ];
     }
 
     protected function modifyCreateButton(ActionButtonContract $button): ActionButtonContract
     {
-        return $button->canSee(fn() => false);
+        return $button->canSee(fn () => false);
     }
 
     /**
@@ -96,7 +96,7 @@ class UserIndexPage extends IndexPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract

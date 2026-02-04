@@ -21,7 +21,7 @@ final class PostGenerateWithAIController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, AiAssistantContract $aiAssistant, MarkdownToEditorJsConverter $editorConverter): Response
     {
-        if (!$this->auth()->user()->isSuperUser()) {
+        if (! $this->auth()->user()->isSuperUser()) {
             abort(Response::HTTP_FORBIDDEN);
         }
 
@@ -37,15 +37,15 @@ final class PostGenerateWithAIController extends MoonShineController
 
         $image = $request->file('image');
 
-        $nameImage = Str::random(50) . '.' . $image->getClientOriginalExtension();
+        $nameImage = Str::random(50).'.'.$image->getClientOriginalExtension();
 
-        $folderImage = 'posts/' . Carbon::now()->format('Y-m');
+        $folderImage = 'posts/'.Carbon::now()->format('Y-m');
 
         $imagePath = $image->storeAs($folderImage, $nameImage, 'public');
 
         $aiAnswerContent = $aiAssistant->sendRequest([
             new AiMessage(content: $this->getSystemPromptForEditor(), role: AiMessageRole::SYSTEM),
-            new AiMessage(content: 'Тема статьи:' . request()->get('theme'), role: AiMessageRole::USER),
+            new AiMessage(content: 'Тема статьи:'.request()->get('theme'), role: AiMessageRole::USER),
         ]);
 
         if ($aiAnswerContent === null) {
@@ -56,7 +56,7 @@ final class PostGenerateWithAIController extends MoonShineController
 
         $aiAnswerSeo = $aiAssistant->sendRequest([
             new AiMessage(content: $this->getSystemPromptForSeo(), role: AiMessageRole::SYSTEM),
-            new AiMessage(content: 'Тема статьи:' . request()->get('theme'), role: AiMessageRole::USER),
+            new AiMessage(content: 'Тема статьи:'.request()->get('theme'), role: AiMessageRole::USER),
         ]);
 
         try {
@@ -65,24 +65,24 @@ final class PostGenerateWithAIController extends MoonShineController
                 throw new \Exception;
             }
         } catch (\Exception $exception) {
-            return $this->json(message: "AI не смогла сформировать SEO ядро. Попробуйте еще раз.");
+            return $this->json(message: 'AI не смогла сформировать SEO ядро. Попробуйте еще раз.');
         }
 
         $title = isset($seoData['title']) ? mb_substr($seoData['title'], 0, 100, 'utf8') : mb_substr($request->get('theme'), 0, 50, 'utf-8');
         $slug = Str::slug($title);
 
         $post = Post::create([
-            "meta_title" => isset($seoData['meta_title']) ? mb_substr($seoData['meta_title'], 0, 100, 'utf8') : null,
-            "meta_description" => isset($seoData['meta_description']) ? mb_substr($seoData['meta_description'], 0, 160, 'utf8') : null,
-            "title" => $title,
-            "description" => isset($seoData['description']) ? mb_substr($seoData['description'], 0, 255, 'utf8') : mb_substr($request->get('theme'), 0, 255, 'utf8'),
-            "slug" => Post::query()->where('slug', $slug)->exists() ? ($slug . "-" . rand(2, 40)) : mb_substr($slug, 0, 200, 'utf8'),
-            "image" => $imagePath,
-            "content" => json_encode($content) ?? json_encode(EditorGenerator::make(1)),
-            "time_to_read" => isset($aiData['time_to_read']) && (int)$aiData['time_to_read'] <= 50 ? $aiData['time_to_read'] : 9,
-            "filial_id" => null,
-            "author_id" => $this->auth()->id(),
-            "level_hipe" => LevelHipe::LOW,
+            'meta_title' => isset($seoData['meta_title']) ? mb_substr($seoData['meta_title'], 0, 100, 'utf8') : null,
+            'meta_description' => isset($seoData['meta_description']) ? mb_substr($seoData['meta_description'], 0, 160, 'utf8') : null,
+            'title' => $title,
+            'description' => isset($seoData['description']) ? mb_substr($seoData['description'], 0, 255, 'utf8') : mb_substr($request->get('theme'), 0, 255, 'utf8'),
+            'slug' => Post::query()->where('slug', $slug)->exists() ? ($slug.'-'.rand(2, 40)) : mb_substr($slug, 0, 200, 'utf8'),
+            'image' => $imagePath,
+            'content' => json_encode($content) ?? json_encode(EditorGenerator::make(1)),
+            'time_to_read' => isset($aiData['time_to_read']) && (int) $aiData['time_to_read'] <= 50 ? $aiData['time_to_read'] : 9,
+            'filial_id' => null,
+            'author_id' => $this->auth()->id(),
+            'level_hipe' => LevelHipe::LOW,
             'is_published' => false,
         ]);
 
@@ -91,12 +91,12 @@ final class PostGenerateWithAIController extends MoonShineController
 
     private function getSystemPromptForEditor(): string
     {
-        return "Ты отличный писатель статей! Твоя задача писать большие и подробные статьи в MD формате. Обязательно в MD формате.Любую тему ты раскрываешь очень подробно, все тонкости и рядом стоящие темы. Обычно ты пишешь статьи около 10000 символов и больше";
+        return 'Ты отличный писатель статей! Твоя задача писать большие и подробные статьи в MD формате. Обязательно в MD формате.Любую тему ты раскрываешь очень подробно, все тонкости и рядом стоящие темы. Обычно ты пишешь статьи около 10000 символов и больше';
     }
 
     private function getSystemPromptForSeo(): string
     {
-        return "
+        return '
         Ты отличный SEO разработчик. Твоя задача грамотно подбирать заголовки и описание для статей.
         Тебе будут дана тема статьи. Ты к ней даешь данные в виде json-объекта.
         Какие данные нужны:
@@ -111,7 +111,6 @@ final class PostGenerateWithAIController extends MoonShineController
             и так далее
         }
         Никаких лишних символов сразу с скобочек начинаешь ответ, и заканчиваешь также, чтобы мне было легко парсить твой ответ.
-        ";
+        ';
     }
-
 }

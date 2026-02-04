@@ -8,9 +8,7 @@ use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Raffle\RaffleResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
@@ -42,12 +40,12 @@ class RaffleIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'chat-bubble-left-right',
             ),
-            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
@@ -77,7 +75,7 @@ class RaffleIndexPage extends IndexPage
             Date::make('Дата создания', 'created_at'),
             Date::make('Дата конца', 'date_end'),
             Switcher::make('Без победителя', 'winner_id')
-                ->onApply(fn(Builder $query) => $query->whereNull('winner_id')),
+                ->onApply(fn (Builder $query) => $query->whereNull('winner_id')),
         ];
     }
 
@@ -98,7 +96,7 @@ class RaffleIndexPage extends IndexPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract

@@ -23,7 +23,7 @@ final readonly class MarkdownToEditorJsConverter
 
             // Обработка блоков кода
             if (str_starts_with($line, '```')) {
-                if (!$inCodeBlock) {
+                if (! $inCodeBlock) {
                     // Начало блока кода
                     $inCodeBlock = true;
                     $codeContent = '';
@@ -35,17 +35,19 @@ final readonly class MarkdownToEditorJsConverter
                         'type' => 'code',
                         'data' => [
                             'code' => trim($codeContent),
-                            'language' => $codeLanguage
-                        ]
+                            'language' => $codeLanguage,
+                        ],
                     ];
                 }
                 $i++;
+
                 continue;
             }
 
             if ($inCodeBlock) {
-                $codeContent .= $line . "\n";
+                $codeContent .= $line."\n";
                 $i++;
+
                 continue;
             }
 
@@ -60,10 +62,11 @@ final readonly class MarkdownToEditorJsConverter
                     'type' => 'header',
                     'data' => [
                         'text' => $this->processInlineMarkdown($text),
-                        'level' => $level
-                    ]
+                        'level' => $level,
+                    ],
                 ];
                 $i++;
+
                 continue;
             }
 
@@ -80,6 +83,7 @@ final readonly class MarkdownToEditorJsConverter
 
                 $this->addListItem($currentListItems, $indent, $text);
                 $i++;
+
                 continue;
             }
 
@@ -96,6 +100,7 @@ final readonly class MarkdownToEditorJsConverter
 
                 $this->addListItem($currentListItems, $indent, $text);
                 $i++;
+
                 continue;
             }
 
@@ -107,7 +112,7 @@ final readonly class MarkdownToEditorJsConverter
                 // Проверяем следующие строки, если они тоже цитаты
                 while ($i + 1 < $totalLines && str_starts_with($lines[$i + 1], '> ')) {
                     $i++;
-                    $quoteText .= "\n" . substr($lines[$i], 2);
+                    $quoteText .= "\n".substr($lines[$i], 2);
                 }
 
                 $blocks[] = [
@@ -115,10 +120,11 @@ final readonly class MarkdownToEditorJsConverter
                     'data' => [
                         'text' => $this->processInlineMarkdown($quoteText),
                         'caption' => '',
-                        'alignment' => 'left'
-                    ]
+                        'alignment' => 'left',
+                    ],
                 ];
                 $i++;
+
                 continue;
             }
 
@@ -128,9 +134,10 @@ final readonly class MarkdownToEditorJsConverter
 
                 $blocks[] = [
                     'type' => 'delimiter',
-                    'data' => new \stdClass()
+                    'data' => new \stdClass,
                 ];
                 $i++;
+
                 continue;
             }
 
@@ -145,10 +152,11 @@ final readonly class MarkdownToEditorJsConverter
                         'caption' => $matches[1],
                         'withBorder' => false,
                         'withBackground' => false,
-                        'stretched' => false
-                    ]
+                        'stretched' => false,
+                    ],
                 ];
                 $i++;
+
                 continue;
             }
 
@@ -163,17 +171,17 @@ final readonly class MarkdownToEditorJsConverter
                 $paragraphText = $processedText;
                 while ($i + 1 < $totalLines &&
                     trim($lines[$i + 1]) !== '' &&
-                    !preg_match('/^(#{1,6}|[-*+]\s|>\s|\d+\.\s|```|!\[)/', $lines[$i + 1]) &&
-                    !preg_match('/^[-*_]{3,}$/', $lines[$i + 1])) {
+                    ! preg_match('/^(#{1,6}|[-*+]\s|>\s|\d+\.\s|```|!\[)/', $lines[$i + 1]) &&
+                    ! preg_match('/^[-*_]{3,}$/', $lines[$i + 1])) {
                     $i++;
-                    $paragraphText .= ' ' . $this->processInlineMarkdown($lines[$i]);
+                    $paragraphText .= ' '.$this->processInlineMarkdown($lines[$i]);
                 }
 
                 $blocks[] = [
                     'type' => 'paragraph',
                     'data' => [
-                        'text' => trim($paragraphText)
-                    ]
+                        'text' => trim($paragraphText),
+                    ],
                 ];
                 $i++;
             } else {
@@ -190,32 +198,27 @@ final readonly class MarkdownToEditorJsConverter
         return [
             'time' => time() * 1000, // время в миллисекундах
             'blocks' => $blocks,
-            'version' => "2.26.5"
+            'version' => '2.26.5',
         ];
     }
 
     /**
      * Добавляет элемент списка с учетом вложенности
-     *
-     * @param array &$items
-     * @param int $indent
-     * @param string $text
-     * @param int $level
      */
     private function addListItem(array &$items, int $indent, string $text, int $level = 0): void
     {
-        $currentLevel = (int)($indent / 2); // 2 пробела = 1 уровень вложенности
+        $currentLevel = (int) ($indent / 2); // 2 пробела = 1 уровень вложенности
 
         // Если это элемент текущего уровня
         if ($currentLevel === $level) {
             $items[] = [
                 'content' => $this->processInlineMarkdown($text),
-                'meta' => new \stdClass(),
-                'items' => []
+                'meta' => new \stdClass,
+                'items' => [],
             ];
         }
         // Если элемент должен быть вложенным
-        elseif ($currentLevel > $level && !empty($items)) {
+        elseif ($currentLevel > $level && ! empty($items)) {
             $lastIndex = count($items) - 1;
             $this->addListItem($items[$lastIndex]['items'], $indent, $text, $level + 1);
         }
@@ -223,20 +226,16 @@ final readonly class MarkdownToEditorJsConverter
 
     /**
      * Завершает текущий список и добавляет его в блоки
-     *
-     * @param array &$blocks
-     * @param array &$items
-     * @param string|null $style
      */
     private function finalizeList(array &$blocks, array &$items, ?string &$style): void
     {
-        if (!empty($items) && $style) {
+        if (! empty($items) && $style) {
             $blocks[] = [
                 'type' => 'list',
                 'data' => [
                     'style' => $style,
-                    'items' => $items
-                ]
+                    'items' => $items,
+                ],
             ];
 
             $items = [];
@@ -246,9 +245,6 @@ final readonly class MarkdownToEditorJsConverter
 
     /**
      * Обработка inline-разметки Markdown
-     *
-     * @param string $text
-     * @return string
      */
     private function processInlineMarkdown(string $text): string
     {
@@ -272,9 +268,6 @@ final readonly class MarkdownToEditorJsConverter
 
     /**
      * Конвертирует и возвращает JSON строку
-     *
-     * @param string $markdownText
-     * @return string
      */
     public function convertToJson(string $markdownText): string
     {

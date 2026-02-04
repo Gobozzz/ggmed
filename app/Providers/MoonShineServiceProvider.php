@@ -94,12 +94,10 @@ use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     /**
-     * @param CoreContract<MoonShineConfigurator> $core
+     * @param  CoreContract<MoonShineConfigurator>  $core
      */
     public function boot(CoreContract $core): void
     {

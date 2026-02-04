@@ -50,7 +50,7 @@ class Analytics extends Page
     {
         parent::prepareBeforeRender();
 
-        if (!auth()->user()->isSuperUser()) {
+        if (! auth()->user()->isSuperUser()) {
             abort(403);
         }
     }
@@ -91,21 +91,21 @@ class Analytics extends Page
                             ]),
                         ]),
                         ValueMetric::make('Активных розыгрышей')
-                            ->value(fn() => Raffle::query()->whereNull('winner_id')->count())->columnSpan(6, 6),
+                            ->value(fn () => Raffle::query()->whereNull('winner_id')->count())->columnSpan(6, 6),
                         ValueMetric::make('Пользователей')
-                            ->value(fn() => User::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => User::query()->count())->columnSpan(6, 6),
                         ValueMetric::make('Сделано заказов')
-                            ->value(fn() => Order::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => Order::query()->count())->columnSpan(6, 6),
                         ValueMetric::make('Результаты')
-                            ->value(fn() => Result::query()->count() + VideoReview::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => Result::query()->count() + VideoReview::query()->count())->columnSpan(6, 6),
                         ValueMetric::make('Статей')
-                            ->value(fn() => Post::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => Post::query()->count())->columnSpan(6, 6),
                         ValueMetric::make('Филиалы')
-                            ->value(fn() => Filial::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => Filial::query()->count())->columnSpan(6, 6),
                         ValueMetric::make('Работники')
-                            ->value(fn() => Worker::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => Worker::query()->count())->columnSpan(6, 6),
                         ValueMetric::make('Упоминания')
-                            ->value(fn() => Mention::query()->count())->columnSpan(6, 6),
+                            ->value(fn () => Mention::query()->count())->columnSpan(6, 6),
                     ]),
                 ], 6),
                 Column::make([

@@ -35,7 +35,7 @@ class PostFactory extends Factory
             'time_to_read' => rand(5, 30),
             'filial_id' => rand(0, 2) ? null : Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create(),
             'author_id' => rand(0, 2) ? MoonshineUser::query()->inRandomOrder()->first() ?? MoonshineUser::factory()->create() : null,
-            'is_published' => (boolean)rand(0, 1),
+            'is_published' => (bool) rand(0, 1),
         ];
     }
 

@@ -18,9 +18,7 @@ use MoonShine\Apexcharts\Components\SparklineChartMetric;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Laravel\Pages\Page;
 use MoonShine\Laravel\TypeCasts\ModelCaster;
-use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\Badge;
-use MoonShine\UI\Components\Card;
 use MoonShine\UI\Components\CardsBuilder;
 use MoonShine\UI\Components\Heading;
 use MoonShine\UI\Components\Layout\Box;
@@ -28,8 +26,6 @@ use MoonShine\UI\Components\Layout\Column;
 use MoonShine\UI\Components\Layout\Flex;
 use MoonShine\UI\Components\Layout\Grid;
 use MoonShine\UI\Components\Link;
-use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Text;
 
 #[\MoonShine\MenuManager\Attributes\SkipMenu]
 class Dashboard extends Page
@@ -54,19 +50,20 @@ class Dashboard extends Page
      */
     protected function components(): iterable
     {
-        $actual_raffles = Raffle::query()->whereNull('winner_id')->orderBy('date_end')->paginate(3, ["id", "title", "description", "image", "date_end"]);
-        $actual_questions = Question::query()->whereNull('answer')->paginate(3, ["id", "title", "user_id"]);
+        $actual_raffles = Raffle::query()->whereNull('winner_id')->orderBy('date_end')->paginate(3, ['id', 'title', 'description', 'image', 'date_end']);
+        $actual_questions = Question::query()->whereNull('answer')->paginate(3, ['id', 'title', 'user_id']);
+
         return [
             Heading::make('Добро пожаловать в админ панель GGMED!', 1),
             Box::make([
                 Flex::make([
                     Heading::make('В кратце наши делишки', 3),
-                    Link::make(fn() => app(Analytics::class)->getUrl(), 'Больше аналитики')->icon('chart-bar')
-                        ->canSee(fn() => auth()->user()->isSuperUser())
+                    Link::make(fn () => app(Analytics::class)->getUrl(), 'Больше аналитики')->icon('chart-bar')
+                        ->canSee(fn () => auth()->user()->isSuperUser())
                         ->style(['background:#5500FF', 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                 ])->justifyAlign('between'),
                 Box::make([
-                    SparklineChartMetric::make(""),
+                    SparklineChartMetric::make(''),
                 ])->setAttribute('class', 'hidden'),
                 Grid::make([
                     Column::make([
@@ -85,37 +82,37 @@ class Dashboard extends Page
                     Box::make([
                         Flex::make([
                             Heading::make('Не забудьте определить победителя розыгрыша', 3),
-                            Link::make(fn() => app(RaffleResource::class)->getIndexPageUrl(), 'Розыгрыши')->icon('arrow-up-right')
-                                ->canSee(fn() => auth()->user()->isSuperUser())
+                            Link::make(fn () => app(RaffleResource::class)->getIndexPageUrl(), 'Розыгрыши')->icon('arrow-up-right')
+                                ->canSee(fn () => auth()->user()->isSuperUser())
                                 ->style(['background:#5500FF', 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                         ])->justifyAlign('between'),
                         CardsBuilder::make()
                             ->items($actual_raffles)
                             ->cast(new ModelCaster(Raffle::class))
-                            ->thumbnail(fn($item) => $item->image ? Storage::url($item->image) : "/admin-files/gg.png")
-                            ->header(fn($item) => Badge::make($item->date_end->locale('ru')->isoFormat('D MMMM'), $this->getBadgeColorForRaffle($item->date_end)))
+                            ->thumbnail(fn ($item) => $item->image ? Storage::url($item->image) : '/admin-files/gg.png')
+                            ->header(fn ($item) => Badge::make($item->date_end->locale('ru')->isoFormat('D MMMM'), $this->getBadgeColorForRaffle($item->date_end)))
                             ->title('title')
-                            ->url(fn($item) => app(RaffleResource::class)->getDetailPageUrl($item->getKey()))
+                            ->url(fn ($item) => app(RaffleResource::class)->getDetailPageUrl($item->getKey()))
                             ->name('actual-raffles')
-                            ->async()
-                    ])
+                            ->async(),
+                    ]),
                 ])->columnSpan(6),
                 Column::make([
                     Box::make([
                         Flex::make([
                             Heading::make('Надо ответить людям на вопросы', 3),
-                            Link::make(fn() => app(QuestionResource::class)->getIndexPageUrl(), 'Вопросы')->icon('arrow-up-right')
-                                ->canSee(fn() => auth()->user()->isSuperUser())
+                            Link::make(fn () => app(QuestionResource::class)->getIndexPageUrl(), 'Вопросы')->icon('arrow-up-right')
+                                ->canSee(fn () => auth()->user()->isSuperUser())
                                 ->style(['background:#5500FF', 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                         ])->justifyAlign('between'),
                         CardsBuilder::make()
                             ->items($actual_questions)
                             ->cast(new ModelCaster(Question::class))
-                            ->title(fn($item) => mb_substr($item->title, 0, 100, 'utf8'))
-                            ->url(fn($item) => app(QuestionResource::class)->getFormPageUrl($item->getKey()))
+                            ->title(fn ($item) => mb_substr($item->title, 0, 100, 'utf8'))
+                            ->url(fn ($item) => app(QuestionResource::class)->getFormPageUrl($item->getKey()))
                             ->name('actual-questions')
-                            ->async()
-                    ])
+                            ->async(),
+                    ]),
                 ])->columnSpan(6),
             ]),
         ];
@@ -126,7 +123,7 @@ class Dashboard extends Page
         if ($date_end->endOfDay()->isPast()) {
             return 'error';
         }
+
         return 'success';
     }
-
 }

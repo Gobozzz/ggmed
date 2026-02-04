@@ -42,7 +42,8 @@ final class LineCardMetric extends MoonShineComponent
         if ($change === 0) {
             $values = [1, 1];
         }
-        $color = $change === 0 ? "#454545" : "#00ff0d";
+        $color = $change === 0 ? '#454545' : '#00ff0d';
+
         return [
             'value' => $this->model::query()->count(),
             'values' => $values,
@@ -61,5 +62,4 @@ final class LineCardMetric extends MoonShineComponent
         return $this->model::whereBetween('created_at', [$startOfMonth, $today])
             ->count();
     }
-
 }

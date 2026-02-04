@@ -38,17 +38,17 @@ class QuestionIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'chat-bubble-left-right',
             ),
-            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
-            Text::make('Вопрос', 'title', fn($model) => mb_substr($model->title, 0, 100, 'utf-8')),
-            Textarea::make('Ответ', 'answer', fn($item) => $item->answer ? 'Ответ есть' : 'Не дан'),
+            Text::make('Вопрос', 'title', fn ($model) => mb_substr($model->title, 0, 100, 'utf-8')),
+            Textarea::make('Ответ', 'answer', fn ($item) => $item->answer ? 'Ответ есть' : 'Не дан'),
             Switcher::make('Горячий?', 'is_hot')->updateOnPreview(),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Date::make('Дата', 'created_at')->updateOnPreview(),
@@ -72,7 +72,7 @@ class QuestionIndexPage extends IndexPage
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class)->asyncSearch(),
             Switcher::make('Горячий?', 'is_hot'),
             Switcher::make('Неотвеченные', 'answer')
-                ->onApply(fn(Builder $query) => $query->whereNull('answer')),
+                ->onApply(fn (Builder $query) => $query->whereNull('answer')),
         ];
     }
 
@@ -93,7 +93,7 @@ class QuestionIndexPage extends IndexPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
