@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Enums\DTO\Transaction;
+namespace App\DTO\Transaction;
 
-final readonly class AdminReplenishedPayDTO
+final readonly class AdminReplenishedDTO
 {
     public function __construct(
         public int $user_id,

@@ -19,11 +19,10 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 
     public function __construct(
         private readonly string $bot_token,
-        string                  $chat_ids,
-        int|string|Level        $level = Level::Debug,
-        bool                    $bubble = true
-    )
-    {
+        string $chat_ids,
+        int|string|Level $level = Level::Debug,
+        bool $bubble = true
+    ) {
         parent::__construct($level, $bubble);
         $this->chat_ids = explode(',', $chat_ids);
     }
@@ -35,7 +34,7 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
 
     private function getFormattedMessage(string $message, array $context, Level $level): string
     {
-        $message = "[{$level->getName()}]: " . $message . "\n\n" . json_encode($context, JSON_PRETTY_PRINT);
+        $message = "[{$level->getName()}]: ".$message."\n\n".json_encode($context, JSON_PRETTY_PRINT);
 
         return substr($message, 0, self::MAX_LENGTH_MESSAGE);
     }
@@ -54,9 +53,8 @@ final class TelegramLoggingHandler extends AbstractProcessingHandler
                     'text' => $message,
                 ]);
             } catch (\Exception $e) {
-                Log::channel(ChannelLog::FILE->value)->info('Telegram Log Error: ' . $e->getMessage());
+                Log::channel(ChannelLog::FILE->value)->info('Telegram Log Error: '.$e->getMessage());
             }
         }
     }
-
 }

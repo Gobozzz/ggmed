@@ -25,15 +25,18 @@ use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Sckatik\MoonshineEditorJs\Fields\EditorJs;
@@ -51,29 +54,34 @@ class PostFormPage extends FormPage
     {
         return [
             Box::make([
+                ActionButton::make('Сохранить')->primary()->setAttribute('type', 'submit'),
                 ID::make(),
                 Tabs::make([
                     Tab::make('Основная информация', [
                         Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                        Switcher::make('Опубликовать?', 'is_published'),
                         Image::make('Фото (рек. горизонтальное)', 'image')
                             ->customName(fn (UploadedFile $file, Field $field) => 'posts/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
                         Number::make('Время на чтение, мин.', 'time_to_read', fn ($item) => $item->time_to_read.' мин.'),
-                        Slug::make('Слаг (необязательно)', 'slug')->from('title'),
-                        Text::make('Meta заголовок (необязательно)', 'meta_title')->unescape(),
-                        Textarea::make('Meta описание (необязательно)', 'meta_description')->unescape(),
+                        MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                         BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
                             ->nullable(fn () => auth()->user()->isSuperUser() || auth()->user()->isAuthorPostsUser())
                             ->searchable()
                             ->valuesQuery(static fn (Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn (Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
                                 ->select(['id', 'name'])),
-                        MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                         BelongsTo::make('Автор', 'author', formatted: fn ($item) => $item->name.' ('.$item->moonshineUserRole->name.')', resource: MoonShineUserResource::class)->nullable()
                             ->canSee(fn () => $this->getItem() !== null && auth()->user()->isSuperUser()),
+                        Date::make('Дата публикации', 'created_at'),
                     ]),
                     Tab::make('Редактор', [
                         EditorJs::make('Контент', 'content'),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг (необязательно)', 'slug')->from('title'),
+                        Text::make('Meta заголовок (необязательно)', 'meta_title')->unescape(),
+                        Textarea::make('Meta описание (необязательно)', 'meta_description')->unescape(),
                     ]),
                     Tab::make('Серии '.($this->getItem()?->series->count() ?? ''), [
                         BelongsToMany::make('Серии', 'series', resource: PostSeriesResource::class),
@@ -109,6 +117,7 @@ class PostFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
+            'is_published' => ['required', 'boolean'],
             'level_hipe' => ['required', new Enum(LevelHipe::class)],
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
@@ -116,7 +125,7 @@ class PostFormPage extends FormPage
             'meta_description' => ['nullable', 'string', 'max:160'],
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:255'],
-            'time_to_read' => ['required', 'numeric', 'min:1', 'max:200'],
+            'time_to_read' => ['nullable', 'numeric', 'min:1', 'max:200'],
             'content' => ['required'],
             'filial_id' => ['nullable', 'integer', 'exists:filials,id'],
             'tags' => ['nullable', 'array', 'max:3'],

@@ -27,6 +27,7 @@ use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -43,6 +44,7 @@ class PostDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Switcher::make('Опубликована', 'is_published'),
             Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
             Image::make('Фото', 'image'),

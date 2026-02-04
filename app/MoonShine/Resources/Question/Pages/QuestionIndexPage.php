@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources\Question\Pages;
 use App\MoonShine\Resources\Question\QuestionResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
+use Illuminate\Database\Eloquent\Builder;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
@@ -48,9 +49,9 @@ class QuestionIndexPage extends IndexPage
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Text::make('Вопрос', 'title', fn ($model) => mb_substr($model->title, 0, 100, 'utf-8')),
             Textarea::make('Ответ', 'answer', fn ($item) => $item->answer ? 'Ответ есть' : 'Не дан'),
-            Switcher::make('Горячий?', 'is_hot'),
+            Switcher::make('Горячий?', 'is_hot')->updateOnPreview(),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
-            Date::make('Дата', 'created_at'),
+            Date::make('Дата', 'created_at')->updateOnPreview(),
         ];
     }
 
@@ -70,6 +71,8 @@ class QuestionIndexPage extends IndexPage
         return [
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class)->asyncSearch(),
             Switcher::make('Горячий?', 'is_hot'),
+            Switcher::make('Неотвеченные', 'answer')
+                ->onApply(fn (Builder $query) => $query->whereNull('answer')),
         ];
     }
 

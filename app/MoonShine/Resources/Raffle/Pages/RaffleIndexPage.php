@@ -8,7 +8,7 @@ use App\MoonShine\Fields\Video;
 use App\MoonShine\Resources\Raffle\RaffleResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
@@ -21,6 +21,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Throwable;
@@ -51,9 +52,9 @@ class RaffleIndexPage extends IndexPage
             Image::make('Фото', 'image'),
             Video::make('Видео', 'video'),
             Textarea::make('Заголовок', 'title'),
-            Text::make('Дата конца(Г.м.д)', 'date_end', fn ($item) => Carbon::parse($item->date_end)->format('Y.m.d')),
+            Date::make('Дата конца(Г.м.д)', 'date_end')->updateOnPreview()->sortable(),
             BelongsTo::make('Победитель', 'winner', resource: UserResource::class),
-            Date::make('Дата создания', 'created_at'),
+            Date::make('Дата создания', 'created_at')->updateOnPreview()->sortable(),
         ];
     }
 
@@ -73,6 +74,8 @@ class RaffleIndexPage extends IndexPage
         return [
             Date::make('Дата создания', 'created_at'),
             Date::make('Дата конца', 'date_end'),
+            Switcher::make('Без победителя', 'winner_id')
+                ->onApply(fn (Builder $query) => $query->whereNull('winner_id')),
         ];
     }
 

@@ -23,6 +23,7 @@ use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\LineBreak;
 use MoonShine\UI\Components\Modal;
 use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\Email;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
@@ -49,6 +50,7 @@ class UserDetailPage extends DetailPage
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
             Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
+            Date::make('Дата регистрации', 'created_at'),
             Text::make('Баланс, GG COIN', 'balance', fn () => (string) app(BalanceCacheManager::class)->get($this->getItem()->getKey())),
             HasMany::make('Вопросы', 'questions', resource: QuestionResource::class)->tabMode(),
             HasMany::make('Лайки', 'likes', resource: LikeResource::class)->tabMode(),

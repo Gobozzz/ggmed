@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enums\DTO\Transaction;
+namespace App\DTO\Transaction;
 
 final readonly class AdminWriteOffDTO
 {

@@ -15,6 +15,7 @@ use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\Email;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
@@ -41,6 +42,7 @@ class UserIndexPage extends IndexPage
             Text::make('Имя', 'name'),
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
+            Date::make('Дата регистрации', 'created_at'),
             Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
         ];
     }
