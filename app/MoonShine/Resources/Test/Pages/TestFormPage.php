@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources\Test\Pages;
 
 use App\Enums\LevelHipe;
 use App\Enums\TypeExercise;
+use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\Test\TestResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -24,7 +25,6 @@ use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
@@ -53,8 +53,10 @@ class TestFormPage extends FormPage
                     Tab::make('Основные данные', [
                         ID::make(),
                         Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
-                        Image::make('Фото', 'image')
-                            ->customName(fn (UploadedFile $file, Field $field) => 'tests/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                        CustomImage::make('Фото (горизонтальное)', 'image')
+                            ->scaleDown(width: 320)
+                            ->quality(70)
+                            ->customName(fn(UploadedFile $file, Field $field) => 'tests/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Название', 'title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
                         Text::make('Meta заголовок', 'meta_title')->unescape(),
@@ -105,7 +107,7 @@ class TestFormPage extends FormPage
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
