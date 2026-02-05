@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Worker\Pages;
 
+use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\Worker\WorkerResource;
 use Carbon\Carbon;
@@ -21,7 +22,6 @@ use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 
@@ -38,16 +38,17 @@ class WorkerFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Image::make('Фото', 'image')
-                    ->customName(fn (UploadedFile $file, Field $field) => 'workers/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                CustomImage::make('Фото (вертикальное)', 'image')
+                    ->scaleDown(width: 600)
+                    ->customName(fn(UploadedFile $file, Field $field) => 'workers/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                 Text::make('Фамилия', 'surname')->unescape(),
                 Text::make('Имя', 'name')->unescape(),
                 Text::make('Отчество', 'patronymic')->unescape(),
                 Text::make('Должность', 'post')->unescape(),
                 BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
                     ->searchable()
-                    ->nullable(fn () => auth()->user()->isSuperUser())
-                    ->valuesQuery(static fn (Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn (Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
+                    ->nullable(fn() => auth()->user()->isSuperUser())
+                    ->valuesQuery(static fn(Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn(Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
                         ->select(['id', 'name'])),
             ]),
         ];
@@ -76,7 +77,7 @@ class WorkerFormPage extends FormPage
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

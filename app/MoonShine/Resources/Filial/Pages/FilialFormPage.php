@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Filial\Pages;
 
 use App\Models\MoonshineUser;
+use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use Carbon\Carbon;
@@ -24,7 +25,6 @@ use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Phone;
 use MoonShine\UI\Fields\Text;
@@ -48,10 +48,12 @@ class FilialFormPage extends FormPage
                 Slug::make('Слаг', 'slug')->from('name')->unescape(),
                 Text::make('Meta Заголовок', 'meta_title')->unescape(),
                 Text::make('Meta Описание', 'meta_description')->unescape(),
-                Image::make('Фото (не более 1мб, горизонтальное)', 'image')
-                    ->customName(fn (UploadedFile $file, Field $field) => 'filials/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                CustomImage::make('Фото (горизонтальное)', 'image')
+                    ->scaleDown(width: 1200)
+                    ->quality(80)
+                    ->customName(fn(UploadedFile $file, Field $field) => 'filials/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                 File::make('Видео (не более 20мб, горизонтальное)', 'video')
-                    ->customName(fn (UploadedFile $file, Field $field) => 'filials-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                    ->customName(fn(UploadedFile $file, Field $field) => 'filials-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                 Text::make('Город', 'city')->unescape(),
                 Text::make('Адрес', 'address')->unescape(),
                 Phone::make('Телефон', 'phone')->unescape(),
@@ -61,8 +63,8 @@ class FilialFormPage extends FormPage
                 BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)
                     ->searchable()
                     ->nullable()
-                    ->valuesQuery(static fn (Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
-                        ->select(['id', 'name']))->canSee(fn () => auth()->user()->isSuperUser()),
+                    ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
+                        ->select(['id', 'name']))->canSee(fn() => auth()->user()->isSuperUser()),
             ]),
         ];
     }
@@ -90,7 +92,7 @@ class FilialFormPage extends FormPage
     {
         return [
             'name' => ['required', 'string', 'max:100'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:filials,slug'.($item->getKey() === null ? '' : ','.$item->getKey())],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:filials,slug' . ($item->getKey() === null ? '' : ',' . $item->getKey())],
             'meta_title' => ['required', 'string', 'max:100'],
             'meta_description' => ['required', 'string', 'max:160'],
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
@@ -100,13 +102,13 @@ class FilialFormPage extends FormPage
             'phone' => ['required', 'string', 'max:40'],
             'map_code' => ['required', 'string', 'max:500'],
             'work_time' => ['required', 'string', 'max:70'],
-            'year' => ['required', 'numeric', 'min:2000', 'max:'.(int) date('Y') + 10],
+            'year' => ['required', 'numeric', 'min:2000', 'max:' . (int)date('Y') + 10],
             'manager_id' => ['nullable', 'integer', 'exists:moonshine_users,id'],
         ];
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

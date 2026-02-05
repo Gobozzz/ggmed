@@ -49,9 +49,9 @@ class ProductIndexPage extends IndexPage
             Image::make('Фото', 'images')->multiple(),
             Text::make('Арт.', 'article'),
             Text::make('Название', 'title'),
-            Number::make('Цена', 'price', fn ($item) => $item->price.', руб'),
-            Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price ? ($item->old_price.', руб') : ''),
-            Switcher::make('В наличии?', 'is_have'),
+            Number::make('Цена, руб', 'price')->updateOnPreview(),
+            Number::make('Старая цена, руб', 'old_price')->updateOnPreview(),
+            Switcher::make('В наличии?', 'is_have')->updateOnPreview(),
             Text::make('Бренд', 'brand'),
             Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
         ];

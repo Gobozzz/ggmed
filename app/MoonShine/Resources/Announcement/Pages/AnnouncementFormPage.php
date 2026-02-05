@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Announcement\Pages;
 
 use App\Enums\LevelHipe;
+use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -24,7 +25,6 @@ use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
@@ -47,11 +47,13 @@ class AnnouncementFormPage extends FormPage
                     Tab::make('Основные данные', [
                         ID::make(),
                         Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
-                        Image::make('Фото (не более 1мб)', 'image')
-                            ->customName(fn (UploadedFile $file, Field $field) => 'anons/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                        CustomImage::make('Фото (вертикальное)', 'image')
+                            ->scaleDown(width: 500)
+                            ->quality(70)
+                            ->customName(fn(UploadedFile $file, Field $field) => 'anons/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         File::make('Видео(необяз, не более 20мб)', 'video')
                             ->removable()
-                            ->customName(fn (UploadedFile $file, Field $field) => 'anons-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                            ->customName(fn(UploadedFile $file, Field $field) => 'anons-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
                         Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
@@ -94,7 +96,7 @@ class AnnouncementFormPage extends FormPage
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             'title' => ['required', 'string', 'max:100'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:announcements,slug'.($item->getKey() ? ','.$item->getKey() : '')],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:announcements,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
             'description' => ['required', 'string', 'max:255'],
             'meta_title' => ['nullable', 'string', 'max:100'],
             'meta_description' => ['nullable', 'string', 'max:160'],
@@ -103,7 +105,7 @@ class AnnouncementFormPage extends FormPage
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

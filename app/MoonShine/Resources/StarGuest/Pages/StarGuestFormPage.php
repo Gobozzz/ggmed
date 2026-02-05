@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\StarGuest\Pages;
 
 use App\Enums\LevelHipe;
+use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\StarGuest\StarGuestResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -22,7 +23,6 @@ use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
@@ -47,8 +47,10 @@ class StarGuestFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Основная информация', [
                         Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
-                        Image::make('Фото', 'image')
-                            ->customName(fn (UploadedFile $file, Field $field) => 'stars-guests/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                        CustomImage::make('Фото (горизонтальное)', 'image')
+                            ->scaleDown(width: 600)
+                            ->quality(70)
+                            ->customName(fn(UploadedFile $file, Field $field) => 'stars-guests/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Имя', 'name')->unescape(),
                         Url::make('Видео', 'url')->unescape(),
                         Text::make('Слаг', 'slug')->unescape(),
@@ -92,7 +94,7 @@ class StarGuestFormPage extends FormPage
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'name' => ['required', 'string', 'max:100'],
             'url' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:200', 'unique:star_guests,slug'.($item->getKey() !== null ? ','.$item->getKey() : null)],
+            'slug' => ['required', 'string', 'max:200', 'unique:star_guests,slug' . ($item->getKey() !== null ? ',' . $item->getKey() : null)],
             'meta_title' => ['required', 'string', 'max:100'],
             'meta_description' => ['required', 'string', 'max:160'],
             'points' => ['required', 'array', 'min:1'],
@@ -101,7 +103,7 @@ class StarGuestFormPage extends FormPage
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

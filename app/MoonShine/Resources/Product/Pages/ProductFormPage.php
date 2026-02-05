@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Product\Pages;
 
 use App\Enums\LevelHipe;
+use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\Product\ProductResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -22,7 +23,6 @@ use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
@@ -47,15 +47,16 @@ class ProductFormPage extends FormPage
                     Tab::make('Основная информация', [
                         ID::make(),
                         Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
-                        Image::make('Фото', 'images')
-                            ->customName(fn (UploadedFile $file, Field $field) => 'products/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())
+                        CustomImage::make('Фото (вертикальные)', 'images')
+                            ->scaleDown(width: 500)
+                            ->customName(fn(UploadedFile $file, Field $field) => 'products/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension())
                             ->multiple()
                             ->removable(),
                         Text::make('Арт.(необяз)', 'article')->unescape(),
                         Text::make('Название', 'title')->unescape(),
                         Textarea::make('Короткое описание', 'description')->unescape(),
-                        Number::make('Цена', 'price', fn ($item) => $item->price.', руб')->step(0.01),
-                        Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price.', руб')->step(0.01),
+                        Number::make('Цена', 'price', fn($item) => $item->price . ', руб')->step(0.01),
+                        Number::make('Старая цена', 'old_price', fn($item) => $item->old_price . ', руб')->step(0.01),
                         Switcher::make('В наличии?', 'is_have'),
                         Text::make('Бренд', 'brand')->unescape(),
                         Text::make('Состав', 'structure')->unescape(),
@@ -87,7 +88,7 @@ class ProductFormPage extends FormPage
             'images' => $item->getKey() === null ? ['required', 'array', 'min:1'] : ['nullable'],
             'images.*' => ['image', 'max:1024'],
             'title' => ['required', 'string', 'max:100'],
-            'article' => ['nullable', 'string', 'max:50', 'unique:products,article'.($item->getKey() !== null ? ','.$item->getKey() : '')],
+            'article' => ['nullable', 'string', 'max:50', 'unique:products,article' . ($item->getKey() !== null ? ',' . $item->getKey() : '')],
             'description' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:1'],
             'old_price' => ['nullable', 'numeric', 'min:1'],
@@ -101,7 +102,7 @@ class ProductFormPage extends FormPage
     }
 
     /**
-     * @param  FormBuilder  $component
+     * @param FormBuilder $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
