@@ -17,6 +17,7 @@ use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\EasyMde\Fields\Markdown;
+use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\FormBuilder;
@@ -59,6 +60,9 @@ class TestFormPage extends FormPage
                             ->customName(fn(UploadedFile $file, Field $field) => 'tests/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Название', 'title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг', 'slug')->from('title')->escape(),
                         Text::make('Meta заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta описание', 'meta_description')->unescape(),
                     ]),
@@ -99,6 +103,7 @@ class TestFormPage extends FormPage
             'level_hipe' => ['required', new Enum(LevelHipe::class)],
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'title' => ['required', 'string', 'max:100'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:tests,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
             'description' => ['required', 'string', 'max:255'],
             'meta_title' => ['nullable', 'string', 'max:100'],
             'meta_description' => ['nullable', 'string', 'max:160'],

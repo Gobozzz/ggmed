@@ -23,6 +23,7 @@ class Product extends Model implements Commentable, Likeable, Taggable
         'meta_title',
         'meta_description',
         'title',
+        'slug',
         'description',
         'images',
         'price',

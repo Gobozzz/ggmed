@@ -9,7 +9,12 @@ use App\DTO\AI\AiMessage;
 interface AiAssistantContract
 {
     /**
-     * @param  AiMessage[]  $messages
+     * @param AiMessage[] $messages
      */
     public function sendRequest(array $messages): ?AiMessage;
+
+    public function getRemainsTokens(): int|null;
+
+    public function getPayLink(): string;
+
 }

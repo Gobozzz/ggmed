@@ -40,7 +40,9 @@ return [
         'client_id' => env('GIGA_CHAT_CLIENT_ID', 'id'),
         'scope' => env('GIGA_CHAT_SCOPE', 'scope'),
         'model' => env('GIGA_CHAT_MODEL', 'model'),
+        'model_name_for_balance' => env('GIGA_CHAT_MODEL_NAME_FOR_BALANCE', 'model'),
         'certificate_path' => env('GIGA_CHAT_CERT_PATH', 'path'),
+        'pay_link' => env('GIGA_CHAT_PAY_TOKEN_LINK', 'path'),
     ],
 
 ];

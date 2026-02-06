@@ -24,9 +24,11 @@ class TestFactory extends Factory
     {
         return [
             'title' => fake()->words(5, true),
+            'slug' => fake()->unique()->slug(),
             'description' => fake()->text(255),
             'meta_title' => rand(0, 1) ? fake()->text(100) : null,
             'meta_description' => rand(0, 1) ? fake()->text(160) : null,
+            'image' => 'lorem.png',
             'exercises' => [
                 [
                     'title' => fake()->text(40),
@@ -81,7 +83,6 @@ class TestFactory extends Factory
                     ],
                 ],
             ],
-            'image' => 'tests/2026-01/1.png',
         ];
     }
 

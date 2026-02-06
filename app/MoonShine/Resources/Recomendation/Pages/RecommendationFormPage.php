@@ -51,8 +51,10 @@ class RecommendationFormPage extends FormPage
                             ->quality(80)
                             ->customName(fn(UploadedFile $file, Field $field) => 'recomendations/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
-                        Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Text::make('Meta заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta описание', 'meta_description')->unescape(),
                     ]),

@@ -42,7 +42,7 @@ class VacancyIndexPage extends IndexPage
             Url::make('Ссылка на внешний ист.', 'url', fn ($item) => $item->url ?? 'Не указана')->blank(),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
-            Date::make('Дата создания', 'created_at'),
+            Date::make('Дата создания', 'created_at')->updateOnPreview(),
         ];
     }
 

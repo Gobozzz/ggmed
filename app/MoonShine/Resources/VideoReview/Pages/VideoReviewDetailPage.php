@@ -40,17 +40,17 @@ class VideoReviewDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label()),
+            Text::make('Продвижение', 'level_hipe', fn($model) => $model->level_hipe->label()),
             Image::make('Превью', 'preview'),
             Video::make('Видео', 'video'),
             Image::make('Фотки ДО', 'images_before')->multiple(),
-            Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
+            Textarea::make('Описание', 'content', fn($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)
                 ->inLine(
                     separator: ' ',
-                    badge: fn ($model, $value) => Badge::make((string) $value, 'primary'),
-                    link: fn ($property, $value, $field): string|Link => Link::make(
+                    badge: fn($model, $value) => Badge::make((string)$value, 'primary'),
+                    link: fn($property, $value, $field): string|Link => Link::make(
                         app(TagResource::class)->getDetailPageUrl($property->id),
                         $value
                     )
@@ -58,7 +58,7 @@ class VideoReviewDetailPage extends DetailPage
             MorphMany::make('Комментарии 💬', 'comments', resource: CommentResource::class)
                 ->fields([
                     ID::make(),
-                    Textarea::make('Текст', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+                    Textarea::make('Текст', 'content', fn($item) => mb_substr($item->content, 0, 100, 'utf-8')),
                     BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
                     Date::make('Дата', 'created_at'),
                 ])->tabMode(),
@@ -77,7 +77,7 @@ class VideoReviewDetailPage extends DetailPage
     }
 
     /**
-     * @param  TableBuilder  $component
+     * @param TableBuilder $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract

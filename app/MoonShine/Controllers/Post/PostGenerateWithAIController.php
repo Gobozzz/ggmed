@@ -42,7 +42,7 @@ final class PostGenerateWithAIController extends MoonShineController
         $imagePath = Storage::putFileAs(
             path: 'posts/' . Carbon::now()->format('Y-m'),
             file: $image,
-            name: Str::random(5) . '.' . $image->getClientOriginalExtension()
+            name: Str::random(50) . '.' . $image->getClientOriginalExtension()
         );
 
         $aiAnswerContent = $aiAssistant->sendRequest([

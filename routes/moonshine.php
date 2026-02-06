@@ -1,5 +1,6 @@
 <?php
 
+use App\MoonShine\Controllers\EditorJs\UploadImageController;
 use App\MoonShine\Controllers\Post\PostGenerateWithAIController;
 use App\MoonShine\Controllers\Raffle\GetWinnerRaffleController;
 use App\MoonShine\Controllers\Raffle\SelectWinnerRaffleController;
@@ -19,5 +20,10 @@ Route::middleware(['moonshine', Authenticate::class])->prefix('admin')->name('ad
     });
     Route::prefix('posts')->name('posts.')->group(function () {
         Route::post('/generate-ai', PostGenerateWithAIController::class)->name('generate-ai');
+    });
+    Route::prefix('editor-js')->name('editorJs.')->group(function () {
+        Route::post('/upload/image/file', [UploadImageController::class, 'byFile'])->name('upload.image.file');
+        Route::post('/upload/image/url', [UploadImageController::class, 'byUrl'])->name('upload.image.url');
+        Route::post('/delete/image', [UploadImageController::class, 'remove'])->name('remove.image');
     });
 });

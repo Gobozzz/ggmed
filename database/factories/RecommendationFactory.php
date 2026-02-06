@@ -18,7 +18,7 @@ class RecommendationFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => 'recomendations/2026-1/1.png',
+            'image' => 'lorem.png',
             'title' => fake()->words(3, true),
             'slug' => fake()->unique()->slug(),
             'description' => fake()->realText(255),

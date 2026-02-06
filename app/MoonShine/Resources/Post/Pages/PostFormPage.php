@@ -61,7 +61,7 @@ class PostFormPage extends FormPage
                 ID::make(),
                 Tabs::make([
                     Tab::make('Основная информация', [
-                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->canSee(fn() => auth()->user()->isSuperUser()),
                         Switcher::make('Опубликовать?', 'is_published'),
                         CustomImage::make('Фото (горизонтальное)', 'image')
                             ->scaleDown(width: 1200)

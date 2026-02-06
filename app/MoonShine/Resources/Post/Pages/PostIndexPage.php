@@ -67,7 +67,11 @@ class PostIndexPage extends IndexPage
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
             Switcher::make('Опубликована?', 'is_published')->updateOnPreview(),
-            Text::make('Продвижение', 'level_hipe', fn($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Продвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview()
+                ->canSee(fn() => auth()->user()->isSuperUser()),
         ];
     }
 

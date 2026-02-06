@@ -22,6 +22,8 @@ use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Components\Tabs;
+use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
@@ -43,28 +45,34 @@ class FilialFormPage extends FormPage
     {
         return [
             Box::make([
-                ID::make(),
-                Text::make('Название', 'name')->unescape(),
-                Slug::make('Слаг', 'slug')->from('name')->unescape(),
-                Text::make('Meta Заголовок', 'meta_title')->unescape(),
-                Text::make('Meta Описание', 'meta_description')->unescape(),
-                CustomImage::make('Фото (горизонтальное)', 'image')
-                    ->scaleDown(width: 1200)
-                    ->quality(80)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'filials/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
-                File::make('Видео (не более 20мб, горизонтальное)', 'video')
-                    ->customName(fn(UploadedFile $file, Field $field) => 'filials-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
-                Text::make('Город', 'city')->unescape(),
-                Text::make('Адрес', 'address')->unescape(),
-                Phone::make('Телефон', 'phone')->unescape(),
-                Text::make('Рабочее время', 'work_time')->unescape(),
-                Number::make('Год основания', 'year'),
-                Textarea::make('Код Яндекс карт', 'map_code')->unescape(),
-                BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)
-                    ->searchable()
-                    ->nullable()
-                    ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
-                        ->select(['id', 'name']))->canSee(fn() => auth()->user()->isSuperUser()),
+                Tabs::make([
+                    Tab::make('Основные данные', [
+                        ID::make(),
+                        Text::make('Название', 'name')->unescape(),
+                        CustomImage::make('Фото (горизонтальное)', 'image')
+                            ->scaleDown(width: 1200)
+                            ->quality(80)
+                            ->customName(fn(UploadedFile $file, Field $field) => 'filials/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                        File::make('Видео (необяз, не более 20мб, горизонтальное)', 'video')
+                            ->customName(fn(UploadedFile $file, Field $field) => 'filials-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                        Text::make('Город', 'city')->unescape(),
+                        Text::make('Адрес', 'address')->unescape(),
+                        Phone::make('Телефон', 'phone')->unescape(),
+                        Text::make('Рабочее время', 'work_time')->unescape(),
+                        Number::make('Год основания', 'year'),
+                        Textarea::make('Код Яндекс карт', 'map_code')->unescape(),
+                        BelongsTo::make('Ответственный', 'manager', resource: MoonShineUserResource::class)
+                            ->searchable()
+                            ->nullable()
+                            ->valuesQuery(static fn(Builder $q) => $q->where('moonshine_user_role_id', MoonshineUser::FILIAL_MANAGER_ROLE_ID)
+                                ->select(['id', 'name']))->canSee(fn() => auth()->user()->isSuperUser()),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг', 'slug')->from('name')->unescape(),
+                        Text::make('Meta Заголовок', 'meta_title')->unescape(),
+                        Text::make('Meta Описание', 'meta_description')->unescape(),
+                    ])
+                ]),
             ]),
         ];
     }

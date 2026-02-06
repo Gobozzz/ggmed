@@ -49,7 +49,10 @@ class TestIndexPage extends IndexPage
             Text::make('Название', 'title'),
             Textarea::make('Описание', 'description'),
             Text::make('Кол-во упр.', 'exercises', fn ($item) => count($item->exercises)),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

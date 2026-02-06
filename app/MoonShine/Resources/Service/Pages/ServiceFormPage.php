@@ -57,13 +57,15 @@ class ServiceFormPage extends FormPage
                                 ->quality(80)
                                 ->customName(fn(UploadedFile $file, Field $field) => 'services/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                             Text::make('Название', 'name')->unescape(),
-                            Slug::make('Слаг', 'slug')->from('name'),
-                            Text::make('Meta Заголовок', 'meta_title')->unescape(),
-                            Text::make('Meta Описание', 'meta_description')->unescape(),
                             Number::make('Цена, ₽', 'price'),
                             Switcher::make('Начальная цена?', 'is_start_price'),
                             Textarea::make('Описание (В карточке)', 'description')->unescape(),
                             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class)->searchable()->nullable(),
+                        ]),
+                        Tab::make('SEO', [
+                            Slug::make('Слаг', 'slug')->from('name'),
+                            Text::make('Meta Заголовок', 'meta_title')->unescape(),
+                            Text::make('Meta Описание', 'meta_description')->unescape(),
                         ]),
                         Tab::make('Редактор', [
                             EditorJs::make('Редактор', 'content'),

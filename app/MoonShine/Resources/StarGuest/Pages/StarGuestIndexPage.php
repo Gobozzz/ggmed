@@ -37,7 +37,10 @@ class StarGuestIndexPage extends IndexPage
             Image::make('Фото', 'image'),
             Text::make('Имя', 'name'),
             Url::make('Видео', 'url'),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

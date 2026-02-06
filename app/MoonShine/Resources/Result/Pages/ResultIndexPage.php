@@ -13,6 +13,7 @@ use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\ID;
@@ -37,12 +38,12 @@ class ResultIndexPage extends IndexPage
         return [
             ID::make(),
             Image::make('Фото', 'images')->multiple(),
-            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
-                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'chat-bubble-left-right',
             ),
-            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
-                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
@@ -50,7 +51,10 @@ class ResultIndexPage extends IndexPage
             Text::make('Кол-во мес-ев', 'count_months')->sortable(),
             Text::make('Панч', 'panch')->sortable(),
             Url::make('Видео', 'video_url')->blank(),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 
@@ -90,7 +94,7 @@ class ResultIndexPage extends IndexPage
     }
 
     /**
-     * @param  TableBuilder  $component
+     * @param TableBuilder $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract

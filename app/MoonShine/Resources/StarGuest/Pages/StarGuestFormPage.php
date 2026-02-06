@@ -53,9 +53,13 @@ class StarGuestFormPage extends FormPage
                             ->customName(fn(UploadedFile $file, Field $field) => 'stars-guests/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Имя', 'name')->unescape(),
                         Url::make('Видео', 'url')->unescape(),
+                    ]),
+                    Tab::make('SEO', [
                         Text::make('Слаг', 'slug')->unescape(),
                         Text::make('Meta Заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta Описание', 'meta_description')->unescape(),
+                    ]),
+                    Tab::make('Вкратце', [
                         Json::make('Пункты "Вкратце"', 'points')->onlyValue('Пункт', Text::make('Пункт')->unescape())->removable(),
                     ]),
                     Tab::make('Редактор', [

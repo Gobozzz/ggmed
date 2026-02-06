@@ -55,8 +55,10 @@ class AnnouncementFormPage extends FormPage
                             ->removable()
                             ->customName(fn(UploadedFile $file, Field $field) => 'anons-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
-                        Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Text::make('Meta Заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta Описание', 'meta_description')->unescape(),
                     ]),

@@ -26,7 +26,7 @@ class ResultFactory extends Factory
         $panchs = [0.65, 1, 1.3, 2];
 
         return [
-            'images' => ['results/2026-01/1.jpg', 'results/2026-01/2.jpg', 'results/2026-01/3.jpg', 'results/2026-01/4.jpg'],
+            'images' => ['lorem.png', 'lorem.png', 'lorem.png', 'lorem.png'],
             'count_grafts' => rand(0, 4) ? rand(15, 50) * 100 : null,
             'count_months' => rand(0, 4) ? rand(5, 16) : null,
             'panch' => rand(0, 4) ? fake()->randomElement($panchs) : null,

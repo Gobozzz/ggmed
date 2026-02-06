@@ -57,11 +57,13 @@ class RaffleFormPage extends FormPage
                             ->customName(fn(UploadedFile $file, Field $field) => 'raffles-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
                         Text::make('Заголовок', 'title'),
                         Textarea::make('Описание', 'description'),
-                        Slug::make('Слаг', 'slug')->from('title'),
                         Date::make('Дата конца', 'date_end'),
                         BelongsTo::make('Победитель', 'winner', formatted: fn($item) => $item->name . ' (' . ($item->phone ?? $item->email) . ')', resource: UserResource::class)
                             ->nullable()
                             ->asyncSearch(),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг', 'slug')->from('title'),
                         Text::make('Meta Заголовок', 'meta_title'),
                         Textarea::make('Meta Описание', 'meta_description'),
                     ]),

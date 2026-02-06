@@ -15,6 +15,7 @@ use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
+use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\FormBuilder;
@@ -60,11 +61,14 @@ class ProductFormPage extends FormPage
                         Switcher::make('В наличии?', 'is_have'),
                         Text::make('Бренд', 'brand')->unescape(),
                         Text::make('Состав', 'structure')->unescape(),
+                    ]),
+                    Tab::make('SEO', [
+                        Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Text::make('Meta Заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta Описание', 'meta_description')->unescape(),
                     ]),
-                    Tab::make('Описание', [
-                        EditorJs::make('Описание', 'content'),
+                    Tab::make('Редактор', [
+                        EditorJs::make('Редактор', 'content'),
                     ]),
                 ]),
             ]),
@@ -88,6 +92,7 @@ class ProductFormPage extends FormPage
             'images' => $item->getKey() === null ? ['required', 'array', 'min:1'] : ['nullable'],
             'images.*' => ['image', 'max:1024'],
             'title' => ['required', 'string', 'max:100'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:products,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
             'article' => ['nullable', 'string', 'max:50', 'unique:products,article' . ($item->getKey() !== null ? ',' . $item->getKey() : '')],
             'description' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:1'],
