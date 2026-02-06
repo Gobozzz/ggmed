@@ -25,7 +25,7 @@ class PostSeriesFactory extends Factory
             'title' => $name,
             'slug' => Str::slug($name),
             'description' => fake()->text(255),
-            'image' => 'posts-series/2026-01/1.png',
+            'image' => 'lorem.png',
         ];
     }
 

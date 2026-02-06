@@ -47,6 +47,41 @@ final class GigaChatAssistant implements AiAssistantContract
         }
     }
 
+    public function getRemainsTokens(): ?int
+    {
+        $token = $this->getAccessToken();
+
+        try {
+            $response = Http::timeout(60)->withHeaders([
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => "Bearer {$token}",
+            ])->withOptions([
+                'verify' => $this->getCertificate(),
+            ])->get(self::API_URL.'/balance');
+
+            if ($response->successful()) {
+                $data = $response->json();
+                if (isset($data['balance'])) {
+                    $gigaChatItem = array_reduce($data['balance'], function ($carry, $item) {
+                        return $item['usage'] === config('services.giga_chat.model_name_for_balance') ? $item : $carry;
+                    });
+
+                    return $gigaChatItem['value'] ?? null;
+                }
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getPayLink(): string
+    {
+        return config('services.giga_chat.pay_link', '');
+    }
+
     private function getAccessToken(): string
     {
         try {

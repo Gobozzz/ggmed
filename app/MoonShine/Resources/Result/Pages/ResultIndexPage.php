@@ -50,7 +50,10 @@ class ResultIndexPage extends IndexPage
             Text::make('Кол-во мес-ев', 'count_months')->sortable(),
             Text::make('Панч', 'panch')->sortable(),
             Url::make('Видео', 'video_url')->blank(),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

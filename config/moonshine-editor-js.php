@@ -42,7 +42,7 @@ return [
             'activated' => true,
             'shortcut' => 'CMD+SHIFT+I',
             'path' => 'uploads/'.Carbon::now()->format('Y-m'),
-            'disk' => 'public',
+            'disk' => 'tws3',
             'alterations' => [
                 'resize' => [
                     'width' => false, // integer

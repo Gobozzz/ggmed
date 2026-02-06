@@ -32,8 +32,8 @@ class RaffleFactory extends Factory
             'meta_title' => rand(0, 1) ? fake()->text(100) : null,
             'meta_description' => rand(0, 1) ? fake()->text(160) : null,
             'content' => json_encode(EditorGenerator::make(15)),
-            'image' => rand(0, 1) ? 'raffles/2026-01/1.png' : null,
-            'video' => rand(0, 1) ? 'raffles-videos/2026-01/1.png' : null,
+            'image' => rand(0, 1) ? 'lorem.png' : null,
+            'video' => rand(0, 1) ? 'lorem.mp4' : null,
             'winner_id' => $date_end > Carbon::now() ? User::query()->inRandomOrder()->first() ?? User::factory()->create() : null,
             'date_end' => $date_end,
         ];

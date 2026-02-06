@@ -60,6 +60,16 @@ return [
             'report' => false,
         ],
 
+        'tws3' => [
+            'driver' => 's3',
+            'key' => env('TW_ACCESS_KEY_ID'),
+            'secret' => env('TW_SECRET_ACCESS_KEY'),
+            'region' => env('TW_DEFAULT_REGION'),
+            'bucket' => env('TW_BUCKET'),
+            'url' => env('TW_URL'),
+            'endpoint' => env('TW_ENDPOINT'),
+        ],
+
     ],
 
     /*

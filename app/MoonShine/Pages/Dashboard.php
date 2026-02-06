@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages;
 
+use App\Adapters\AiAssistant\AiAssistantContract;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Question;
@@ -19,6 +20,7 @@ use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Laravel\Pages\Page;
 use MoonShine\Laravel\TypeCasts\ModelCaster;
 use MoonShine\UI\Components\Badge;
+use MoonShine\UI\Components\Card;
 use MoonShine\UI\Components\CardsBuilder;
 use MoonShine\UI\Components\Heading;
 use MoonShine\UI\Components\Layout\Box;
@@ -50,6 +52,8 @@ class Dashboard extends Page
      */
     protected function components(): iterable
     {
+        $aiAssistant = app(AiAssistantContract::class);
+        $remainsTokens = $aiAssistant->getRemainsTokens();
         $actual_raffles = Raffle::query()->whereNull('winner_id')->orderBy('date_end')->paginate(3, ['id', 'title', 'description', 'image', 'date_end']);
         $actual_questions = Question::query()->whereNull('answer')->paginate(3, ['id', 'title', 'user_id']);
 
@@ -113,8 +117,19 @@ class Dashboard extends Page
                             ->name('actual-questions')
                             ->async(),
                     ]),
+                    Grid::make([
+                        Column::make([
+                            Card::make(
+                                thumbnail: '/admin-files/ai.jpg',
+                                values: [
+                                    'Остаток токенов' => Link::make($aiAssistant->getPayLink(), fn () => number_format($remainsTokens, 0, '', ' ').' токенов')->icon('cpu-chip')
+                                        ->style(['background:'.($remainsTokens <= 200000 ? '#ff0000' : ($remainsTokens <= 600000 ? '#ff6600' : '#178a00')), 'padding:5px 10px', 'border-radius:4px', 'color:white']),
+                                ]
+                            ),
+                        ])->columnSpan(6),
+                    ]),
                 ])->columnSpan(6),
-            ]),
+            ])->canSee(fn () => auth()->user()->isSuperUser()),
         ];
     }
 

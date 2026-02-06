@@ -27,7 +27,7 @@ class ServiceFactory extends Factory
             'name' => $name,
             'slug' => Str::slug($name),
             'price' => rand(2000, 190000),
-            'image' => 'services/2026-01/1.jpg',
+            'image' => 'lorem.png',
             'content' => json_encode(EditorGenerator::make(10)),
             'description' => fake()->realText(255),
             'is_start_price' => (bool) rand(0, 2),

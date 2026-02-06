@@ -114,7 +114,7 @@ class Analytics extends Page
                             ->values([
                                 'Отвеченные' => Question::query()->whereNotNull('answer')->count(),
                                 'Неотвеченные' => Question::query()->whereNull('answer')->count(),
-                            ])->columnSpan(12, 6),
+                            ])->colors(['#2bff00', '#ff0000'])->columnSpan(12, 6),
                         DonutChartMetric::make('Персонажи GG GAME')
                             ->values([
                                 'Ур. 1' => 14,

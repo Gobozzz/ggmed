@@ -21,6 +21,7 @@ class Test extends Model implements Commentable, Likeable, Taggable
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'meta_title',
         'meta_description',

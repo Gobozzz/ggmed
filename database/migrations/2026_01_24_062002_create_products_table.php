@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('meta_title', 100)->nullable();
             $table->string('meta_description', 160)->nullable();
             $table->string('title', 100);
+            $table->string('slug', 200)->unique();
             $table->string('description');
             $table->text('images');
             $table->decimal('price', 10, 2);

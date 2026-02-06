@@ -44,7 +44,7 @@ class MentionFormPage extends FormPage
                 CustomImage::make('Фото (горизонтальное)', 'image')
                     ->scaleDown(width: 1200)
                     ->quality(70)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'mentions/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                    ->customName(fn (UploadedFile $file, Field $field) => 'mentions/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 Text::make('Заголовок', 'title')->unescape(),
                 Textarea::make('Описание', 'description')->unescape(),
                 Url::make('Ссылка', 'url')->unescape(),
@@ -74,7 +74,7 @@ class MentionFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

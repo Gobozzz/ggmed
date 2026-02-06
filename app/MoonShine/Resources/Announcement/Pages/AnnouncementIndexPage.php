@@ -43,7 +43,10 @@ class AnnouncementIndexPage extends IndexPage
             Text::make('Meta Заголовок', 'meta_title'),
             Textarea::make('Meta Описание', 'meta_description', fn ($item) => mb_substr($item->meta_description ?? '', 0, 100, 'utf-8')),
             Date::make('Дата создания', 'created_at'),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

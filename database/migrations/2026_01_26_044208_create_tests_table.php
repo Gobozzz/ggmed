@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
+            $table->string('slug', 200)->unique();
             $table->string('description');
             $table->string('meta_title', 100)->nullable();
             $table->string('meta_description', 160)->nullable();

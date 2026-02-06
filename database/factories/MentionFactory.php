@@ -19,7 +19,7 @@ class MentionFactory extends Factory
         return [
             'title' => fake()->words(rand(5, 7), true),
             'description' => fake()->text(255),
-            'image' => 'mentions/2026-01/1.png',
+            'image' => 'lorem.png',
             'url' => fake()->url(),
         ];
     }
