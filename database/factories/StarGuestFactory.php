@@ -27,7 +27,7 @@ class StarGuestFactory extends Factory
             'points' => json_encode([fake()->text(60), fake()->text(90), fake()->text(40), fake()->text(100)]),
             'url' => fake()->url(),
             'content' => rand(0, 2) ? json_encode(EditorGenerator::make(15)) : null,
-            'image' => 'stars-guests/2026-01/1.png',
+            'image' => 'lorem.png',
         ];
     }
 }

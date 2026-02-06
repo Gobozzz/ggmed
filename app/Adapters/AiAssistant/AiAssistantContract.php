@@ -12,4 +12,8 @@ interface AiAssistantContract
      * @param  AiMessage[]  $messages
      */
     public function sendRequest(array $messages): ?AiMessage;
+
+    public function getRemainsTokens(): ?int;
+
+    public function getPayLink(): string;
 }

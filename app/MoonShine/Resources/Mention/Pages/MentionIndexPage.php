@@ -41,7 +41,10 @@ class MentionIndexPage extends IndexPage
             Textarea::make('Описание', 'description'),
             Url::make('Ссылка', 'url'),
             Date::make('Дата', 'created_at'),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

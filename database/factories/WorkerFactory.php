@@ -18,7 +18,7 @@ class WorkerFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => 'workers/2026-01/1.png',
+            'image' => 'lorem.png',
             'surname' => fake()->name(),
             'name' => fake()->firstName(),
             'patronymic' => rand(0, 3) ? fake()->lastName() : null,

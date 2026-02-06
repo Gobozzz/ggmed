@@ -48,7 +48,7 @@ class UserFormPage extends FormPage
                 CustomImage::make('Аватар', 'avatar')
                     ->scale(width: 200, height: 200)
                     ->quality(80)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'users/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension())
+                    ->customName(fn (UploadedFile $file, Field $field) => 'users/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())
                     ->removable(),
                 Text::make('Имя', 'name'),
                 Phone::make('Телефон', 'phone'),
@@ -73,14 +73,14 @@ class UserFormPage extends FormPage
         return [
             'avatar' => ['nullable', 'image', 'max:1024'],
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
-            'phone' => ['nullable', 'string', 'max:40', 'unique:users,phone' . ($item->getKey() !== null ? ",{$item->getKey()}" : '')],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'.($item->getKey() !== null ? ",{$item->getKey()}" : '')],
+            'phone' => ['nullable', 'string', 'max:40', 'unique:users,phone'.($item->getKey() !== null ? ",{$item->getKey()}" : '')],
             'status' => ['required', 'string', new Enum(UserStatus::class)],
         ];
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

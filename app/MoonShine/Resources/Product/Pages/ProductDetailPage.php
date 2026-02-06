@@ -44,6 +44,7 @@ class ProductDetailPage extends DetailPage
             Image::make('Фото', 'images')->multiple(),
             Text::make('Арт.', 'article'),
             Text::make('Название', 'title'),
+            Text::make('Слаг', 'slug'),
             Textarea::make('Описание', 'description'),
             Number::make('Цена', 'price', fn ($item) => $item->price.', руб'),
             Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price ? ($item->old_price.', руб') : ''),

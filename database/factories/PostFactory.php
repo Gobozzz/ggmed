@@ -30,7 +30,7 @@ class PostFactory extends Factory
             'title' => fake()->text(100),
             'description' => fake()->text(255),
             'slug' => fake()->unique()->slug(),
-            'image' => 'posts/2026-01/1.png',
+            'image' => 'lorem.png',
             'content' => json_encode(EditorGenerator::make(20)),
             'time_to_read' => rand(5, 30),
             'filial_id' => rand(0, 2) ? null : Filial::query()->inRandomOrder()->first() ?? Filial::factory()->create(),

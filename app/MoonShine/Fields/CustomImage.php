@@ -10,17 +10,24 @@ use MoonShine\UI\Fields\Image;
 
 class CustomImage extends Image
 {
-
     const RESIZE_MODE_SCALE = 'scale';
+
     const RESIZE_MODE_SCALE_DOWN = 'scaleDown';
+
     const RESIZE_MODE_RESIZE = 'resize';
+
     const RESIZE_MODE_RESIZE_DOWN = 'resizeDown';
 
     private ?int $width = null;
+
     private ?int $height = null;
+
     private ?int $quality = null;
+
     private ?string $modeResize = null;
+
     private ?string $originalFilename = null;
+
     private ?string $originalMimeType = null;
 
     public function scale(?int $width = null, ?int $height = null): self
@@ -28,6 +35,7 @@ class CustomImage extends Image
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_SCALE;
+
         return $this;
     }
 
@@ -36,6 +44,7 @@ class CustomImage extends Image
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_SCALE_DOWN;
+
         return $this;
     }
 
@@ -44,6 +53,7 @@ class CustomImage extends Image
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_RESIZE;
+
         return $this;
     }
 
@@ -52,12 +62,14 @@ class CustomImage extends Image
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_RESIZE_DOWN;
+
         return $this;
     }
 
     public function quality(int $value): self
     {
         $this->quality = $value;
+
         return $this;
     }
 
@@ -79,6 +91,7 @@ class CustomImage extends Image
                 $compress_image = $this->getCompressImage($request_value);
             }
         }
+
         return $compress_image ?? $request_value;
     }
 
@@ -92,6 +105,7 @@ class CustomImage extends Image
         if ($this->quality !== null) {
             $compress_image->quality($this->quality);
         }
+
         return $compress_image->get();
     }
 
@@ -112,5 +126,4 @@ class CustomImage extends Image
                 break;
         }
     }
-
 }

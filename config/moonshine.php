@@ -59,7 +59,7 @@ return [
     ],
 
     // Storage
-    'disk' => 'public',
+    'disk' => 'tws3',
     'disk_options' => [],
     'cache' => 'file',
 

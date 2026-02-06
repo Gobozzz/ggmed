@@ -15,34 +15,52 @@ import Accordion from 'editorjs-collapsible-block';
 import EditorJS from "@editorjs/editorjs";
 import EditorJsColumns from "@calumk/editorjs-columns/src/editorjs-columns.js";
 
-let column_tools = {
-    header: Header,
-    delimiter: Delimiter,
-    image: {
-        class: CustomImage,
-        config: {
-            endpoints: {
-                byFile: '/moonshine/editor-js-field/upload/file',
-                byUrl: '/moonshine/editor-js-field/upload/url'
+const imageUploader = {
+    uploadByFile(file) {
+        const data = new FormData()
+        data.append('image', file)
+        return axios.post('/admin/editor-js/upload/image/file', data, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-        },
-        shortcut: editorJsConf.image.shortcut
+        }).then((data) => {
+            return {
+                success: 1, file: {
+                    url: data.data.url,
+                }
+            };
+        });
+    }, uploadByUrl(url) {
+        return axios.post('/admin/editor-js/upload/image/url', {url}, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then((data) => {
+            return {
+                success: 1, file: {
+                    url: data.data.url,
+                }
+            };
+        });
     },
-    linkTool: {
-        class: LinkTool,
-        config: {
+};
+
+let column_tools = {
+    header: Header, delimiter: Delimiter, image: {
+        class: CustomImage, config: {
+            uploader: imageUploader, endpoints: {
+                byFile: '/admin/editor-js/upload/image/file', byUrl: '/admin/editor-js/upload/image/file'
+            }
+        }, shortcut: editorJsConf.image.shortcut
+    }, linkTool: {
+        class: LinkTool, config: {
             endpoint: '/moonshine/editor-js-field/fetch/url',
-        },
-        inlineToolbar: false,
-        shortcut: editorJsConf.link.shortcut
-    },
-    marker: {
+        }, inlineToolbar: false, shortcut: editorJsConf.link.shortcut
+    }, marker: {
         class: Marker, shortcut: editorJsConf.marker.shortcut
-    },
-    vkVideo: {
+    }, vkVideo: {
         class: VkIframe, shortcut: editorJsConf.vkVideo.shortcut
-    },
-    youtube: {
+    }, youtube: {
         class: Youtube, shortcut: editorJsConf.youtube.shortcut
     }
 }
@@ -54,29 +72,20 @@ export default class Config {
 
         if (editorJsConf.columns.activated) {
             tools.columns = {
-                class: EditorJsColumns,
-                config: {
-                    EditorJsLibrary: EditorJS,
-                    tools: column_tools,
-                },
-                toolbox: [
-                    {
-                        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                class: EditorJsColumns, config: {
+                    EditorJsLibrary: EditorJS, tools: column_tools,
+                }, toolbox: [{
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
     <path d="M8 12V4h2v8H8z"/>
   </svg>`,
-                    },
-                ],
+                },],
             }
         }
 
         if (editorJsConf.accordion.activated) {
             tools.accordion = {
-                class: Accordion,
-                config: {
-                    defaultExpanded: true,
-                    maxBlockCount: 10,
-                    disableAnimation: false,
-                    overrides: {
+                class: Accordion, config: {
+                    defaultExpanded: true, maxBlockCount: 10, disableAnimation: false, overrides: {
                         styles: {
                             blockWrapper: 'background-color: lightyellow;',
                             blockContent: 'border-left: 2px solid #ccc;',
@@ -90,8 +99,7 @@ export default class Config {
 
         if (editorJsConf.header.activated) {
             tools.header = {
-                class: Header,
-                shortcut: editorJsConf.header.shortcut
+                class: Header, shortcut: editorJsConf.header.shortcut
             };
         }
         if (editorJsConf.list.activated) {
@@ -105,11 +113,9 @@ export default class Config {
             tools.image = {
                 class: CustomImage,
                 config: {
-                    endpoints: {
-                        byFile: '/moonshine/editor-js-field/upload/file',
-                        byUrl: '/moonshine/editor-js-field/upload/url'
-                    }
-                }, shortcut: editorJsConf.image.shortcut
+                    uploader: imageUploader,
+                },
+                shortcut: editorJsConf.image.shortcut
             }
         }
         if (editorJsConf.quote.activated) {
@@ -152,19 +158,14 @@ export default class Config {
         }
         if (editorJsConf.link.activated) {
             tools.linkTool = {
-                class: LinkTool,
-                config: {
+                class: LinkTool, config: {
                     endpoint: '/moonshine/editor-js-field/fetch/url',
-                },
-                inlineToolbar: false,
-                shortcut: editorJsConf.link.shortcut
+                }, inlineToolbar: false, shortcut: editorJsConf.link.shortcut
             };
         }
         if (editorJsConf.inlineCode.activated) {
             tools.inlineCode = {
-                class: InlineCode,
-                inlineToolbar: false,
-                shortcut: editorJsConf.inlineCode.shortcut
+                class: InlineCode, inlineToolbar: false, shortcut: editorJsConf.inlineCode.shortcut
             };
         }
 

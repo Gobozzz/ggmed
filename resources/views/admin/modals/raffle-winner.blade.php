@@ -38,6 +38,7 @@
             font-size: 16px;
             transition: opacity 0.5s ease;
             opacity: 0;
+            color:#007BFF;
         }
 
         .phone-container {

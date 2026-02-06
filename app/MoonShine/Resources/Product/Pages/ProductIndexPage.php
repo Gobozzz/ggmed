@@ -53,7 +53,10 @@ class ProductIndexPage extends IndexPage
             Number::make('Старая цена, руб', 'old_price')->updateOnPreview(),
             Switcher::make('В наличии?', 'is_have')->updateOnPreview(),
             Text::make('Бренд', 'brand'),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

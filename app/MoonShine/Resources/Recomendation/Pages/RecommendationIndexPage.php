@@ -38,7 +38,10 @@ class RecommendationIndexPage extends IndexPage
             Text::make('Заголовок', 'title'),
             Text::make('Слаг', 'slug'),
             Textarea::make('Описание', 'description', fn ($item) => mb_substr($item->description, 0, 100, 'utf-8')),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Прожвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview(),
         ];
     }
 

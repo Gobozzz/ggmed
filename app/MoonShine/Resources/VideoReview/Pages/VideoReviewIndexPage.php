@@ -53,7 +53,11 @@ class VideoReviewIndexPage extends IndexPage
             Image::make('Фото ДО', 'images_before')->multiple(),
             Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content ?? '', 0, 100, 'utf-8')),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
-            Text::make('Продвижение', 'level_hipe', fn ($model) => $model->level_hipe->label())->sortable(),
+            Select::make('Продвижение', 'level_hipe')
+                ->sortable()
+                ->options(LevelHipe::getAllLevelsHipe())
+                ->updateOnPreview()
+                ->canSee(fn () => auth()->user()->isSuperUser()),
         ];
     }
 
