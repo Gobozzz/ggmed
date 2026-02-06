@@ -14,6 +14,9 @@ import LinkTool from '@editorjs/link';
 import Accordion from 'editorjs-collapsible-block';
 import EditorJS from "@editorjs/editorjs";
 import EditorJsColumns from "@calumk/editorjs-columns/src/editorjs-columns.js";
+import Warning from '@editorjs/warning';
+import Alert from 'editorjs-alert';
+import TelegramPost from 'editorjs-telegram-post';
 
 const imageUploader = {
     uploadByFile(file) {
@@ -46,23 +49,29 @@ const imageUploader = {
 };
 
 let column_tools = {
-    header: Header, delimiter: Delimiter, image: {
+    header: Header, delimiter: Delimiter,
+    image: {
         class: CustomImage, config: {
             uploader: imageUploader, endpoints: {
                 byFile: '/admin/editor-js/upload/image/file', byUrl: '/admin/editor-js/upload/image/file'
             }
-        }, shortcut: editorJsConf.image.shortcut
-    }, linkTool: {
+        },
+        shortcut: editorJsConf.image.shortcut
+    },
+    linkTool: {
         class: LinkTool, config: {
             endpoint: '/moonshine/editor-js-field/fetch/url',
         }, inlineToolbar: false, shortcut: editorJsConf.link.shortcut
-    }, marker: {
+    },
+    marker: {
         class: Marker, shortcut: editorJsConf.marker.shortcut
-    }, vkVideo: {
+    },
+    vkVideo: {
         class: VkIframe, shortcut: editorJsConf.vkVideo.shortcut
-    }, youtube: {
-        class: Youtube, shortcut: editorJsConf.youtube.shortcut
-    }
+    },
+    telegramPost: TelegramPost,
+    warning: Warning,
+    alert: Alert,
 }
 
 export default class Config {
@@ -80,6 +89,18 @@ export default class Config {
   </svg>`,
                 },],
             }
+        }
+
+        if (editorJsConf.telegramPost.activated) {
+            tools.telegramPost = TelegramPost
+        }
+
+        if (editorJsConf.warning.activated) {
+            tools.warning = Warning
+        }
+
+        if (editorJsConf.alert.activated) {
+            tools.alert = Alert
         }
 
         if (editorJsConf.accordion.activated) {

@@ -14,6 +14,15 @@ return [
             'activated' => true,
             'shortcut' => 'CMD+SHIFT+H',
         ],
+        'warning' => [
+            'activated' => true,
+        ],
+        'alert' => [
+            'activated' => true,
+        ],
+        'telegramPost' => [
+            'activated' => true,
+        ],
         'accordion' => [
             'activated' => true,
         ],
