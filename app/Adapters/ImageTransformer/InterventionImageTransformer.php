@@ -12,16 +12,25 @@ use Intervention\Image\Laravel\Facades\Image;
 final class InterventionImageTransformer implements ImageTransformerContract
 {
     const RESIZE_MODE_SCALE = 'scale';
+
     const RESIZE_MODE_SCALE_DOWN = 'scaleDown';
+
     const RESIZE_MODE_RESIZE = 'resize';
+
     const RESIZE_MODE_RESIZE_DOWN = 'resizeDown';
 
     private ?ImageInterface $image = null;
+
     private ?int $width = null;
+
     private ?int $height = null;
+
     private ?int $quality = null;
+
     private ?string $modeResize = null;
+
     private ?string $originalFilename = null;
+
     private ?string $originalMimeType = null;
 
     public function image(UploadedFile $image): self
@@ -29,6 +38,7 @@ final class InterventionImageTransformer implements ImageTransformerContract
         $this->image = Image::read($image);
         $this->originalFilename = $image->getClientOriginalName();
         $this->originalMimeType = $image->getClientMimeType();
+
         return $this;
     }
 
@@ -37,6 +47,7 @@ final class InterventionImageTransformer implements ImageTransformerContract
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_SCALE;
+
         return $this;
     }
 
@@ -45,6 +56,7 @@ final class InterventionImageTransformer implements ImageTransformerContract
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_SCALE_DOWN;
+
         return $this;
     }
 
@@ -53,6 +65,7 @@ final class InterventionImageTransformer implements ImageTransformerContract
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_RESIZE;
+
         return $this;
     }
 
@@ -61,29 +74,32 @@ final class InterventionImageTransformer implements ImageTransformerContract
         $this->width = $width;
         $this->height = $height;
         $this->modeResize = self::RESIZE_MODE_RESIZE_DOWN;
+
         return $this;
     }
 
     public function quality(int $value): self
     {
         $this->quality = $value;
+
         return $this;
     }
 
     public function get(): UploadedFile
     {
         if ($this->image === null) {
-            throw new \Exception("Image is missing.");
+            throw new \Exception('Image is missing.');
         }
         if ($this->modeResize !== null) {
             $this->applyResize();
         }
+
         return $this->transformToUploadedFile();
     }
 
     private function transformToUploadedFile(): UploadedFile
     {
-        $encoder = $this->quality === null ? new AutoEncoder() : new AutoEncoder(quality: $this->quality);
+        $encoder = $this->quality === null ? new AutoEncoder : new AutoEncoder(quality: $this->quality);
         $imageData = $this->image->encode($encoder)->toString();
 
         $tempFilePath = tempnam(sys_get_temp_dir(), 'img_');
@@ -111,5 +127,4 @@ final class InterventionImageTransformer implements ImageTransformerContract
             self::RESIZE_MODE_SCALE_DOWN => $this->image->scaleDown($this->width, $this->height),
         };
     }
-
 }

@@ -10,13 +10,13 @@ interface ImageTransformerContract
 {
     public function image(UploadedFile $image): self;
 
-    public function scale(int|null $width = null, int|null $height = null): self;
+    public function scale(?int $width = null, ?int $height = null): self;
 
-    public function scaleDown(int|null $width = null, int|null $height = null): self;
+    public function scaleDown(?int $width = null, ?int $height = null): self;
 
-    public function resize(int|null $width = null, int|null $height = null): self;
+    public function resize(?int $width = null, ?int $height = null): self;
 
-    public function resizeDown(int|null $width = null, int|null $height = null): self;
+    public function resizeDown(?int $width = null, ?int $height = null): self;
 
     public function quality(int $value): self;
 

@@ -47,7 +47,7 @@ class ResultFormPage extends FormPage
                 Alert::make()->content('Лучшая растановка фото: 1-ая ДО, 2-ая ПОСЛЕ, далее без разницы'),
                 CustomImage::make('Фото (вертикальные)', 'images')
                     ->scaleDown(width: 600)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'results/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension())
+                    ->customName(fn (UploadedFile $file, Field $field) => 'results/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())
                     ->multiple()
                     ->removable(),
                 Text::make('Кол-во графтов', 'count_grafts'),
@@ -84,7 +84,7 @@ class ResultFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

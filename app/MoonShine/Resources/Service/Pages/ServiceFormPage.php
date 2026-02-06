@@ -55,7 +55,7 @@ class ServiceFormPage extends FormPage
                             CustomImage::make('Фото (горизонтальное)', 'image')
                                 ->scaleDown(width: 1200)
                                 ->quality(80)
-                                ->customName(fn(UploadedFile $file, Field $field) => 'services/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                                ->customName(fn (UploadedFile $file, Field $field) => 'services/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                             Text::make('Название', 'name')->unescape(),
                             Number::make('Цена, ₽', 'price'),
                             Switcher::make('Начальная цена?', 'is_start_price'),
@@ -70,7 +70,7 @@ class ServiceFormPage extends FormPage
                         Tab::make('Редактор', [
                             EditorJs::make('Редактор', 'content'),
                         ]),
-                        Tab::make(fn() => 'Для филиалов (указано для ' . ($this->getItem()?->filials()->count() ?? 0) . ')', [
+                        Tab::make(fn () => 'Для филиалов (указано для '.($this->getItem()?->filials()->count() ?? 0).')', [
                             BelongsToMany::make('Инфомарция по филиалам', 'filials', resource: FilialResource::class)
                                 ->fields([
                                     Text::make('Meta Заголовок', 'meta_title')->unescape(),
@@ -103,7 +103,7 @@ class ServiceFormPage extends FormPage
             'name' => ['required', 'string', 'max:160'],
             'meta_title' => ['required', 'string', 'max:100'],
             'meta_description' => ['required', 'string', 'max:160'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:services,slug'.($item->getKey() ? ','.$item->getKey() : '')],
             'price' => ['required', 'numeric', 'min:1'],
             'is_start_price' => ['required', 'boolean:'],
             'description' => ['required', 'string', 'max:255'],
@@ -115,7 +115,7 @@ class ServiceFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

@@ -52,17 +52,17 @@ class PostIndexPage extends IndexPage
         return [
             ID::make(),
             Image::make('Фото', 'image'),
-            Text::make('Комменты', 'comments', fn($item) => (string)$item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Комменты', 'comments', fn ($item) => (string) $item->comments->count() > 0 ? $item->comments->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'chat-bubble-left-right',
             ),
-            Text::make('Лайки', 'likes', fn($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
-                link: fn($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
+            Text::make('Лайки', 'likes', fn ($item) => $item->likes->count() > 0 ? $item->likes->count() : 'Нет')->link(
+                link: fn ($value, Text $ctx) => $this->getResource()->getDetailPageUrl($ctx->getData()->getKey()),
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Text::make('Заголовок', 'title')->prettyLimit(Color::PRIMARY),
-            Number::make('Время на чтение', 'time_to_read', fn($item) => $item->time_to_read . ' мин.'),
+            Number::make('Время на чтение', 'time_to_read', fn ($item) => $item->time_to_read.' мин.'),
             Date::make('Дата', 'created_at')->updateOnPreview(),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class),
@@ -71,7 +71,7 @@ class PostIndexPage extends IndexPage
                 ->sortable()
                 ->options(LevelHipe::getAllLevelsHipe())
                 ->updateOnPreview()
-                ->canSee(fn() => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->isSuperUser()),
         ];
     }
 
@@ -116,7 +116,7 @@ class PostIndexPage extends IndexPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
@@ -138,7 +138,7 @@ class PostIndexPage extends IndexPage
                     title: 'Генерация статьи через искуственный интелект',
                     content: 'Укажите тему статьи',
                     name: 'post-generate-ai-modal',
-                    builder: fn(Modal $modal, ActionButton $ctx) => $modal,
+                    builder: fn (Modal $modal, ActionButton $ctx) => $modal,
                     components: [
                         FormBuilder::make(fields: [
                             Textarea::make('Тема статьи (макс. 500 символов)', 'theme'),
@@ -153,7 +153,7 @@ class PostIndexPage extends IndexPage
                                 ]
                             ),
                     ],
-                )->icon('bolt')->canSee(fn() => auth()->user()->isSuperUser()),
+                )->icon('bolt')->canSee(fn () => auth()->user()->isSuperUser()),
             LineBreak::make(),
         ];
     }

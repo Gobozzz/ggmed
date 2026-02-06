@@ -49,7 +49,7 @@ class RecommendationFormPage extends FormPage
                         CustomImage::make('Фото (горизонтальное)', 'image')
                             ->scaleDown(width: 1200)
                             ->quality(80)
-                            ->customName(fn(UploadedFile $file, Field $field) => 'recomendations/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'recomendations/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
                     ]),
@@ -91,7 +91,7 @@ class RecommendationFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

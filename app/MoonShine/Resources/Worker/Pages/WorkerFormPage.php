@@ -40,15 +40,15 @@ class WorkerFormPage extends FormPage
                 ID::make(),
                 CustomImage::make('Фото (вертикальное)', 'image')
                     ->scaleDown(width: 600)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'workers/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                    ->customName(fn (UploadedFile $file, Field $field) => 'workers/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 Text::make('Фамилия', 'surname')->unescape(),
                 Text::make('Имя', 'name')->unescape(),
                 Text::make('Отчество', 'patronymic')->unescape(),
                 Text::make('Должность', 'post')->unescape(),
                 BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
                     ->searchable()
-                    ->nullable(fn() => auth()->user()->isSuperUser())
-                    ->valuesQuery(static fn(Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn(Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
+                    ->nullable(fn () => auth()->user()->isSuperUser())
+                    ->valuesQuery(static fn (Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn (Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
                         ->select(['id', 'name'])),
             ]),
         ];
@@ -77,7 +77,7 @@ class WorkerFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

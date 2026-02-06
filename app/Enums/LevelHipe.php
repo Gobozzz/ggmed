@@ -29,5 +29,4 @@ enum LevelHipe: int
 
         return $levels;
     }
-
 }

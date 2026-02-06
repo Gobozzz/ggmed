@@ -25,9 +25,9 @@ final class UploadImageController extends MoonShineController
         $image = $imageTransformer->image($request->file('image'))->scaleDown(width: 800)->quality(70)->get();
 
         $imagePath = Storage::putFileAs(
-            path: 'uploads/' . Carbon::now()->format('Y-m'),
+            path: 'uploads/'.Carbon::now()->format('Y-m'),
             file: $image,
-            name: Str::random(50) . '.' . $image->getClientOriginalExtension()
+            name: Str::random(50).'.'.$image->getClientOriginalExtension()
         );
 
         return response()->json(['url' => Storage::url($imagePath)]);
@@ -44,7 +44,7 @@ final class UploadImageController extends MoonShineController
         try {
             // Получаем содержимое изображения по URL
             $response = Http::get($url);
-            if (!$response->ok()) {
+            if (! $response->ok()) {
                 return response()->json(['error' => 'Невозможно загрузить изображение'], 400);
             }
 
@@ -59,23 +59,23 @@ final class UploadImageController extends MoonShineController
                 'image/gif',
                 'image/jpeg',
                 'image/svg+xml',
-                'image/webp'
+                'image/webp',
             ];
 
-            if (!in_array($mimeType, $allowedTypes)) {
+            if (! in_array($mimeType, $allowedTypes)) {
                 return response()->json(['success' => 0], 400);
             }
 
             // Создаём временный файл
             $tempPath = tempnam(sys_get_temp_dir(), 'img_');
             $extension = $this->mimeToExtension($mimeType);
-            $tempFile = $tempPath . '.' . $extension;
+            $tempFile = $tempPath.'.'.$extension;
 
             file_put_contents($tempFile, $content);
 
             $image = new UploadedFile(
                 $tempFile,
-                'image.' . $extension,
+                'image.'.$extension,
                 $mimeType,
                 filesize($tempFile),
                 true
@@ -84,9 +84,9 @@ final class UploadImageController extends MoonShineController
             $image = $imageTransformer->image($image)->scaleDown(width: 800)->quality(70)->get();
 
             $imagePath = Storage::putFileAs(
-                path: 'uploads/' . Carbon::now()->format('Y-m'),
+                path: 'uploads/'.Carbon::now()->format('Y-m'),
                 file: $image,
-                name: Str::random(50) . '.' . $image->getClientOriginalExtension()
+                name: Str::random(50).'.'.$image->getClientOriginalExtension()
             );
 
             // Удаляем временный файл
@@ -108,12 +108,14 @@ final class UploadImageController extends MoonShineController
 
         $urlFile = $request->get('urlFile');
 
-        $path = substr($urlFile, strpos($urlFile, "uploads/"));
+        $path = substr($urlFile, strpos($urlFile, 'uploads/'));
 
         if (Storage::exists($path)) {
             Storage::delete($path);
+
             return response()->json(['success' => 1]);
         }
+
         return response()->json(['success' => 0]);
     }
 
@@ -129,6 +131,4 @@ final class UploadImageController extends MoonShineController
 
         return $map[$mime] ?? 'jpg';
     }
-
-
 }

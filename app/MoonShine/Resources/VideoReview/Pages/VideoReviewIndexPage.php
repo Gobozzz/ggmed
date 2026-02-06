@@ -57,7 +57,7 @@ class VideoReviewIndexPage extends IndexPage
                 ->sortable()
                 ->options(LevelHipe::getAllLevelsHipe())
                 ->updateOnPreview()
-                ->canSee(fn() => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->isSuperUser()),
         ];
     }
 

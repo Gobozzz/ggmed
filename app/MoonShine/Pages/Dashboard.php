@@ -25,11 +25,9 @@ use MoonShine\UI\Components\CardsBuilder;
 use MoonShine\UI\Components\Heading;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Column;
-use MoonShine\UI\Components\Layout\Div;
 use MoonShine\UI\Components\Layout\Flex;
 use MoonShine\UI\Components\Layout\Grid;
 use MoonShine\UI\Components\Link;
-use MoonShine\UI\Components\Title;
 
 #[\MoonShine\MenuManager\Attributes\SkipMenu]
 class Dashboard extends Page
@@ -64,8 +62,8 @@ class Dashboard extends Page
             Box::make([
                 Flex::make([
                     Heading::make('В кратце наши делишки', 3),
-                    Link::make(fn() => app(Analytics::class)->getUrl(), 'Больше аналитики')->icon('chart-bar')
-                        ->canSee(fn() => auth()->user()->isSuperUser())
+                    Link::make(fn () => app(Analytics::class)->getUrl(), 'Больше аналитики')->icon('chart-bar')
+                        ->canSee(fn () => auth()->user()->isSuperUser())
                         ->style(['background:#5500FF', 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                 ])->justifyAlign('between'),
                 Box::make([
@@ -88,17 +86,17 @@ class Dashboard extends Page
                     Box::make([
                         Flex::make([
                             Heading::make('Не забудьте определить победителя розыгрыша', 3),
-                            Link::make(fn() => app(RaffleResource::class)->getIndexPageUrl(), 'Розыгрыши')->icon('arrow-up-right')
-                                ->canSee(fn() => auth()->user()->isSuperUser())
+                            Link::make(fn () => app(RaffleResource::class)->getIndexPageUrl(), 'Розыгрыши')->icon('arrow-up-right')
+                                ->canSee(fn () => auth()->user()->isSuperUser())
                                 ->style(['background:#5500FF', 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                         ])->justifyAlign('between'),
                         CardsBuilder::make()
                             ->items($actual_raffles)
                             ->cast(new ModelCaster(Raffle::class))
-                            ->thumbnail(fn($item) => $item->image ? Storage::url($item->image) : '/admin-files/gg.png')
-                            ->header(fn($item) => Badge::make($item->date_end->locale('ru')->isoFormat('D MMMM'), $this->getBadgeColorForRaffle($item->date_end)))
+                            ->thumbnail(fn ($item) => $item->image ? Storage::url($item->image) : '/admin-files/gg.png')
+                            ->header(fn ($item) => Badge::make($item->date_end->locale('ru')->isoFormat('D MMMM'), $this->getBadgeColorForRaffle($item->date_end)))
                             ->title('title')
-                            ->url(fn($item) => app(RaffleResource::class)->getDetailPageUrl($item->getKey()))
+                            ->url(fn ($item) => app(RaffleResource::class)->getDetailPageUrl($item->getKey()))
                             ->name('actual-raffles')
                             ->async(),
                     ]),
@@ -107,15 +105,15 @@ class Dashboard extends Page
                     Box::make([
                         Flex::make([
                             Heading::make('Надо ответить людям на вопросы', 3),
-                            Link::make(fn() => app(QuestionResource::class)->getIndexPageUrl(), 'Вопросы')->icon('arrow-up-right')
-                                ->canSee(fn() => auth()->user()->isSuperUser())
+                            Link::make(fn () => app(QuestionResource::class)->getIndexPageUrl(), 'Вопросы')->icon('arrow-up-right')
+                                ->canSee(fn () => auth()->user()->isSuperUser())
                                 ->style(['background:#5500FF', 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                         ])->justifyAlign('between'),
                         CardsBuilder::make()
                             ->items($actual_questions)
                             ->cast(new ModelCaster(Question::class))
-                            ->title(fn($item) => mb_substr($item->title, 0, 100, 'utf8'))
-                            ->url(fn($item) => app(QuestionResource::class)->getFormPageUrl($item->getKey()))
+                            ->title(fn ($item) => mb_substr($item->title, 0, 100, 'utf8'))
+                            ->url(fn ($item) => app(QuestionResource::class)->getFormPageUrl($item->getKey()))
                             ->name('actual-questions')
                             ->async(),
                     ]),
@@ -124,14 +122,14 @@ class Dashboard extends Page
                             Card::make(
                                 thumbnail: '/admin-files/ai.jpg',
                                 values: [
-                                    'Остаток токенов' => Link::make($aiAssistant->getPayLink(), fn() => number_format($remainsTokens, 0, '', ' ') . " токенов")->icon('cpu-chip')
-                                        ->style(['background:' . ($remainsTokens <= 200000 ? "#ff0000" : ($remainsTokens <= 600000 ? "#ff6600" : "#178a00")), 'padding:5px 10px', 'border-radius:4px', 'color:white']),
+                                    'Остаток токенов' => Link::make($aiAssistant->getPayLink(), fn () => number_format($remainsTokens, 0, '', ' ').' токенов')->icon('cpu-chip')
+                                        ->style(['background:'.($remainsTokens <= 200000 ? '#ff0000' : ($remainsTokens <= 600000 ? '#ff6600' : '#178a00')), 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                                 ]
                             ),
                         ])->columnSpan(6),
-                    ])
+                    ]),
                 ])->columnSpan(6),
-            ])->canSee(fn() => auth()->user()->isSuperUser()),
+            ])->canSee(fn () => auth()->user()->isSuperUser()),
         ];
     }
 

@@ -19,7 +19,7 @@ final class GigaChatAssistant implements AiAssistantContract
     {
         $token = $this->getAccessToken();
 
-        $messages = array_map(fn(AiMessage $message) => $message->toArray(), $messages);
+        $messages = array_map(fn (AiMessage $message) => $message->toArray(), $messages);
 
         try {
             $response = Http::timeout(60)->withHeaders([
@@ -28,7 +28,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 'Authorization' => "Bearer {$token}",
             ])->withOptions([
                 'verify' => $this->getCertificate(),
-            ])->post(self::API_URL . '/chat/completions', [
+            ])->post(self::API_URL.'/chat/completions', [
                 'model' => config('services.giga_chat.model'),
                 'messages' => $messages,
             ]);
@@ -37,16 +37,17 @@ final class GigaChatAssistant implements AiAssistantContract
                 if (isset($data['choices'][0]['message']['content']) && is_string($data['choices'][0]['message']['content'])) {
                     return new AiMessage(content: $data['choices'][0]['message']['content'], role: AiMessageRole::ASSISTANT);
                 }
+
                 return null;
             } else {
                 throw new \Exception('Не удалось получить ответ от Giga Chat');
             }
         } catch (\Exception $e) {
-            throw new \Exception('Giga Chat Get Answer Error: ' . $e->getMessage());
+            throw new \Exception('Giga Chat Get Answer Error: '.$e->getMessage());
         }
     }
 
-    public function getRemainsTokens(): int|null
+    public function getRemainsTokens(): ?int
     {
         $token = $this->getAccessToken();
 
@@ -57,7 +58,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 'Authorization' => "Bearer {$token}",
             ])->withOptions([
                 'verify' => $this->getCertificate(),
-            ])->get(self::API_URL . '/balance');
+            ])->get(self::API_URL.'/balance');
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -65,9 +66,11 @@ final class GigaChatAssistant implements AiAssistantContract
                     $gigaChatItem = array_reduce($data['balance'], function ($carry, $item) {
                         return $item['usage'] === config('services.giga_chat.model_name_for_balance') ? $item : $carry;
                     });
+
                     return $gigaChatItem['value'] ?? null;
                 }
             }
+
             return null;
         } catch (\Exception $e) {
             return null;
@@ -86,7 +89,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'Accept' => 'application/json',
                 'RqUID' => Str::uuid()->toString(),
-                'Authorization' => 'Basic ' . config('services.giga_chat.key'),
+                'Authorization' => 'Basic '.config('services.giga_chat.key'),
             ])
                 ->asForm()
                 ->withOptions([
@@ -102,7 +105,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 throw new \Exception('Ошибка получения Access Token');
             }
         } catch (\Exception $exception) {
-            throw new \Exception('Giga Chat Auth Error: ' . $exception->getMessage());
+            throw new \Exception('Giga Chat Auth Error: '.$exception->getMessage());
         }
     }
 

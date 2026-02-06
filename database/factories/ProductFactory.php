@@ -31,7 +31,7 @@ class ProductFactory extends Factory
             'meta_description' => rand(0, 1) ? fake()->text(160) : null,
             'title' => fake()->text(100),
             'slug' => fake()->unique()->slug(),
-            'article' => rand(0, 1) ? 'A-' . rand(100, 100000) : null,
+            'article' => rand(0, 1) ? 'A-'.rand(100, 100000) : null,
             'description' => fake()->text(255),
             'images' => ['lorem.png', 'lorem.png', 'lorem.png'],
             'price' => $price,

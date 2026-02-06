@@ -23,7 +23,7 @@ final class PostGenerateWithAIController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, AiAssistantContract $aiAssistant, MarkdownToEditorJsConverter $editorConverter, ImageTransformerContract $imageTransformer): Response
     {
-        if (!$this->auth()->user()->isSuperUser()) {
+        if (! $this->auth()->user()->isSuperUser()) {
             abort(Response::HTTP_FORBIDDEN);
         }
 
@@ -40,14 +40,14 @@ final class PostGenerateWithAIController extends MoonShineController
         $image = $imageTransformer->image($request->file('image'))->scaleDown(width: 1200)->quality(70)->get();
 
         $imagePath = Storage::putFileAs(
-            path: 'posts/' . Carbon::now()->format('Y-m'),
+            path: 'posts/'.Carbon::now()->format('Y-m'),
             file: $image,
-            name: Str::random(50) . '.' . $image->getClientOriginalExtension()
+            name: Str::random(50).'.'.$image->getClientOriginalExtension()
         );
 
         $aiAnswerContent = $aiAssistant->sendRequest([
             new AiMessage(content: $this->getSystemPromptForEditor(), role: AiMessageRole::SYSTEM),
-            new AiMessage(content: 'Тема статьи:' . request()->get('theme'), role: AiMessageRole::USER),
+            new AiMessage(content: 'Тема статьи:'.request()->get('theme'), role: AiMessageRole::USER),
         ]);
 
         if ($aiAnswerContent === null) {
@@ -58,7 +58,7 @@ final class PostGenerateWithAIController extends MoonShineController
 
         $aiAnswerSeo = $aiAssistant->sendRequest([
             new AiMessage(content: $this->getSystemPromptForSeo(), role: AiMessageRole::SYSTEM),
-            new AiMessage(content: 'Тема статьи:' . request()->get('theme'), role: AiMessageRole::USER),
+            new AiMessage(content: 'Тема статьи:'.request()->get('theme'), role: AiMessageRole::USER),
         ]);
 
         try {
@@ -78,10 +78,10 @@ final class PostGenerateWithAIController extends MoonShineController
             'meta_description' => isset($seoData['meta_description']) ? mb_substr($seoData['meta_description'], 0, 160, 'utf8') : null,
             'title' => $title,
             'description' => isset($seoData['description']) ? mb_substr($seoData['description'], 0, 255, 'utf8') : mb_substr($request->get('theme'), 0, 255, 'utf8'),
-            'slug' => Post::query()->where('slug', $slug)->exists() ? ($slug . '-' . rand(2, 40)) : mb_substr($slug, 0, 200, 'utf8'),
+            'slug' => Post::query()->where('slug', $slug)->exists() ? ($slug.'-'.rand(2, 40)) : mb_substr($slug, 0, 200, 'utf8'),
             'image' => $imagePath,
             'content' => json_encode($content) ?? json_encode(EditorGenerator::make(1)),
-            'time_to_read' => isset($aiData['time_to_read']) && (int)$aiData['time_to_read'] <= 50 ? $aiData['time_to_read'] : 9,
+            'time_to_read' => isset($aiData['time_to_read']) && (int) $aiData['time_to_read'] <= 50 ? $aiData['time_to_read'] : 9,
             'filial_id' => null,
             'author_id' => $this->auth()->id(),
             'level_hipe' => LevelHipe::LOW,

@@ -26,7 +26,6 @@ use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 use Sckatik\MoonshineEditorJs\Fields\EditorJs;
@@ -51,14 +50,14 @@ class RaffleFormPage extends FormPage
                             ->scaleDown(width: 320)
                             ->quality(70)
                             ->removable()
-                            ->customName(fn(UploadedFile $file, Field $field) => 'raffles/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'raffles/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         File::make('Запись розыгрыша (необяз, не более 20мб, горизонтальное)', 'video')
                             ->removable()
-                            ->customName(fn(UploadedFile $file, Field $field) => 'raffles-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'raffles-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Заголовок', 'title'),
                         Textarea::make('Описание', 'description'),
                         Date::make('Дата конца', 'date_end'),
-                        BelongsTo::make('Победитель', 'winner', formatted: fn($item) => $item->name . ' (' . ($item->phone ?? $item->email) . ')', resource: UserResource::class)
+                        BelongsTo::make('Победитель', 'winner', formatted: fn ($item) => $item->name.' ('.($item->phone ?? $item->email).')', resource: UserResource::class)
                             ->nullable()
                             ->asyncSearch(),
                     ]),
@@ -92,7 +91,7 @@ class RaffleFormPage extends FormPage
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:raffles,slug' . ($item->getKey() === null ? '' : ',' . $item->getKey())],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:raffles,slug'.($item->getKey() === null ? '' : ','.$item->getKey())],
             'meta_title' => ['nullable', 'string', 'max:100'],
             'meta_description' => ['nullable', 'string', 'max:160'],
             'date_end' => ['required', 'date'],
@@ -101,7 +100,7 @@ class RaffleFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

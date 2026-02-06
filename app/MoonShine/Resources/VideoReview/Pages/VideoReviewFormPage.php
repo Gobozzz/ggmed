@@ -44,22 +44,22 @@ class VideoReviewFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->canSee(fn() => auth()->user()->isSuperUser()),
+                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->canSee(fn () => auth()->user()->isSuperUser()),
                 CustomImage::make('Превью (вертикальное)', 'preview')
                     ->scaleDown(width: 600)
                     ->quality(80)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'video-reviews-previews/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                    ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews-previews/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 File::make('Видео (не более 20мб, вертикальное)', 'video')
-                    ->customName(fn(UploadedFile $file, Field $field) => 'video-reviews/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                    ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                 CustomImage::make('Фотки ДО (вертикальные, необяз)', 'images_before')
                     ->scaleDown(width: 600)
-                    ->customName(fn(UploadedFile $file, Field $field) => 'video-reviews-before/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension())
+                    ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews-before/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())
                     ->multiple()
                     ->removable(),
-                Textarea::make('Описание', 'content', fn($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+                Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
                 BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
-                    ->nullable(fn() => auth()->user()->isSuperUser())
-                    ->valuesQuery(static fn(Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn(Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
+                    ->nullable(fn () => auth()->user()->isSuperUser())
+                    ->valuesQuery(static fn (Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn (Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))
                         ->select(['id', 'name'])),
                 MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
             ]),
@@ -91,7 +91,7 @@ class VideoReviewFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract

@@ -50,10 +50,10 @@ class AnnouncementFormPage extends FormPage
                         CustomImage::make('Фото (вертикальное)', 'image')
                             ->scaleDown(width: 500)
                             ->quality(70)
-                            ->customName(fn(UploadedFile $file, Field $field) => 'anons/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'anons/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         File::make('Видео(необяз, не более 20мб)', 'video')
                             ->removable()
-                            ->customName(fn(UploadedFile $file, Field $field) => 'anons-videos/' . Carbon::now()->format('Y-m') . '/' . Str::random(50) . '.' . $file->extension()),
+                            ->customName(fn (UploadedFile $file, Field $field) => 'anons-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Заголовок', 'title')->unescape(),
                         Textarea::make('Описание', 'description')->unescape(),
                     ]),
@@ -98,7 +98,7 @@ class AnnouncementFormPage extends FormPage
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             'title' => ['required', 'string', 'max:100'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:announcements,slug' . ($item->getKey() ? ',' . $item->getKey() : '')],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:announcements,slug'.($item->getKey() ? ','.$item->getKey() : '')],
             'description' => ['required', 'string', 'max:255'],
             'meta_title' => ['nullable', 'string', 'max:100'],
             'meta_description' => ['nullable', 'string', 'max:160'],
@@ -107,7 +107,7 @@ class AnnouncementFormPage extends FormPage
     }
 
     /**
-     * @param FormBuilder $component
+     * @param  FormBuilder  $component
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
