@@ -17,6 +17,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
@@ -43,10 +44,11 @@ class StarGuestFormPage extends FormPage
     {
         return [
             Box::make([
+                ActionButton::make('Сохранить')->primary()->setAttribute('type', 'submit'),
                 ID::make(),
                 Tabs::make([
                     Tab::make('Основная информация', [
-                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll()),
                         CustomImage::make('Фото (горизонтальное)', 'image')
                             ->scaleDown(width: 600)
                             ->quality(70)

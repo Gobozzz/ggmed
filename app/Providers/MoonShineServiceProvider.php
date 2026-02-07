@@ -15,6 +15,7 @@ use App\Models\Mention;
 use App\Models\MoonshineUser;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Page;
 use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Product;
@@ -72,6 +73,7 @@ use App\Policies\MoonShine\MentionPolicy;
 use App\Policies\MoonShine\MoonshineUserPolicy;
 use App\Policies\MoonShine\OrderItemPolicy;
 use App\Policies\MoonShine\OrderPolicy;
+use App\Policies\MoonShine\PagePolicy;
 use App\Policies\MoonShine\PostPolicy;
 use App\Policies\MoonShine\PostSeriesPolicy;
 use App\Policies\MoonShine\ProductPolicy;
@@ -167,6 +169,7 @@ class MoonShineServiceProvider extends ServiceProvider
             Gate::policy(Test::class, TestPolicy::class);
             Gate::policy(Raffle::class, RafflePolicy::class);
             Gate::policy(Transaction::class, TransactionPolicy::class);
+            Gate::policy(Page::class, PagePolicy::class);
         }
     }
 }

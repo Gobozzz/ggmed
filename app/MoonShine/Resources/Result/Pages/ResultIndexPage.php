@@ -50,9 +50,9 @@ class ResultIndexPage extends IndexPage
             Text::make('Кол-во мес-ев', 'count_months')->sortable(),
             Text::make('Панч', 'panch')->sortable(),
             Url::make('Видео', 'video_url')->blank(),
-            Select::make('Прожвижение', 'level_hipe')
+            Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview(),
         ];
     }
@@ -72,7 +72,7 @@ class ResultIndexPage extends IndexPage
     {
         return [
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->asyncSearch(),
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

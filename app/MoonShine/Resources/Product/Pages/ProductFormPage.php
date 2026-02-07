@@ -18,6 +18,7 @@ use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
@@ -44,10 +45,11 @@ class ProductFormPage extends FormPage
     {
         return [
             Box::make([
+                ID::make(),
+                ActionButton::make('Сохранить')->primary()->setAttribute('type', 'submit'),
                 Tabs::make([
                     Tab::make('Основная информация', [
-                        ID::make(),
-                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll()),
                         CustomImage::make('Фото (вертикальные)', 'images')
                             ->scaleDown(width: 500)
                             ->customName(fn (UploadedFile $file, Field $field) => 'products/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())

@@ -42,10 +42,10 @@ class AnnouncementIndexPage extends IndexPage
             Textarea::make('Описание', 'description', fn ($item) => mb_substr($item->description ?? '', 0, 100, 'utf-8')),
             Text::make('Meta Заголовок', 'meta_title'),
             Textarea::make('Meta Описание', 'meta_description', fn ($item) => mb_substr($item->meta_description ?? '', 0, 100, 'utf-8')),
-            Date::make('Дата создания', 'created_at'),
-            Select::make('Прожвижение', 'level_hipe')
+            Date::make('Дата создания', 'created_at')->updateOnPreview(),
+            Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview(),
         ];
     }
@@ -64,7 +64,7 @@ class AnnouncementIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

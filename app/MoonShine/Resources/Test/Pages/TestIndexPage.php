@@ -49,9 +49,9 @@ class TestIndexPage extends IndexPage
             Text::make('Название', 'title'),
             Textarea::make('Описание', 'description'),
             Text::make('Кол-во упр.', 'exercises', fn ($item) => count($item->exercises)),
-            Select::make('Прожвижение', 'level_hipe')
+            Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview(),
         ];
     }
@@ -70,7 +70,7 @@ class TestIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

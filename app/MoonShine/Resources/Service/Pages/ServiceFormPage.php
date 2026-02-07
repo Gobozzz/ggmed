@@ -21,6 +21,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
@@ -47,11 +48,12 @@ class ServiceFormPage extends FormPage
     {
         return [
             Box::make([
+                ActionButton::make('Сохранить')->primary()->setAttribute('type', 'submit'),
                 Tabs::make(
                     [
                         Tab::make('Основные данные', [
                             ID::make(),
-                            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll()),
                             CustomImage::make('Фото (горизонтальное)', 'image')
                                 ->scaleDown(width: 1200)
                                 ->quality(80)

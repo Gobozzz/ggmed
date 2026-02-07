@@ -6,7 +6,6 @@ namespace App\MoonShine\Resources\User\Pages;
 
 use App\Enums\UserStatus;
 use App\MoonShine\Resources\User\UserResource;
-use Illuminate\Database\Eloquent\Model;
 use MoonShine\Contracts\UI\ActionButtonContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
@@ -43,7 +42,7 @@ class UserIndexPage extends IndexPage
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
             Date::make('Дата регистрации', 'created_at'),
-            Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
+            Select::make('Статус', 'status')->options(UserStatus::getAll())->updateOnPreview(),
         ];
     }
 

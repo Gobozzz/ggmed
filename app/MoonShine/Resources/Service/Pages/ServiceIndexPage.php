@@ -41,9 +41,9 @@ class ServiceIndexPage extends IndexPage
             Text::make('Цена', 'price', fn ($model) => ($model->is_start_price ? 'от ' : '').number_format($model->price, 2, '.', ' ').' ₽')->sortable(),
             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class),
             Text::make('Подуслуги', 'children', fn ($model) => $model->children->count()),
-            Select::make('Прожвижение', 'level_hipe')
+            Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview(),
         ];
     }
@@ -63,7 +63,7 @@ class ServiceIndexPage extends IndexPage
     {
         return [
             Text::make('Название', 'name'),
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

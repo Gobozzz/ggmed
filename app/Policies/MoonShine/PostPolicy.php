@@ -77,4 +77,9 @@ class PostPolicy
     {
         return $user->isSuperUser();
     }
+
+    public function aiGenerate(MoonshineUser $user): bool
+    {
+        return $user->isSuperUser();
+    }
 }
