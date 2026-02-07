@@ -27,6 +27,8 @@ class QuestionFactory extends Factory
             'answer' => rand(0, 1) ? json_encode(EditorGenerator::make(10)) : null,
             'user_id' => User::query()->inRandomOrder()->first() ?? null,
             'is_hot' => rand(0, 1),
+            'images' => rand(0, 1) ? ['lorem.png', 'lorem.png', 'lorem.png', 'lorem.png'] : null,
+            'is_published' => (bool) rand(0, 1),
         ];
     }
 

@@ -12,6 +12,7 @@ use App\Models\Filial;
 use App\Models\Mention;
 use App\Models\MoonshineUser;
 use App\Models\Order;
+use App\Models\Page;
 use App\Models\Post;
 use App\Models\PostSeries;
 use App\Models\Product;
@@ -116,6 +117,8 @@ class DatabaseSeeder extends Seeder
         Raffle::factory(20)->create();
 
         Transaction::factory(1000)->create();
+
+        Page::factory(8)->create();
 
     }
 }
