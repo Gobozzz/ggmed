@@ -53,7 +53,7 @@ class TestFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Основные данные', [
                         ID::make(),
-                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                        Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll()),
                         CustomImage::make('Фото (горизонтальное)', 'image')
                             ->scaleDown(width: 320)
                             ->quality(70)

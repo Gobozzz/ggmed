@@ -13,6 +13,7 @@ use App\FakeGenerators\EditorGenerator;
 use App\Models\Post;
 use App\MoonShine\Converters\MarkdownToEditorJsConverter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;
@@ -23,9 +24,7 @@ final class PostGenerateWithAIController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, AiAssistantContract $aiAssistant, MarkdownToEditorJsConverter $editorConverter, ImageTransformerContract $imageTransformer): Response
     {
-        if (! $this->auth()->user()->isSuperUser()) {
-            abort(Response::HTTP_FORBIDDEN);
-        }
+        Gate::authorize('ai-generate', Post::class);
 
         request()->validate([
             'theme' => ['required', 'string', 'max:500'],

@@ -38,9 +38,9 @@ class RecommendationIndexPage extends IndexPage
             Text::make('Заголовок', 'title'),
             Text::make('Слаг', 'slug'),
             Textarea::make('Описание', 'description', fn ($item) => mb_substr($item->description, 0, 100, 'utf-8')),
-            Select::make('Прожвижение', 'level_hipe')
+            Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview(),
         ];
     }
@@ -59,7 +59,7 @@ class RecommendationIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

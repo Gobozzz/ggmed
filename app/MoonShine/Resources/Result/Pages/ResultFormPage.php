@@ -43,7 +43,7 @@ class ResultFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll()),
                 Alert::make()->content('Лучшая растановка фото: 1-ая ДО, 2-ая ПОСЛЕ, далее без разницы'),
                 CustomImage::make('Фото (вертикальные)', 'images')
                     ->scaleDown(width: 600)

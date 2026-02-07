@@ -17,6 +17,7 @@ use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
@@ -41,9 +42,10 @@ class QuestionFormPage extends FormPage
     {
         return [
             Box::make([
+                ActionButton::make('Сохранить')->primary()->setAttribute('type', 'submit'),
+                ID::make(),
                 Tabs::make([
                     Tab::make('Вопрос', [
-                        ID::make(),
                         Textarea::make('Вопрос (не более 500 символов)', 'title'),
                         Switcher::make('Опубликован?', 'is_published'),
                         Switcher::make('Горячий?', 'is_hot'),

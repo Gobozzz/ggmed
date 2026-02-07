@@ -18,6 +18,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
@@ -44,6 +45,7 @@ class RaffleFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
+                ActionButton::make('Сохранить')->primary()->setAttribute('type', 'submit'),
                 Tabs::make([
                     Tab::make('Основная информация', [
                         CustomImage::make('Фото (горизонтальное, необяз)', 'image')

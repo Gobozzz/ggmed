@@ -7,6 +7,7 @@ namespace App\MoonShine\Controllers\Raffle;
 use App\Enums\UserStatus;
 use App\Models\Raffle;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;
 use MoonShine\Laravel\Http\Controllers\MoonShineController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +16,7 @@ final class SelectWinnerRaffleController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, Raffle $raffle): Response
     {
-        if (! $this->auth()->user()->isSuperUser()) {
-            abort(Response::HTTP_FORBIDDEN);
-        }
+        Gate::authorize('start', Raffle::class);
 
         $winner = $this->getWinner($raffle);
         if ($winner === null) {

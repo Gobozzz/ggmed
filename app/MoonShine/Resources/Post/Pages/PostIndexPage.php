@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Post\Pages;
 
 use App\Enums\LevelHipe;
+use App\Models\Post;
 use App\MoonShine\Resources\Filial\FilialResource;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\Post\PostResource;
@@ -69,7 +70,7 @@ class PostIndexPage extends IndexPage
             Switcher::make('Опубликована?', 'is_published')->updateOnPreview(),
             Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview()
                 ->canSee(fn () => auth()->user()->isSuperUser()),
         ];
@@ -90,7 +91,7 @@ class PostIndexPage extends IndexPage
     {
         return [
             Switcher::make('Опубликованные', 'is_published'),
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
             Text::make('Заголовок', 'title'),
             Date::make('Дата', 'created_at'),
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)->nullable(),
@@ -153,7 +154,7 @@ class PostIndexPage extends IndexPage
                                 ]
                             ),
                     ],
-                )->icon('bolt')->canSee(fn () => auth()->user()->isSuperUser()),
+                )->icon('bolt')->canSee(fn () => auth()->user()->can('ai-generate', Post::class)),
             LineBreak::make(),
         ];
     }

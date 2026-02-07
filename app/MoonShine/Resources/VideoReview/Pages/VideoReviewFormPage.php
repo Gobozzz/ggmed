@@ -44,7 +44,7 @@ class VideoReviewFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->canSee(fn () => auth()->user()->isSuperUser()),
+                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->canSee(fn () => auth()->user()->isSuperUser()),
                 CustomImage::make('Превью (вертикальное)', 'preview')
                     ->scaleDown(width: 600)
                     ->quality(80)

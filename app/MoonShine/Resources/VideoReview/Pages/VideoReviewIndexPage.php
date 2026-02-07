@@ -55,7 +55,7 @@ class VideoReviewIndexPage extends IndexPage
             BelongsTo::make('Филиал', 'filial', resource: FilialResource::class),
             Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview()
                 ->canSee(fn () => auth()->user()->isSuperUser()),
         ];
@@ -75,7 +75,7 @@ class VideoReviewIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

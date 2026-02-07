@@ -40,7 +40,7 @@ class MentionFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe()),
+                Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll()),
                 CustomImage::make('Фото (горизонтальное)', 'image')
                     ->scaleDown(width: 1200)
                     ->quality(70)

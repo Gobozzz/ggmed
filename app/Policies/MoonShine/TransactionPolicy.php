@@ -67,4 +67,14 @@ class TransactionPolicy
     {
         return false;
     }
+
+    public function writeOff(MoonshineUser $user): bool
+    {
+        return $user->isSuperUser();
+    }
+
+    public function replenished(MoonshineUser $user): bool
+    {
+        return $user->isSuperUser();
+    }
 }

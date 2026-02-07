@@ -41,9 +41,9 @@ class MentionIndexPage extends IndexPage
             Textarea::make('Описание', 'description'),
             Url::make('Ссылка', 'url'),
             Date::make('Дата', 'created_at'),
-            Select::make('Прожвижение', 'level_hipe')
+            Select::make('Продвижение', 'level_hipe')
                 ->sortable()
-                ->options(LevelHipe::getAllLevelsHipe())
+                ->options(LevelHipe::getAll())
                 ->updateOnPreview(),
         ];
     }
@@ -62,7 +62,7 @@ class MentionIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAllLevelsHipe())->nullable(),
+            Select::make('Уровень продвижения', 'level_hipe')->options(LevelHipe::getAll())->nullable(),
         ];
     }
 

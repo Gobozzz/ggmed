@@ -4,6 +4,30 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\Models\Announcement;
+use App\Models\Comment;
+use App\Models\Document;
+use App\Models\Fact;
+use App\Models\Filial;
+use App\Models\Like;
+use App\Models\Mention;
+use App\Models\Page;
+use App\Models\Post;
+use App\Models\PostSeries;
+use App\Models\Product;
+use App\Models\Question;
+use App\Models\Raffle;
+use App\Models\Recommendation;
+use App\Models\Result;
+use App\Models\Service;
+use App\Models\StarGuest;
+use App\Models\Tag;
+use App\Models\Test;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Models\Vacancy;
+use App\Models\VideoReview;
+use App\Models\Worker;
 use App\MoonShine\Resources\Announcement\AnnouncementResource;
 use App\MoonShine\Resources\Comment\CommentResource;
 use App\MoonShine\Resources\Document\DocumentResource;
@@ -75,59 +99,61 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(MoonShineUserRoleResource::class),
             ])->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(UserResource::class, 'Пользователи')->icon('users')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', User::class)),
             MenuItem::make(ResultResource::class, 'Результаты')->icon('rectangle-stack')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Result::class)),
             MenuItem::make(QuestionResource::class, 'Вопросы')->icon('question-mark-circle')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Question::class)),
             MenuItem::make(ServiceResource::class, 'Услуги')->icon('currency-dollar')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Service::class)),
             MenuItem::make(FilialResource::class, 'Филиалы')->icon('building-office')
-                ->canSee(fn () => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Filial::class)),
             MenuItem::make(VideoReviewResource::class, 'Видео отзывы')->icon('video-camera')
-                ->canSee(fn () => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', VideoReview::class)),
             MenuGroup::make('Блог', [
-                MenuItem::make(PostResource::class, 'Посты')->icon('pencil'),
+                MenuItem::make(PostResource::class, 'Посты')->icon('pencil')
+                    ->canSee(fn () => auth()->user()->can('view-any', Post::class)),
                 MenuItem::make(PostSeriesResource::class, 'Серии')->icon('rectangle-stack')
-                    ->canSee(fn () => auth()->user()->isSuperUser()),
+                    ->canSee(fn () => auth()->user()->can('view-any', PostSeries::class)),
             ])->icon('book-open'),
             MenuItem::make(RecommendationResource::class, 'Рекомендации')->icon('hand-thumb-up')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Recommendation::class)),
             MenuItem::make(WorkerResource::class, 'Работники')->icon('users')
-                ->canSee(fn () => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Worker::class)),
             MenuItem::make(MentionResource::class, 'Упоминания')->icon('link')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Mention::class)),
             MenuItem::make(StarGuestResource::class, 'Звездные гости')->icon('star')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', StarGuest::class)),
             MenuGroup::make('Документы, бумажки', [
                 MenuItem::make(DocumentCategoryResource::class, 'Категории')->icon('rectangle-stack'),
                 MenuItem::make(DocumentResource::class, 'Документ')->icon('document'),
-            ])->icon('paper-clip')->canSee(fn () => auth()->user()->isSuperUser()),
+            ])->icon('paper-clip')->canSee(fn () => auth()->user()->can('view-any', Document::class)),
             MenuGroup::make('Магазин', [
                 MenuItem::make(ProductResource::class, 'Товары')->icon('shopping-bag'),
                 MenuItem::make(OrderResource::class, 'Заказы')->icon('archive-box'),
                 MenuItem::make(OrderItemResource::class, 'Заказаные позиции')->canSee(fn () => false),
-            ])->icon('shopping-cart')->canSee(fn () => auth()->user()->isSuperUser()),
+            ])->icon('shopping-cart')->canSee(fn () => auth()->user()->can('view-any', Product::class)),
             MenuGroup::make('GG COIN Игра', [
                 MenuItem::make(TransactionResource::class, 'Транзакции')->icon('currency-dollar'),
-            ])->icon('puzzle-piece')->canSee(fn () => auth()->user()->isSuperUser()),
+            ])->icon('puzzle-piece')->canSee(fn () => auth()->user()->can('view-any', Transaction::class)),
             MenuItem::make(VacancyResource::class, 'Вакансии')->icon('briefcase')
-                ->canSee(fn () => auth()->user()->isSuperUser() || auth()->user()->isFilialManagerUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Vacancy::class)),
             MenuItem::make(FactResource::class, 'Факты')->icon('ellipsis-horizontal-circle')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Fact::class)),
             MenuItem::make(AnnouncementResource::class, 'Анонсы')->icon('fire')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Announcement::class)),
             MenuItem::make(TestResource::class, 'Тесты')->icon('academic-cap')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Test::class)),
             MenuItem::make(RaffleResource::class, 'Розыгрыши')->icon('gift')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
-            MenuItem::make(PageResource::class, 'Страницы')->icon('book-open'),
+                ->canSee(fn () => auth()->user()->can('view-any', Raffle::class)),
+            MenuItem::make(PageResource::class, 'Страницы')->icon('book-open')
+                ->canSee(fn () => auth()->user()->can('view-any', Page::class)),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Tag::class)),
             MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Comment::class)),
             MenuItem::make(LikeResource::class, 'Лайки')->icon('heart')
-                ->canSee(fn () => auth()->user()->isSuperUser()),
+                ->canSee(fn () => auth()->user()->can('view-any', Like::class)),
         ];
     }
 

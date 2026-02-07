@@ -16,4 +16,15 @@ enum UserStatus: string
             self::BLOCKED => 'Заблокирован',
         };
     }
+
+    public static function getAll(): array
+    {
+        $statuses = [];
+
+        foreach (self::cases() as $status) {
+            $statuses[$status->value] = $status->label();
+        }
+
+        return $statuses;
+    }
 }

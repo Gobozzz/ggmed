@@ -19,7 +19,7 @@ enum LevelHipe: int
         };
     }
 
-    public static function getAllLevelsHipe(): array
+    public static function getAll(): array
     {
         $levels = [];
 
