@@ -19,6 +19,7 @@ use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
@@ -47,8 +48,10 @@ class QuestionIndexPage extends IndexPage
                 icon: 'heart',
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
+            Image::make('Фото', 'images')->multiple(),
             Text::make('Вопрос', 'title', fn ($model) => mb_substr($model->title, 0, 100, 'utf-8')),
             Textarea::make('Ответ', 'answer', fn ($item) => $item->answer ? 'Ответ есть' : 'Не дан'),
+            Switcher::make('Опубликован?', 'is_published')->updateOnPreview(),
             Switcher::make('Горячий?', 'is_hot')->updateOnPreview(),
             BelongsTo::make('Пользователь', 'user', resource: UserResource::class),
             Date::make('Дата', 'created_at')->updateOnPreview(),

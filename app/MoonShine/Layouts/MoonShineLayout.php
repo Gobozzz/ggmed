@@ -14,6 +14,7 @@ use App\MoonShine\Resources\Like\LikeResource;
 use App\MoonShine\Resources\Mention\MentionResource;
 use App\MoonShine\Resources\Order\OrderResource;
 use App\MoonShine\Resources\OrderItem\OrderItemResource;
+use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use App\MoonShine\Resources\Product\ProductResource;
@@ -120,6 +121,7 @@ final class MoonShineLayout extends AppLayout
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(RaffleResource::class, 'Розыгрыши')->icon('gift')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
+            MenuItem::make(PageResource::class, 'Страницы')->icon('book-open'),
             MenuItem::make(TagResource::class, 'Теги')->icon('hashtag')
                 ->canSee(fn () => auth()->user()->isSuperUser()),
             MenuItem::make(CommentResource::class, 'Комментарии')->icon('chat-bubble-left-right')

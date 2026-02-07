@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('answer')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_hot')->default(false);
+            $table->text('images')->nullable();
+            $table->boolean('is_published')->default(false);
             $table->timestamps();
         });
     }

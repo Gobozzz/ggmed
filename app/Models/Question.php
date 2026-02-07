@@ -23,11 +23,15 @@ class Question extends Model implements Commentable, Likeable
         'answer',
         'user_id',
         'is_hot',
+        'images',
+        'is_published',
     ];
 
     protected $casts = [
         'is_hot' => 'boolean',
+        'is_published' => 'boolean',
         'answer' => 'array',
+        'images' => 'array',
     ];
 
     public function tags(): MorphToMany

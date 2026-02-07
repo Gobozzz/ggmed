@@ -44,6 +44,7 @@ use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
 use App\MoonShine\Resources\Order\OrderResource;
 use App\MoonShine\Resources\OrderItem\OrderItemResource;
+use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Post\PostResource;
 use App\MoonShine\Resources\PostSeries\PostSeriesResource;
 use App\MoonShine\Resources\Product\ProductResource;
@@ -131,6 +132,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 TestResource::class,
                 RaffleResource::class,
                 TransactionResource::class,
+                PageResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
