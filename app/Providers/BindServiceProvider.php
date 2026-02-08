@@ -6,6 +6,8 @@ use App\Adapters\AiAssistant\AiAssistantContract;
 use App\Adapters\AiAssistant\GigaChatAssistant;
 use App\Adapters\ImageTransformer\ImageTransformerContract;
 use App\Adapters\ImageTransformer\InterventionImageTransformer;
+use App\BotNotifiers\BotNotificatorContract;
+use App\BotNotifiers\TelegramBotNotificator;
 use App\Repositories\TransactionRepository\TransactionEloquentRepository;
 use App\Repositories\TransactionRepository\TransactionRepositoryContract;
 use App\Repositories\UserRepository\UserEloquentRepository;
@@ -29,6 +31,9 @@ class BindServiceProvider extends ServiceProvider
         // Adapters
         $this->app->bind(AiAssistantContract::class, GigaChatAssistant::class);
         $this->app->bind(ImageTransformerContract::class, InterventionImageTransformer::class);
+        // Bot Notifiers
+        $this->app->bind(BotNotificatorContract::class, TelegramBotNotificator::class);
+
     }
 
     /**

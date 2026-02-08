@@ -15,12 +15,12 @@ use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
-use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Components\Layout\LineBreak;
 use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Date;
@@ -64,12 +64,11 @@ class RaffleFormPage extends FormPage
                             ->asyncSearch(),
                     ]),
                     Tab::make('SEO', [
-                        Slug::make('Слаг', 'slug')->from('title'),
                         Text::make('Meta Заголовок', 'meta_title'),
                         Textarea::make('Meta Описание', 'meta_description'),
                     ]),
                     Tab::make('Редактор', [
-                        EditorJs::make('Редактор', 'content'),
+                        EditorJs::make('Контент', 'content'),
                     ]),
                 ]),
             ]),
@@ -89,15 +88,15 @@ class RaffleFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
+            'image' => ['nullable', 'image', 'max:1024'],
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:200', 'unique:raffles,slug'.($item->getKey() === null ? '' : ','.$item->getKey())],
             'meta_title' => ['nullable', 'string', 'max:100'],
             'meta_description' => ['nullable', 'string', 'max:160'],
             'date_end' => ['required', 'date'],
             'winner_id' => ['nullable', 'integer', 'exists:users,id'],
+            'content' => ['required'],
         ];
     }
 
@@ -119,6 +118,11 @@ class RaffleFormPage extends FormPage
     {
         return [
             ...parent::topLayer(),
+            ActionButton::make('Оповестить в ТГ канале о розыгрыше', route('admin.raffles.send-messenger-channel', $this->getItem()?->id))
+                ->icon('bell-alert')
+                ->primary()
+                ->async(),
+            LineBreak::make(),
         ];
     }
 

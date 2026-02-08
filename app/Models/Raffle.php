@@ -29,7 +29,6 @@ class Raffle extends Model implements Commentable, Likeable, Taggable
         'video',
         'winner',
         'date_end',
-        'slug',
     ];
 
     protected $casts = [

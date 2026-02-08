@@ -37,12 +37,12 @@ class VacancyFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
-                Text::make('Заголовок', 'title')->unescape(),
+                Text::make('Заголовок (до 100 символов)', 'title')->unescape(),
                 Text::make('ЗП (необяз)', 'salary')->unescape(),
                 Select::make('Валюта', 'valute')->options(['₽' => '₽', '$' => '$']),
                 Text::make('За что платите?', 'what_pay')->default('в месяц')->unescape(),
-                Text::make('Ответственный', 'responsible')->placeholder('Иван Иванов, +77777777777')->unescape(),
-                Text::make('Адрес или удаленно', 'address')->unescape(),
+                Text::make('Ответственный с контактами', 'responsible')->placeholder('Иван Иванов, +77777777777')->unescape(),
+                Text::make('Локация или удаленно', 'address')->placeholder('г. Москва')->unescape(),
                 Url::make('Ссылка на внешний ист.(необяз)', 'url')->placeholder('hh.ru')->unescape(),
                 Markdown::make('Описание(необяз)', 'content')->unescape(),
                 BelongsTo::make('Автор', 'author', resource: MoonShineUserResource::class)

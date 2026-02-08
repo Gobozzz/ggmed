@@ -58,10 +58,10 @@ class ServiceFormPage extends FormPage
                                 ->scaleDown(width: 1200)
                                 ->quality(80)
                                 ->customName(fn (UploadedFile $file, Field $field) => 'services/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                            Text::make('Название', 'name')->unescape(),
+                            Text::make('Название (до 160 символов)', 'name')->unescape(),
                             Number::make('Цена, ₽', 'price'),
                             Switcher::make('Начальная цена?', 'is_start_price'),
-                            Textarea::make('Описание (В карточке)', 'description')->unescape(),
+                            Textarea::make('Описание (до 255 символов)', 'description')->unescape(),
                             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class)->searchable()->nullable(),
                         ]),
                         Tab::make('SEO', [

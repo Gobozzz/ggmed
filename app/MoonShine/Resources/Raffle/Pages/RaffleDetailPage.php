@@ -51,7 +51,6 @@ class RaffleDetailPage extends DetailPage
             Video::make('Видео', 'video'),
             Text::make('Заголовок', 'title'),
             Textarea::make('Описание', 'description'),
-            Text::make('Слаг', 'slug'),
             Text::make('Дата конца(Г.м.д)', 'date_end', fn ($item) => Carbon::parse($item->date_end)->format('Y.m.d')),
             BelongsTo::make('Победитель', 'winner', resource: UserResource::class),
             Date::make('Дата создания', 'created_at'),
@@ -117,6 +116,10 @@ class RaffleDetailPage extends DetailPage
                             AlpineJs::event(JsEvent::MODAL_TOGGLED, 'winner-modal'),
                         ]
                     ),
+                ActionButton::make('Оповестить в ТГ канале', route('admin.raffles.send-messenger-channel', $this->getItem()->id))
+                    ->icon('bell-alert')
+                    ->primary()
+                    ->async(),
             ]),
         ];
     }

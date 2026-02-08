@@ -45,8 +45,8 @@ class MentionFormPage extends FormPage
                     ->scaleDown(width: 1200)
                     ->quality(70)
                     ->customName(fn (UploadedFile $file, Field $field) => 'mentions/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                Text::make('Заголовок', 'title')->unescape(),
-                Textarea::make('Описание', 'description')->unescape(),
+                Text::make('Заголовок (до 100 символов)', 'title')->unescape(),
+                Textarea::make('Описание (до 255 символов)', 'description')->unescape(),
                 Url::make('Ссылка', 'url')->unescape(),
             ]),
         ];

@@ -30,7 +30,6 @@ class ResultFactory extends Factory
             'count_grafts' => rand(0, 4) ? rand(15, 50) * 100 : null,
             'count_months' => rand(0, 4) ? rand(5, 16) : null,
             'panch' => rand(0, 4) ? fake()->randomElement($panchs) : null,
-            'video_url' => rand(0, 4) ? fake()->url() : null,
         ];
     }
 
