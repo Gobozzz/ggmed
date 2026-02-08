@@ -67,7 +67,7 @@ class RaffleFormPage extends FormPage
                         Text::make('Meta Заголовок', 'meta_title'),
                         Textarea::make('Meta Описание', 'meta_description'),
                     ]),
-                    Tab::make('Редактор', [
+                    Tab::make('Описание условий (Редактор)', [
                         EditorJs::make('Контент', 'content'),
                     ]),
                 ]),
@@ -118,10 +118,12 @@ class RaffleFormPage extends FormPage
     {
         return [
             ...parent::topLayer(),
-            ActionButton::make('Оповестить в ТГ канале о розыгрыше', route('admin.raffles.send-messenger-channel', $this->getItem()?->id))
+            ActionButton::make('Оповестить в ТГ канале о розыгрыше', route('admin.raffles.send-messenger-channel', $this->getItem()?->id ?? 1))
                 ->icon('bell-alert')
                 ->primary()
-                ->async(),
+                ->async()
+                ->canSee(fn() => $this->getItem())
+            ,
             LineBreak::make(),
         ];
     }
