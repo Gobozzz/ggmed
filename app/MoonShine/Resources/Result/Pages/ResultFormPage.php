@@ -27,7 +27,6 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
 use Throwable;
 
 /**
@@ -53,7 +52,6 @@ class ResultFormPage extends FormPage
                 Text::make('Кол-во графтов', 'count_grafts'),
                 Text::make('Кол-во мес-ев', 'count_months'),
                 Number::make('Панч', 'panch')->step(0.01),
-                Url::make('Видео', 'video_url'),
                 MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
             ]),
         ];
@@ -78,7 +76,6 @@ class ResultFormPage extends FormPage
             'count_grafts' => ['nullable', 'numeric', 'min:1', 'max:50000'],
             'count_months' => ['nullable', 'numeric', 'min:1', 'max:100'],
             'panch' => ['nullable', 'numeric'],
-            'video_url' => ['nullable', 'url'],
             'tags' => ['nullable', 'array', 'max:3'],
         ];
     }

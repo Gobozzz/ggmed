@@ -28,7 +28,6 @@ class RaffleFactory extends Factory
         return [
             'title' => fake()->text(100),
             'description' => fake()->text(255),
-            'slug' => fake()->unique()->slug(),
             'meta_title' => rand(0, 1) ? fake()->text(100) : null,
             'meta_description' => rand(0, 1) ? fake()->text(160) : null,
             'content' => json_encode(EditorGenerator::make(15)),

@@ -35,6 +35,25 @@ return [
         ],
     ],
 
+    'bots' => [
+        'info_bot' => [
+            'token' => env('TELEGRAM_INFO_LOG_BOT_TOKEN'),
+            'chat_ids' => env('TELEGRAM_INFO_LOG_CHAT_IDS'),
+        ],
+        'error_bot' => [
+            'token' => env('TELEGRAM_ERROR_LOG_BOT_TOKEN'),
+            'chat_ids' => env('TELEGRAM_ERROR_LOG_CHAT_IDS'),
+        ],
+        'transactions_bot' => [
+            'token' => env('TELEGRAM_TRANSACTIONS_LOG_BOT_TOKEN'),
+            'chat_ids' => env('TELEGRAM_TRANSACTIONS_LOG_CHAT_IDS'),
+        ],
+        'admin_channel_bot' => [
+            'token' => env('TELEGRAM_CHANNEL_ADMIN_BOT_TOKEN'),
+            'chat_ids' => env('TELEGRAM_CHANNEL_ID'),
+        ],
+    ],
+
     'giga_chat' => [
         'key' => env('GIGA_CHAT_ASSISTANT_AUTH_KEY', 'key'),
         'client_id' => env('GIGA_CHAT_CLIENT_ID', 'id'),

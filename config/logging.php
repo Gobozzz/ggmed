@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Bots\TypeBot;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -54,29 +55,26 @@ return [
 
         'transactions' => [
             'driver' => 'monolog',
-            'handler' => \App\Logging\TelegramLoggingHandler::class,
+            'handler' => \App\Logging\BotLoggingHandler::class,
             'handler_with' => [
-                'bot_token' => env('TELEGRAM_TRANSACTIONS_LOG_BOT_TOKEN'),
-                'chat_ids' => env('TELEGRAM_TRANSACTIONS_LOG_CHAT_IDS'),
+                'bot' => TypeBot::TRANSACTIONS_BOT->value,
             ],
         ],
 
         'info' => [
             'driver' => 'monolog',
-            'handler' => \App\Logging\TelegramLoggingHandler::class,
+            'handler' => \App\Logging\BotLoggingHandler::class,
             'handler_with' => [
-                'bot_token' => env('TELEGRAM_INFO_LOG_BOT_TOKEN'),
-                'chat_ids' => env('TELEGRAM_INFO_LOG_CHAT_IDS'),
+                'bot' => TypeBot::INFO_BOT->value,
             ],
         ],
 
         'errors' => [
             'driver' => 'monolog',
             'level' => 'error',
-            'handler' => \App\Logging\TelegramLoggingHandler::class,
+            'handler' => \App\Logging\BotLoggingHandler::class,
             'handler_with' => [
-                'bot_token' => env('TELEGRAM_ERROR_LOG_BOT_TOKEN'),
-                'chat_ids' => env('TELEGRAM_ERROR_LOG_CHAT_IDS'),
+                'bot' => TypeBot::ERROR_BOT->value,
             ],
         ],
 

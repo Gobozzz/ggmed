@@ -4,6 +4,7 @@ use App\MoonShine\Controllers\EditorJs\UploadImageController;
 use App\MoonShine\Controllers\Post\PostGenerateWithAIController;
 use App\MoonShine\Controllers\Raffle\GetWinnerRaffleController;
 use App\MoonShine\Controllers\Raffle\SelectWinnerRaffleController;
+use App\MoonShine\Controllers\Raffle\SendRaffleInMessengerChannel;
 use App\MoonShine\Controllers\Transaction\ReplenishedAdminController;
 use App\MoonShine\Controllers\Transaction\WriteOffAdminController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,7 @@ use MoonShine\Laravel\Http\Middleware\Authenticate;
 Route::middleware(['moonshine', Authenticate::class])->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('raffles')->name('raffles.')->group(function () {
         Route::post('/{raffle}/select-winner', SelectWinnerRaffleController::class)->name('select-winner');
+        Route::get('/{raffle}/send-messenger-channel', SendRaffleInMessengerChannel::class)->name('send-messenger-channel');
         Route::get('/{raffle}', GetWinnerRaffleController::class)->name('get');
     });
     Route::prefix('transactions')->name('transactions.')->group(function () {

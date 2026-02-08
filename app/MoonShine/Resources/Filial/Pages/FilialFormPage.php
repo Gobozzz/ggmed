@@ -22,6 +22,8 @@ use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Components\Layout\Column;
+use MoonShine\UI\Components\Layout\Grid;
 use MoonShine\UI\Components\Tabs;
 use MoonShine\UI\Components\Tabs\Tab;
 use MoonShine\UI\Fields\Field;
@@ -48,15 +50,27 @@ class FilialFormPage extends FormPage
                 Tabs::make([
                     Tab::make('Основные данные', [
                         ID::make(),
-                        Text::make('Название', 'name')->unescape(),
-                        CustomImage::make('Фото (горизонтальное)', 'image')
-                            ->scaleDown(width: 1200)
-                            ->quality(80)
-                            ->customName(fn (UploadedFile $file, Field $field) => 'filials/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                        File::make('Видео (необяз, не более 20мб, горизонтальное)', 'video')
-                            ->customName(fn (UploadedFile $file, Field $field) => 'filials-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                        Text::make('Город', 'city')->unescape(),
-                        Text::make('Адрес', 'address')->unescape(),
+                        Text::make('Название (до 100 символов)', 'name')->unescape(),
+                        Grid::make([
+                            Column::make([
+                                CustomImage::make('Фото (горизонтальное)', 'image')
+                                    ->scaleDown(width: 1200)
+                                    ->quality(80)
+                                    ->customName(fn (UploadedFile $file, Field $field) => 'filials/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                            ])->columnSpan(6),
+                            Column::make([
+                                File::make('Видео (необяз, не более 20мб, горизонтальное)', 'video')
+                                    ->customName(fn (UploadedFile $file, Field $field) => 'filials-videos/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
+                            ])->columnSpan(6),
+                        ]),
+                        Grid::make([
+                            Column::make([
+                                Text::make('Город', 'city')->unescape(),
+                            ])->columnSpan(6),
+                            Column::make([
+                                Text::make('Адрес', 'address')->unescape(),
+                            ])->columnSpan(6),
+                        ]),
                         Phone::make('Телефон', 'phone')->unescape(),
                         Text::make('Рабочее время', 'work_time')->unescape(),
                         Number::make('Год основания', 'year'),

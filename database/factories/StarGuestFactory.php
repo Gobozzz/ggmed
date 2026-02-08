@@ -20,8 +20,8 @@ class StarGuestFactory extends Factory
     public function definition(): array
     {
         return [
-            'meta_title' => fake()->text(100),
-            'meta_description' => fake()->text(160),
+            'meta_title' => rand(0, 1) ? fake()->text(100) : null,
+            'meta_description' => rand(0, 1) ? fake()->text(160) : null,
             'slug' => fake()->unique()->slug(),
             'name' => fake()->lastName().' '.fake()->name(),
             'points' => json_encode([fake()->text(60), fake()->text(90), fake()->text(40), fake()->text(100)]),

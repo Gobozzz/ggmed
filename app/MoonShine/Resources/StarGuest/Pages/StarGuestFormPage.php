@@ -15,6 +15,7 @@ use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
+use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
@@ -54,10 +55,10 @@ class StarGuestFormPage extends FormPage
                             ->quality(70)
                             ->customName(fn (UploadedFile $file, Field $field) => 'stars-guests/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
                         Text::make('Имя', 'name')->unescape(),
-                        Url::make('Видео', 'url')->unescape(),
+                        Url::make('Ссылка на видео', 'url')->unescape(),
                     ]),
                     Tab::make('SEO', [
-                        Text::make('Слаг', 'slug')->unescape(),
+                        Slug::make('Слаг', 'slug')->from('name')->unescape(),
                         Text::make('Meta Заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta Описание', 'meta_description')->unescape(),
                     ]),
@@ -100,9 +101,9 @@ class StarGuestFormPage extends FormPage
             'image' => [$item->getKey() === null ? 'required' : 'nullable', 'image', 'max:1024'],
             'name' => ['required', 'string', 'max:100'],
             'url' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:200', 'unique:star_guests,slug'.($item->getKey() !== null ? ','.$item->getKey() : null)],
-            'meta_title' => ['required', 'string', 'max:100'],
-            'meta_description' => ['required', 'string', 'max:160'],
+            'slug' => ['nullable', 'string', 'max:200', 'unique:star_guests,slug'.($item->getKey() !== null ? ','.$item->getKey() : null)],
+            'meta_title' => ['nullable', 'string', 'max:100'],
+            'meta_description' => ['nullable', 'string', 'max:160'],
             'points' => ['required', 'array', 'min:1'],
             'content' => ['nullable'],
         ];

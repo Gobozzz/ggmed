@@ -56,13 +56,13 @@ class ProductFormPage extends FormPage
                             ->multiple()
                             ->removable(),
                         Text::make('Арт.(необяз)', 'article')->unescape(),
-                        Text::make('Название', 'title')->unescape(),
-                        Textarea::make('Короткое описание', 'description')->unescape(),
+                        Text::make('Название (до 100 символов)', 'title')->unescape(),
+                        Textarea::make('Описание (до 255 символов)', 'description')->unescape(),
                         Number::make('Цена', 'price', fn ($item) => $item->price.', руб')->step(0.01),
                         Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price.', руб')->step(0.01),
                         Switcher::make('В наличии?', 'is_have'),
-                        Text::make('Бренд', 'brand')->unescape(),
-                        Text::make('Состав', 'structure')->unescape(),
+                        Text::make('Бренд (до 50 символов, необяз)', 'brand')->unescape(),
+                        Textarea::make('Состав (до 100 символов, необяз)', 'structure')->unescape(),
                     ]),
                     Tab::make('SEO', [
                         Slug::make('Слаг', 'slug')->from('title')->unescape(),

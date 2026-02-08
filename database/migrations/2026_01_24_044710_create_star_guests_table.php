@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('star_guests', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_title', 100);
-            $table->string('meta_description', 160);
+            $table->string('meta_title', 100)->nullable();
+            $table->string('meta_description', 160)->nullable();
             $table->string('name', 100);
             $table->string('slug', 200)->unique();
             $table->text('points');

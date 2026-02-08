@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedSmallInteger('count_grafts')->nullable();
             $table->unsignedTinyInteger('count_months')->nullable();
             $table->decimal('panch', 8, 2)->nullable();
-            $table->string('video_url')->nullable();
             $table->unsignedTinyInteger('level_hipe')->default(LevelHipe::LOW);
             $table->timestamps();
         });

@@ -64,8 +64,8 @@ class PostFormPage extends FormPage
                             ->scaleDown(width: 1200)
                             ->quality(80)
                             ->customName(fn (UploadedFile $file, Field $field) => 'posts/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension()),
-                        Text::make('Заголовок', 'title')->unescape(),
-                        Textarea::make('Описание', 'description')->unescape(),
+                        Text::make('Заголовок (до 100 символов)', 'title')->unescape(),
+                        Textarea::make('Описание (до 255 символов)', 'description')->unescape(),
                         Number::make('Время на чтение, мин.', 'time_to_read', fn ($item) => $item->time_to_read.' мин.'),
                         MorphToMany::make('Теги', 'tags', resource: TagResource::class)->selectMode()->searchable()->creatable(),
                         BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)

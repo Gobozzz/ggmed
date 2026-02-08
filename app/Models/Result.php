@@ -24,7 +24,6 @@ class Result extends Model implements Commentable, Likeable, Taggable
         'count_grafts',
         'count_months',
         'panch',
-        'video_url',
         'level_hipe',
     ];
 

@@ -56,7 +56,7 @@ class VideoReviewFormPage extends FormPage
                     ->customName(fn (UploadedFile $file, Field $field) => 'video-reviews-before/'.Carbon::now()->format('Y-m').'/'.Str::random(50).'.'.$file->extension())
                     ->multiple()
                     ->removable(),
-                Textarea::make('Описание', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
+                Textarea::make('Описание (до 500 символов)', 'content', fn ($item) => mb_substr($item->content, 0, 100, 'utf-8')),
                 BelongsTo::make('Филиал', 'filial', resource: FilialResource::class)
                     ->nullable(fn () => auth()->user()->isSuperUser())
                     ->valuesQuery(static fn (Builder $q) => $q->when(auth()->user()->isFilialManagerUser(), fn (Builder $q) => $q->where('filials.manager_id', auth()->user()->getKey()))

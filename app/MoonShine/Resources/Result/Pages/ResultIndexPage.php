@@ -19,7 +19,6 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
 use Throwable;
 
 /**
@@ -49,7 +48,6 @@ class ResultIndexPage extends IndexPage
             Text::make('Кол-во графтов', 'count_grafts')->sortable(),
             Text::make('Кол-во мес-ев', 'count_months')->sortable(),
             Text::make('Панч', 'panch')->sortable(),
-            Url::make('Видео', 'video_url')->blank(),
             Select::make('Продвижение', 'level_hipe')
                 ->sortable()
                 ->options(LevelHipe::getAll())
