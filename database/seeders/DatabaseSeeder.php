@@ -114,7 +114,9 @@ class DatabaseSeeder extends Seeder
 
         Test::factory(20)->create();
 
-        Raffle::factory(20)->create();
+        Raffle::factory(10)->create();
+
+        Raffle::factory(10)->weekly()->create();
 
         Transaction::factory(1000)->create();
 

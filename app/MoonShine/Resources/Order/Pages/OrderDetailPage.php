@@ -33,13 +33,15 @@ class OrderDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Number::make('Сумма', 'total_price', fn ($item) => $item->total_price.', руб.')->sortable(),
-            Number::make('Кол-во позиций', 'count_positions')->sortable(),
-            Text::make('Имя', 'name'),
-            Phone::make('Телефон', 'phone'),
-            Email::make('Почта', 'email'),
-            Text::make('Доставка', 'city', fn ($item) => $item->city.', '.$item->street.', '.$item->house),
-            Date::make('Дата заказа', 'created_at')->sortable(),
+            Number::make('Сумма', 'total_amount', fn ($item) => $item->total_amount.', руб.'),
+            Text::make('Способ оплаты', 'payment_provider', fn ($item) => $item->payment_provider->label()),
+            Text::make('Статус платежа', 'payment_status', fn ($item) => $item->payment_status->label()),
+            Number::make('Кол-во позиций', '', fn ($item) => $item->items()->count()),
+            Text::make('Имя', 'customer_name'),
+            Phone::make('Телефон', 'customer_phone'),
+            Email::make('Почта', 'customer_email'),
+            Text::make('Доставка', 'customer_city', fn ($item) => $item->customer_city.', '.$item->customer_street.', '.$item->customer_house),
+            Date::make('Дата заказа', 'created_at'),
             Textarea::make('Комментарий заказчика', 'comment'),
             HasMany::make('Товары', 'items', resource: OrderItemResource::class)->tabMode(),
         ];

@@ -24,11 +24,9 @@ class OrderResource extends ModelResource
 
     protected bool $withPolicy = true;
 
-    protected array $with = ['items'];
-
     protected function search(): array
     {
-        return ['id', 'name', 'phone', 'email'];
+        return ['id'];
     }
 
     /**

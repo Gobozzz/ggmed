@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\BotNotifiers;
 
 use App\Enums\Bots\TypeBot;
+use App\Enums\ChannelLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -22,7 +23,7 @@ final class TelegramBotNotificator implements BotNotificatorContract
 
     private ?array $inlineKeyboards = null;
 
-    public function sendMessage(string $message): void
+    public function sendMessage(string $message): bool
     {
         $this->checkBotData();
 
@@ -33,11 +34,18 @@ final class TelegramBotNotificator implements BotNotificatorContract
         foreach ($chat_ids as $chat_id) {
             $data['chat_id'] = $chat_id;
             try {
-                Http::post($this->getApiUrlEndpoint(), $data);
+                $response = Http::post($this->getApiUrlEndpoint(), $data);
+                if (! $response->successful()) {
+                    throw new \Exception("Couldn't send message: ".$response->body());
+                }
             } catch (\Exception $e) {
-                Log::error('Telegram Bot Send Message Error: '.$e->getMessage());
+                Log::channel(ChannelLog::FILE->value)->error('Telegram Bot Send Message Error: '.$e->getMessage());
+
+                return false;
             }
         }
+
+        return true;
     }
 
     public function bot(TypeBot $bot): self

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Contracts\Commentable;
 use App\Contracts\Likeable;
 use App\Contracts\Taggable;
+use App\Enums\RaffleType;
 use App\Traits\HasCommented;
 use App\Traits\HasLiked;
 use App\Traits\HasTags;
@@ -29,11 +30,15 @@ class Raffle extends Model implements Commentable, Likeable, Taggable
         'video',
         'winner',
         'date_end',
+        'type',
+        'prize',
     ];
 
     protected $casts = [
         'date_end' => 'date',
         'content' => 'array',
+        'type' => RaffleType::class,
+        'prize' => 'array',
     ];
 
     public function winner(): BelongsTo

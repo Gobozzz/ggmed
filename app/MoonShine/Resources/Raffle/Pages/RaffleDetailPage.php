@@ -18,7 +18,6 @@ use MoonShine\Laravel\Fields\Relationships\MorphMany;
 use MoonShine\Laravel\Fields\Relationships\MorphToMany;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Support\AlpineJs;
-use MoonShine\Support\Enums\HttpMethod;
 use MoonShine\Support\Enums\JsEvent;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
@@ -49,6 +48,7 @@ class RaffleDetailPage extends DetailPage
             ID::make(),
             Image::make('Фото', 'image'),
             Video::make('Видео', 'video'),
+            Text::make('Тип', 'type', fn ($item) => $item->type->label()),
             Text::make('Заголовок', 'title'),
             Textarea::make('Описание', 'description'),
             Text::make('Дата конца(Г.м.д)', 'date_end', fn ($item) => Carbon::parse($item->date_end)->format('Y.m.d')),
@@ -111,11 +111,10 @@ class RaffleDetailPage extends DetailPage
                     ->icon('user')
                     ->primary()
                     ->async(
-                        method: HttpMethod::POST,
                         events: [
                             AlpineJs::event(JsEvent::MODAL_TOGGLED, 'winner-modal'),
                         ]
-                    ),
+                    )->canSee(fn () => auth()->user()->can('start', $this->getItem())),
                 ActionButton::make('Оповестить в ТГ канале', route('admin.raffles.send-messenger-channel', $this->getItem()->id))
                     ->icon('bell-alert')
                     ->primary()

@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('raffles', function (Blueprint $table) {
             $table->id();
+            $table->string('type', 30);
             $table->string('title', 100);
             $table->string('description');
             $table->string('meta_title', 100)->nullable();
             $table->string('meta_description', 160)->nullable();
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->string('image')->nullable();
             $table->string('video')->nullable();
             $table->foreignId('winner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->date('date_end');
+            $table->json('prize')->nullable();
             $table->timestamps();
         });
     }

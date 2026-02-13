@@ -39,7 +39,7 @@ return [
             'shortcut' => 'CMD+SHIFT+W',
         ],
         'code' => [
-            'activated' => false,
+            'activated' => true,
             'placeholder' => '',
             'shortcut' => 'CMD+SHIFT+C',
         ],

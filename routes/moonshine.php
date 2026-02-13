@@ -12,7 +12,7 @@ use MoonShine\Laravel\Http\Middleware\Authenticate;
 
 Route::middleware(['moonshine', Authenticate::class])->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('raffles')->name('raffles.')->group(function () {
-        Route::post('/{raffle}/select-winner', SelectWinnerRaffleController::class)->name('select-winner');
+        Route::get('/{raffle}/select-winner', SelectWinnerRaffleController::class)->name('select-winner');
         Route::get('/{raffle}/send-messenger-channel', SendRaffleInMessengerChannel::class)->name('send-messenger-channel');
         Route::get('/{raffle}', GetWinnerRaffleController::class)->name('get');
     });

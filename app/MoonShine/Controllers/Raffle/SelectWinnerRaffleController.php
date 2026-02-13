@@ -16,7 +16,7 @@ final class SelectWinnerRaffleController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, Raffle $raffle): Response
     {
-        Gate::authorize('start', Raffle::class);
+        Gate::authorize('start', $raffle);
 
         $winner = $this->getWinner($raffle);
         if ($winner === null) {

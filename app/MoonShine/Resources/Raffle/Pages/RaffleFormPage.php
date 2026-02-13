@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Raffle\Pages;
 
+use App\Enums\RaffleType;
 use App\MoonShine\Fields\CustomImage;
 use App\MoonShine\Resources\Raffle\RaffleResource;
 use App\MoonShine\Resources\User\UserResource;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
@@ -67,8 +69,19 @@ class RaffleFormPage extends FormPage
                         Text::make('Meta Заголовок', 'meta_title'),
                         Textarea::make('Meta Описание', 'meta_description'),
                     ]),
-                    Tab::make('Описание условий (Редактор)', [
-                        EditorJs::make('Контент', 'content'),
+                    Tab::make('Редактор(обязательно, Описание условий)', [
+                        EditorJs::make('Контент', 'content')->onApply(function ($item, $value) {
+                            try {
+                                if (count(json_decode($value, true)['blocks']) === 0) {
+                                    $value = null;
+                                }
+                            } catch (Throwable $e) {
+                                $value = null;
+                            }
+                            $item->content = $value;
+
+                            return $item;
+                        }),
                     ]),
                 ]),
             ]),
@@ -85,9 +98,23 @@ class RaffleFormPage extends FormPage
         return parent::formButtons();
     }
 
+    public function prepareForValidation(): void
+    {
+        if ($this->getItem() !== null) {
+            request()->merge([
+                'type' => $this->getItem()->type->value,
+            ]);
+        } else {
+            request()->merge([
+                'type' => RaffleType::MANUAL->value,
+            ]);
+        }
+    }
+
     protected function rules(DataWrapperContract $item): array
     {
         return [
+            'type' => ['required', new Enum(RaffleType::class)],
             'image' => ['nullable', 'image', 'max:1024'],
             'video' => ['nullable', 'file', 'mimes:mp4', 'max:22000'],
             'title' => ['required', 'string', 'max:100'],
@@ -96,7 +123,7 @@ class RaffleFormPage extends FormPage
             'meta_description' => ['nullable', 'string', 'max:160'],
             'date_end' => ['required', 'date'],
             'winner_id' => ['nullable', 'integer', 'exists:users,id'],
-            'content' => ['required'],
+            'content' => ['nullable'],
         ];
     }
 
@@ -122,8 +149,7 @@ class RaffleFormPage extends FormPage
                 ->icon('bell-alert')
                 ->primary()
                 ->async()
-                ->canSee(fn() => $this->getItem())
-            ,
+                ->canSee(fn () => $this->getItem()),
             LineBreak::make(),
         ];
     }

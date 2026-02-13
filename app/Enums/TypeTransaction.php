@@ -11,6 +11,7 @@ enum TypeTransaction: string
     case SALARY = 'salary';
     case ADMIN_REPLENISHED = 'admin_replenished';
     case REWARD = 'reward';
+    case WINNING_RAFFLE = 'winning_raffle';
 
     // Списания
     case PURCHASE = 'purchase';
@@ -25,6 +26,7 @@ enum TypeTransaction: string
             self::REWARD => 'Награда',
             self::PURCHASE => 'Покупка',
             self::ADMIN_WRITE_OFF => 'Списание от админа',
+            self::WINNING_RAFFLE => 'Победа в розыгрыше',
         };
     }
 }

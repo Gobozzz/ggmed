@@ -38,8 +38,9 @@ class OrderItemIndexPage extends IndexPage
             Textarea::make('Название', 'title'),
             Text::make('Артикул', 'article'),
             Image::make('Фото', 'image'),
-            Number::make('Цена', 'price'),
-            Number::make('Кол-во', 'quantity'),
+            Number::make('Цена за ед. товара', 'price', fn ($item) => $item->price.',руб'),
+            Number::make('Кол-во товаров', 'quantity'),
+            Number::make('Общая сумма за позицию', 'price', fn ($item) => ($item->price * $item->quantity).',руб'),
             BelongsTo::make('Ссылка на товар', 'product', resource: ProductResource::class),
         ];
     }

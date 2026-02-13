@@ -8,10 +8,12 @@ use App\Cache\BalanceCacheManager;
 use App\DTO\Transaction\AdminReplenishedDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
 use App\DTO\Transaction\CreateTransactionDTO;
+use App\DTO\Transaction\WinningRaffleDTO;
 use App\Enums\ChannelLog;
 use App\Enums\TypeTransaction;
 use App\Exceptions\Transactions\AmountIncorrectException;
 use App\Exceptions\Transactions\InsufficientFundsException;
+use App\Models\Transaction;
 use App\Repositories\TransactionRepository\TransactionRepositoryContract;
 use App\Repositories\UserRepository\UserRepositoryContract;
 use Illuminate\Support\Facades\DB;
@@ -85,6 +87,21 @@ final class TransactionService implements TransactionServiceContract
             });
 
         }, config('transactions.count_attempts_transaction'));
+    }
+
+    public function winningRaffle(WinningRaffleDTO $data): Transaction
+    {
+        $this->checkCorrectAmount($data->amount);
+
+        $createDTO = new CreateTransactionDTO(
+            type: TypeTransaction::WINNING_RAFFLE,
+            amount: $data->amount,
+            user_id: $data->user_id,
+            description: $data->description,
+            metadata: ['raffle_id' => $data->raffle_id],
+        );
+
+        return $this->transactionRepository->create($createDTO);
     }
 
     private function transactionLog(string $message, TypeTransaction $type, mixed $data): void

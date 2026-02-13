@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\DTO\Transaction;
 
-use App\Enums\TypeTransaction;
-
-final readonly class CreateTransactionDTO
+final readonly class WinningRaffleDTO
 {
     public function __construct(
-        public TypeTransaction $type,
-        public float $amount,
         public int|string $user_id,
+        public int|string $raffle_id,
+        public float $amount,
         public ?string $description = null,
-        public array $metadata = [],
     ) {}
 }

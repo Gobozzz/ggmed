@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\RaffleType;
 use App\FakeGenerators\EditorGenerator;
 use App\Models\Comment;
 use App\Models\Like;
@@ -23,19 +24,36 @@ class RaffleFactory extends Factory
      */
     public function definition(): array
     {
-        $date_end = rand(0, 1) ? Carbon::now()->addDays(rand(5, 30)) : Carbon::now()->subDays(rand(0, 10));
+        $date_end = rand(0, 1) ? Carbon::now()->addDays(rand(5, 30))->startOfDay() : Carbon::now()->subDays(rand(0, 10))->startOfDay();
 
         return [
+            'type' => RaffleType::MANUAL,
             'title' => fake()->text(100),
             'description' => fake()->text(255),
             'meta_title' => rand(0, 1) ? fake()->text(100) : null,
             'meta_description' => rand(0, 1) ? fake()->text(160) : null,
-            'content' => json_encode(EditorGenerator::make(15)),
+            'content' => rand(0, 1) ? json_encode(EditorGenerator::make(15)) : null,
             'image' => rand(0, 1) ? 'lorem.png' : null,
             'video' => rand(0, 1) ? 'lorem.mp4' : null,
-            'winner_id' => $date_end > Carbon::now() ? User::query()->inRandomOrder()->first() ?? User::factory()->create() : null,
+            'winner_id' => $date_end < Carbon::now()->startOfDay() ? User::query()->inRandomOrder()->first() ?? User::factory()->create() : null,
             'date_end' => $date_end,
+            'prize' => null,
         ];
+    }
+
+    public function weekly(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => RaffleType::WEEKLY,
+                'prize' => ['amount' => rand(3, 5)],
+                'video' => null,
+                'image' => null,
+                'winner_id' => User::query()->inRandomOrder()->first() ?? User::factory()->create(),
+                'date_end' => Carbon::now()->subDays(rand(1, 10)),
+                'content' => null,
+            ];
+        });
     }
 
     public function configure(): Factory

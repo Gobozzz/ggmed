@@ -15,7 +15,7 @@ final class GetWinnerRaffleController extends MoonShineController
 {
     public function __invoke(CrudRequestContract $request, Raffle $raffle): Response|View
     {
-        Gate::authorize('start', Raffle::class);
+        Gate::authorize('start', $raffle);
 
         return view('admin.modals.raffle-winner', ['winner' => $raffle->winner]);
     }

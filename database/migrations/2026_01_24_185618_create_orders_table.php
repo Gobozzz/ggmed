@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('email');
-            $table->string('phone', 40);
-            $table->string('name', 100);
-            $table->string('city', 50);
-            $table->string('street', 80);
-            $table->string('house', 20);
-            $table->decimal('total_price', 9);
-            $table->unsignedTinyInteger('count_positions');
+            $table->string('customer_email');
+            $table->string('customer_phone', 40);
+            $table->string('customer_name', 100);
+            $table->string('customer_city', 50);
+            $table->string('customer_street', 80);
+            $table->string('customer_house', 20);
+            $table->decimal('total_amount', 10);
+            $table->string('payment_provider', 50);
+            $table->string('payment_status', 50);
             $table->string('comment', 700)->nullable();
             $table->timestamps();
         });

@@ -37,7 +37,7 @@ class MentionIndexPage extends IndexPage
         return [
             ID::make(),
             Image::make('Фото', 'image'),
-            Text::make('Заголовок', 'title'),
+            Text::make('Заголовок', 'title')->prettyLimit(),
             Textarea::make('Описание', 'description'),
             Url::make('Ссылка', 'url'),
             Date::make('Дата', 'created_at'),

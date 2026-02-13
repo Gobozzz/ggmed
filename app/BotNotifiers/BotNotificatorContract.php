@@ -8,7 +8,7 @@ use App\Enums\Bots\TypeBot;
 
 interface BotNotificatorContract
 {
-    public function sendMessage(string $message): void;
+    public function sendMessage(string $message): bool;
 
     public function bot(TypeBot $bot): self;
 

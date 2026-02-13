@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies\MoonShine;
 
+use App\Enums\RaffleType;
 use App\Models\MoonshineUser;
 use App\Models\Raffle;
 
@@ -38,7 +39,7 @@ class RafflePolicy
      */
     public function update(MoonshineUser $user, Raffle $raffle): bool
     {
-        return $user->isSuperUser();
+        return $user->isSuperUser() && $raffle->type === RaffleType::MANUAL;
     }
 
     /**
@@ -70,8 +71,8 @@ class RafflePolicy
         return $user->isSuperUser();
     }
 
-    public function start(MoonshineUser $user): bool
+    public function start(MoonshineUser $user, Raffle $raffle): bool
     {
-        return $user->isSuperUser();
+        return $user->isSuperUser() && $raffle->type === RaffleType::MANUAL;
     }
 }

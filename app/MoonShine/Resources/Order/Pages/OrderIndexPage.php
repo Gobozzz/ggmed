@@ -33,11 +33,12 @@ class OrderIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            Number::make('Сумма', 'total_price', fn ($item) => $item->total_price.', руб.')->sortable(),
-            Number::make('Кол-во позиций', 'count_positions')->sortable(),
-            Text::make('Имя', 'name'),
-            Phone::make('Телефон', 'phone'),
-            Text::make('Доставка', 'city', fn ($item) => $item->city.', '.$item->street.', '.$item->house),
+            Number::make('Общая сумма заказа', 'total_amount', fn ($item) => $item->total_amount.', руб.')->sortable(),
+            Text::make('Способ оплаты', 'payment_provider', fn ($item) => $item->payment_provider->label()),
+            Text::make('Статус платежа', 'payment_status', fn ($item) => $item->payment_status->label()),
+            Text::make('Имя покупателя', 'customer_name'),
+            Phone::make('Телефон покупателя', 'customer_phone'),
+            Text::make('Доставка', 'customer_city', fn ($item) => $item->customer_city.', '.$item->customer_street.', '.$item->customer_house),
             Date::make('Дата заказа', 'created_at')->sortable(),
         ];
     }
@@ -57,8 +58,9 @@ class OrderIndexPage extends IndexPage
     {
         return [
             Date::make('Дата', 'created_at'),
-            Text::make('Имя заказчика', 'name'),
-            Phone::make('Телефон заказчика', 'phone'),
+            Text::make('Имя заказчика', 'customer_name'),
+            Phone::make('Телефон заказчика', 'customer_phone'),
+            Text::make('Почта', 'customer_email'),
         ];
     }
 

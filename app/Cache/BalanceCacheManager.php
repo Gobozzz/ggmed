@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Cache;
 
 final class BalanceCacheManager
 {
-    const TTL = 300;
+    const TTL = 900;
 
     public function __construct(private readonly TransactionRepositoryContract $transactionRepository) {}
 
-    public function get(int $user_id): float
+    public function get(int|string $user_id): float
     {
         return (float) Cache::remember(
             $this->getCacheKeyForBalanceUser($user_id),
@@ -22,12 +22,12 @@ final class BalanceCacheManager
         );
     }
 
-    public function forget(int $user_id): void
+    public function forget(int|string $user_id): void
     {
         Cache::forget($this->getCacheKeyForBalanceUser($user_id));
     }
 
-    private function getCacheKeyForBalanceUser(int $user_id): string
+    private function getCacheKeyForBalanceUser(int|string $user_id): string
     {
         return "user_balance_{$user_id}";
     }
