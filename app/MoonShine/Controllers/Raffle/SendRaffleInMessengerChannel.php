@@ -29,18 +29,20 @@ final class SendRaffleInMessengerChannel extends MoonShineController
             $message->withImage(Storage::url($raffle->image));
         }
 
-        $message->sendMessage($this->getFormattedMessage($raffle));
+        if (! $message->sendMessage($this->getFormattedMessage($raffle))) {
+            return $this->json(message: 'Не удалось отправить уведомление в ТГ канал', status: Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return $this->json('Отправил сообщение в ТГ канал');
     }
 
     private function getFormattedMessage(Raffle $raffle): string
     {
-        return '<b>Внимани, Розыгрыш!</b>'."\n\n".
-            $raffle->title."\n\n".
-            $raffle->description."\n\n".
-            'Переходите по ссылке ниже, и выполняйте условия розыгрыша, они просты.'."\n\n".
-            'Итоги розыгрыша подводим: '.$raffle->date_end->locale('ru')->isoFormat('D MMMM Y')."г.\n\n".
-            '<b>Учавствуйте, и возможо именно вы станете победителем розыгрыша</b>';
+        return '🎉 <b>Внимание, Розыгрыш!</b> 🎉'."\n\n".
+            '🏆 '.$raffle->title."\n\n".
+            '📝 '.$raffle->description."\n\n".
+            '👉 Переходите по ссылке ниже, и выполняйте условия розыгрыша, они просты.'."\n\n".
+            '⏰ Итоги розыгрыша подводим: '.$raffle->date_end->locale('ru')->isoFormat('D MMMM Y')."г.\n\n".
+            '🎁 <b>Учавствуйте, и возможо именно вы станете победителем розыгрыша!</b> ✨';
     }
 }

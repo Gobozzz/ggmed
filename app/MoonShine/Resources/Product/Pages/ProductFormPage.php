@@ -19,6 +19,7 @@ use MoonShine\Laravel\Fields\Slug;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
+use MoonShine\UI\Components\Alert;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Tabs;
@@ -58,19 +59,24 @@ class ProductFormPage extends FormPage
                         Text::make('Арт.(необяз)', 'article')->unescape(),
                         Text::make('Название (до 100 символов)', 'title')->unescape(),
                         Textarea::make('Описание (до 255 символов)', 'description')->unescape(),
-                        Number::make('Цена', 'price', fn ($item) => $item->price.', руб')->step(0.01),
-                        Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price.', руб')->step(0.01),
+                        Number::make('Цена', 'price')->step(0.01),
+                        Number::make('Старая цена (необязательно)', 'old_price')->nullable()->step(0.01),
                         Switcher::make('В наличии?', 'is_have'),
                         Text::make('Бренд (до 50 символов, необяз)', 'brand')->unescape(),
                         Textarea::make('Состав (до 100 символов, необяз)', 'structure')->unescape(),
+                    ]),
+                    Tab::make('Редактор(подробнее о товаре)', [
+                        EditorJs::make('Подробности', 'content'),
                     ]),
                     Tab::make('SEO', [
                         Slug::make('Слаг', 'slug')->from('title')->unescape(),
                         Text::make('Meta Заголовок', 'meta_title')->unescape(),
                         Textarea::make('Meta Описание', 'meta_description')->unescape(),
                     ]),
-                    Tab::make('Редактор', [
-                        EditorJs::make('Редактор', 'content'),
+                    Tab::make('GG COIN', [
+                        Alert::make()->content('Необязательно, но если укажите, то товар можно будет приобрести за валюту GG COIN. Поле стенет обязательным, если ниже укажите "Покупка только за GG COIN"'),
+                        Number::make('Цена в GG COIN', 'price_coin')->nullable()->step(0.01),
+                        Switcher::make('Покупка только за GG COIN?', 'can_buy_only_coin'),
                     ]),
                 ]),
             ]),
@@ -99,6 +105,8 @@ class ProductFormPage extends FormPage
             'description' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:1'],
             'old_price' => ['nullable', 'numeric', 'min:1'],
+            'can_buy_only_coin' => ['required', 'boolean'],
+            'price_coin' => ['nullable', 'required_if:can_buy_only_coin,true', 'numeric', 'min:1'],
             'is_have' => ['required', 'boolean'],
             'brand' => ['nullable', 'string', 'max:50'],
             'structure' => ['nullable', 'string', 'max:100'],

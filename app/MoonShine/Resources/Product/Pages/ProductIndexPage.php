@@ -48,11 +48,10 @@ class ProductIndexPage extends IndexPage
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Фото', 'images')->multiple(),
             Text::make('Арт.', 'article'),
-            Text::make('Название', 'title'),
-            Number::make('Цена, руб', 'price')->updateOnPreview(),
-            Number::make('Старая цена, руб', 'old_price')->updateOnPreview(),
+            Text::make('Название', 'title')->prettyLimit(),
+            Number::make('Цена, руб', 'price')->nullable()->updateOnPreview(),
+            Number::make('Старая цена, руб', 'old_price')->nullable()->updateOnPreview(),
             Switcher::make('В наличии?', 'is_have')->updateOnPreview(),
-            Text::make('Бренд', 'brand'),
             Select::make('Продвижение', 'level_hipe')
                 ->sortable()
                 ->options(LevelHipe::getAll())

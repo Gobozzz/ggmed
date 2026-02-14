@@ -4,46 +4,38 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Controllers\Raffle;
 
-use App\Enums\UserStatus;
+use App\Actions\Raffle\SelectWinnerRaffleAction;
 use App\Models\Raffle;
-use App\Models\User;
+use App\Repositories\RaffleRepository\RaffleRepositoryContract;
 use Illuminate\Support\Facades\Gate;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;
+use MoonShine\Crud\Contracts\Notifications\MoonShineNotificationContract;
 use MoonShine\Laravel\Http\Controllers\MoonShineController;
 use Symfony\Component\HttpFoundation\Response;
 
 final class SelectWinnerRaffleController extends MoonShineController
 {
+    public function __construct(
+        MoonShineNotificationContract             $notification,
+        private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
+        private readonly RaffleRepositoryContract $raffleRepository,
+    )
+    {
+        parent::__construct($notification);
+    }
+
     public function __invoke(CrudRequestContract $request, Raffle $raffle): Response
     {
-        Gate::authorize('start', Raffle::class);
+        Gate::authorize('start', $raffle);
 
-        $winner = $this->getWinner($raffle);
+        $winner = $this->selectWinnerRaffleAction->execute($raffle->getKey());
         if ($winner === null) {
             return $this->json(message: 'Не нашлось победителя', status: Response::HTTP_NOT_FOUND);
         }
-        if ($this->setWinner($raffle, $winner)) {
+        if ($this->raffleRepository->setWinner($winner->getKey(), $raffle->getKey())) {
             return $this->json(message: 'Победитель обнаружен', data: ['winner' => $winner]);
         }
 
         return $this->json(message: 'Не удалось установить победителя', status: Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-
-    private function getWinner(Raffle $raffle): ?User
-    {
-        return User::query()->whereHas('comments', function ($query) use ($raffle) {
-            $query->where('commentable_type', Raffle::class)
-                ->where('commentable_id', $raffle->getKey());
-        })
-            ->where('status', UserStatus::ACTIVED)
-            ->inRandomOrder()
-            ->first();
-    }
-
-    private function setWinner(Raffle $raffle, User $user): bool
-    {
-        $raffle->winner_id = $user->getKey();
-
-        return $raffle->save();
     }
 }

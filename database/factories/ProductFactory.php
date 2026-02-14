@@ -24,7 +24,9 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $price = fake()->randomFloat(2, 3000, 120000);
+        $price = fake()->randomFloat(2, 300, 5000);
+        $price_coin = fake()->randomFloat(2, 3000, 9000);
+        $can_buy_only_coin = (bool) rand(0, 3);
 
         return [
             'meta_title' => rand(0, 1) ? fake()->text(100) : null,
@@ -35,10 +37,12 @@ class ProductFactory extends Factory
             'description' => fake()->text(255),
             'images' => ['lorem.png', 'lorem.png', 'lorem.png'],
             'price' => $price,
-            'old_price' => rand(0, 1) ? $price + rand(1000, 5000) : null,
-            'structure' => fake()->text(100),
-            'brand' => fake()->randomElement(['GGMED', fake()->text(30)]),
-            'is_have' => rand(0, 1),
+            'old_price' => rand(0, 1) ? $price + rand(1000, 1500) : null,
+            'price_coin' => $can_buy_only_coin ? $price_coin : (rand(0, 1) ? $price_coin : null),
+            'can_buy_only_coin' => $can_buy_only_coin,
+            'structure' => rand(0, 1) ? fake()->text(100) : null,
+            'brand' => rand(0, 1) ? fake()->randomElement(['GGMED', fake()->text(30)]) : null,
+            'is_have' => (bool) rand(0, 1),
             'content' => rand(0, 2) ? json_encode(EditorGenerator::make(15)) : null,
         ];
     }

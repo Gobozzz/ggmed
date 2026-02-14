@@ -48,6 +48,8 @@ class ProductDetailPage extends DetailPage
             Textarea::make('Описание', 'description'),
             Number::make('Цена', 'price', fn ($item) => $item->price.', руб'),
             Number::make('Старая цена', 'old_price', fn ($item) => $item->old_price ? ($item->old_price.', руб') : ''),
+            Number::make('Цена в GG COIN', 'price_coin', fn ($item) => $item->price_coin ? ($item->price_coin.', GG COIN') : ''),
+            Switcher::make('Можно купить только за GG COIN?', 'can_buy_only_coin'),
             Switcher::make('В наличии?', 'is_have'),
             Text::make('Бренд', 'brand'),
             Text::make('Состав', 'structure'),

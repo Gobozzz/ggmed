@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Enums\Exceptions;
 
 /**
- * Range 1000-1999
+ * Range 100-199
  */
 enum TransactionException: int
 {
-    case INSUFFICIENT_FUNDS = 1000;
-    case AMOUNT_INCORRECT = 1001;
+    case INSUFFICIENT_FUNDS = 100;
+    case AMOUNT_INCORRECT = 101;
 }

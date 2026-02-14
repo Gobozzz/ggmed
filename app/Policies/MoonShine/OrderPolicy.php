@@ -38,7 +38,7 @@ class OrderPolicy
      */
     public function update(MoonshineUser $user, Order $order): bool
     {
-        return false;
+        return $user->isSuperUser();
     }
 
     /**
@@ -46,7 +46,7 @@ class OrderPolicy
      */
     public function delete(MoonshineUser $user, Order $order): bool
     {
-        return $user->isSuperUser();
+        return false;
     }
 
     /**
@@ -62,11 +62,11 @@ class OrderPolicy
      */
     public function forceDelete(MoonshineUser $user, Order $order): bool
     {
-        return $user->isSuperUser();
+        return false;
     }
 
     public function massDelete(MoonshineUser $user): bool
     {
-        return $user->isSuperUser();
+        return false;
     }
 }

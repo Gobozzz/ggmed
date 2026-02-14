@@ -7,6 +7,7 @@ namespace App\Adapters\AiAssistant;
 use App\DTO\AI\AiMessage;
 use App\Enums\AI\AiMessageRole;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 final class GigaChatAssistant implements AiAssistantContract
@@ -40,10 +41,12 @@ final class GigaChatAssistant implements AiAssistantContract
 
                 return null;
             } else {
-                throw new \Exception('Не удалось получить ответ от Giga Chat');
+                throw new \Exception('Не удалось получить ответ от Giga Chat: '.$response->body());
             }
         } catch (\Exception $e) {
-            throw new \Exception('Giga Chat Get Answer Error: '.$e->getMessage());
+            Log::error('Giga Chat Get Answer Error: '.$e->getMessage());
+
+            return null;
         }
     }
 
@@ -69,10 +72,14 @@ final class GigaChatAssistant implements AiAssistantContract
 
                     return $gigaChatItem['value'] ?? null;
                 }
+            } else {
+                throw new \Exception('Не удалось получить ответ от Giga Chat: '.$response->body());
             }
 
             return null;
         } catch (\Exception $e) {
+            Log::error('Giga Chat Get Remains Token Error: '.$e->getMessage());
+
             return null;
         }
     }
@@ -82,7 +89,7 @@ final class GigaChatAssistant implements AiAssistantContract
         return config('services.giga_chat.pay_link', '');
     }
 
-    private function getAccessToken(): string
+    private function getAccessToken(): ?string
     {
         try {
             $response = Http::withHeaders([
@@ -105,7 +112,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 throw new \Exception('Ошибка получения Access Token');
             }
         } catch (\Exception $exception) {
-            throw new \Exception('Giga Chat Auth Error: '.$exception->getMessage());
+            return null;
         }
     }
 

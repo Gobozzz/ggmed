@@ -34,12 +34,15 @@ class Product extends Model implements Commentable, Likeable, Taggable
         'is_have',
         'content',
         'level_hipe',
+        'price_coin',
+        'can_buy_only_coin',
     ];
 
     protected $casts = [
         'content' => 'array',
         'images' => 'array',
         'is_have' => 'boolean',
+        'can_buy_only_coin' => 'boolean',
         'level_hipe' => LevelHipe::class,
     ];
 }

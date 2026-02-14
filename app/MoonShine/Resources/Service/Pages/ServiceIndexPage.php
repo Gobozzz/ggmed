@@ -36,7 +36,7 @@ class ServiceIndexPage extends IndexPage
         return [
             ID::make()->sortable(),
             Image::make('Фото', 'image'),
-            Text::make('Название', 'name'),
+            Text::make('Название', 'name')->prettyLimit(),
             Slug::make('Слаг', 'slug'),
             Text::make('Цена', 'price', fn ($model) => ($model->is_start_price ? 'от ' : '').number_format($model->price, 2, '.', ' ').' ₽')->sortable(),
             BelongsTo::make('Родительская услуга', 'parent', resource: ServiceResource::class),

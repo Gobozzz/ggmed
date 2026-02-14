@@ -10,6 +10,25 @@ services:
     volumes:
       - .:/var/www:cached
 
+  scheduler:
+    build: .docker/php  # Используем тот же образ, что и php
+    container_name: laravel_scheduler
+    volumes:
+      - .:/var/www:cached  # Монтируем код так же
+    working_dir: /var/www
+    command: |
+      sh -c "while true; do
+        php artisan schedule:run
+        sleep 60
+      done"
+    depends_on:
+      - php
+      - db
+      - redis
+    restart: unless-stopped  # Автоматический перезапуск
+    networks:
+      - default  # Использует ту же сеть
+
   ####################################################################################################
   # Nginx
   ####################################################################################################

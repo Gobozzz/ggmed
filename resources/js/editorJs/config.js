@@ -17,6 +17,7 @@ import EditorJsColumns from "@calumk/editorjs-columns/src/editorjs-columns.js";
 import Warning from '@editorjs/warning';
 import Alert from 'editorjs-alert';
 import TelegramPost from 'editorjs-telegram-post';
+import CodeTool from "@editorjs/code";
 
 const imageUploader = {
     uploadByFile(file) {
@@ -72,6 +73,7 @@ let column_tools = {
     telegramPost: TelegramPost,
     warning: Warning,
     alert: Alert,
+    class: CodeTool,
 }
 
 export default class Config {
@@ -182,6 +184,11 @@ export default class Config {
                 class: LinkTool, config: {
                     endpoint: '/moonshine/editor-js-field/fetch/url',
                 }, inlineToolbar: false, shortcut: editorJsConf.link.shortcut
+            };
+        }
+        if (editorJsConf.code.activated) {
+            tools.code = {
+                class: CodeTool,
             };
         }
         if (editorJsConf.inlineCode.activated) {

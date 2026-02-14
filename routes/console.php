@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use App\Console\Commands\Raffle\ClearWeeklyUnplayedRaffles;
+use App\Console\Commands\Raffle\CreateWeeklyRaffleCommand;
+use App\Console\Commands\Raffle\PlayWeeklyRaffleCommand;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Schedule::command(CreateWeeklyRaffleCommand::class)->weeklyOn(1, '21:00');
+Schedule::command(PlayWeeklyRaffleCommand::class)->weeklyOn(5, '21:00');
+Schedule::command(ClearWeeklyUnplayedRaffles::class)->dailyAt('23:00');

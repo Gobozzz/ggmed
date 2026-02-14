@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('slug', 200)->unique();
             $table->string('description');
             $table->text('images');
-            $table->decimal('price', 10, 2);
-            $table->decimal('old_price', 9)->nullable();
+            $table->decimal('price');
+            $table->decimal('old_price')->nullable();
+            $table->decimal('price_coin', 10)->nullable();
+            $table->boolean('can_buy_only_coin')->default(false);
             $table->string('structure', 100)->nullable();
             $table->string('brand', 50)->nullable();
             $table->boolean('is_have');

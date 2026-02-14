@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages;
 
 use App\Adapters\AiAssistant\AiAssistantContract;
+use App\Enums\RaffleType;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Question;
@@ -54,7 +55,7 @@ class Dashboard extends Page
     {
         $aiAssistant = app(AiAssistantContract::class);
         $remainsTokens = $aiAssistant->getRemainsTokens();
-        $actual_raffles = Raffle::query()->whereNull('winner_id')->orderBy('date_end')->paginate(3, ['id', 'title', 'description', 'image', 'date_end']);
+        $actual_raffles = Raffle::query()->where('type', RaffleType::MANUAL)->whereNull('winner_id')->orderBy('date_end')->paginate(3, ['id', 'title', 'description', 'image', 'date_end']);
         $actual_questions = Question::query()->whereNull('answer')->paginate(3, ['id', 'title', 'user_id']);
 
         return [
@@ -94,7 +95,7 @@ class Dashboard extends Page
                             ->items($actual_raffles)
                             ->cast(new ModelCaster(Raffle::class))
                             ->thumbnail(fn ($item) => $item->image ? Storage::url($item->image) : '/admin-files/gg.png')
-                            ->header(fn ($item) => Badge::make($item->date_end->locale('ru')->isoFormat('D MMMM'), $this->getBadgeColorForRaffle($item->date_end)))
+                            ->header(fn ($item) => Badge::make('Вы должны его провести: '.$item->date_end->locale('ru')->isoFormat('D MMMM'), $this->getBadgeColorForRaffle($item->date_end)))
                             ->title('title')
                             ->url(fn ($item) => app(RaffleResource::class)->getDetailPageUrl($item->getKey()))
                             ->name('actual-raffles')
@@ -122,8 +123,8 @@ class Dashboard extends Page
                             Card::make(
                                 thumbnail: '/admin-files/ai.jpg',
                                 values: [
-                                    'Остаток токенов' => Link::make($aiAssistant->getPayLink(), fn () => number_format($remainsTokens, 0, '', ' ').' токенов')->icon('cpu-chip')
-                                        ->style(['background:'.($remainsTokens <= 200000 ? '#ff0000' : ($remainsTokens <= 600000 ? '#ff6600' : '#178a00')), 'padding:5px 10px', 'border-radius:4px', 'color:white']),
+                                    'Остаток токенов' => Link::make($aiAssistant->getPayLink(), fn () => $remainsTokens ? (number_format($remainsTokens, 0, '', ' ').' токенов') : 'Нет информации')->icon('cpu-chip')
+                                        ->style(['background:'.($remainsTokens === null || $remainsTokens <= 200000 ? '#ff0000' : ($remainsTokens <= 600000 ? '#ff6600' : '#178a00')), 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                                 ]
                             ),
                         ])->columnSpan(6),

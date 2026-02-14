@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Raffle\Pages;
 
-use App\MoonShine\Fields\Video;
+use App\Enums\RaffleType;
 use App\MoonShine\Resources\Raffle\RaffleResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
@@ -21,6 +21,7 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
@@ -50,11 +51,12 @@ class RaffleIndexPage extends IndexPage
             ),
             MorphToMany::make('Теги', 'tags', resource: TagResource::class)->onlyCount(),
             Image::make('Фото', 'image'),
-            Video::make('Видео', 'video'),
             Textarea::make('Заголовок', 'title'),
-            Date::make('Дата конца(Г.м.д)', 'date_end')->updateOnPreview()->sortable(),
             BelongsTo::make('Победитель', 'winner', resource: UserResource::class),
-            Date::make('Дата создания', 'created_at')->updateOnPreview()->sortable(),
+            Text::make('Тип', 'type', fn ($item) => $item->type->label().($item->type === RaffleType::WEEKLY ? ' ('.$item->prize['amount'].' GG COIN)' : '')),
+            Date::make('Дата конца розыгрыша', 'date_end')
+//                ->updateOnPreview(condition: fn() => auth()->user()->can('update', ))
+                ->sortable(),
         ];
     }
 
@@ -76,6 +78,7 @@ class RaffleIndexPage extends IndexPage
             Date::make('Дата конца', 'date_end'),
             Switcher::make('Без победителя', 'winner_id')
                 ->onApply(fn (Builder $query) => $query->whereNull('winner_id')),
+            Select::make('Тип розыгрыша', 'type')->options(RaffleType::getAll())->nullable(),
         ];
     }
 

@@ -25,6 +25,7 @@ final class BotLoggingHandler extends AbstractProcessingHandler
         if ($bot === null) {
             throw new \Exception('TypeBot is not valid');
         }
+
         $this->bot = $bot;
 
         parent::__construct($level, $bubble);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\UserStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,6 +52,16 @@ class User extends Authenticatable
             'password' => 'hashed',
             'status' => UserStatus::class,
         ];
+    }
+
+    public function scopeActived(Builder $query): Builder
+    {
+        return $query->where($this->getTable() . '.status', UserStatus::ACTIVED);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === UserStatus::ACTIVED;
     }
 
     public function transactions(): HasMany

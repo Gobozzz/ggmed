@@ -8,10 +8,12 @@ use App\Cache\BalanceCacheManager;
 use App\DTO\Transaction\AdminReplenishedDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
 use App\DTO\Transaction\CreateTransactionDTO;
+use App\DTO\Transaction\WinningWeeklyRaffleDTO;
 use App\Enums\ChannelLog;
 use App\Enums\TypeTransaction;
 use App\Exceptions\Transactions\AmountIncorrectException;
 use App\Exceptions\Transactions\InsufficientFundsException;
+use App\Models\Transaction;
 use App\Repositories\TransactionRepository\TransactionRepositoryContract;
 use App\Repositories\UserRepository\UserRepositoryContract;
 use Illuminate\Support\Facades\DB;
@@ -21,9 +23,11 @@ final class TransactionService implements TransactionServiceContract
 {
     public function __construct(
         private readonly TransactionRepositoryContract $transactionRepository,
-        private readonly UserRepositoryContract $userRepository,
-        private readonly BalanceCacheManager $balanceCacheManager,
-    ) {}
+        private readonly UserRepositoryContract        $userRepository,
+        private readonly BalanceCacheManager           $balanceCacheManager,
+    )
+    {
+    }
 
     public function adminReplenished(AdminReplenishedDTO $data): void
     {
@@ -87,6 +91,21 @@ final class TransactionService implements TransactionServiceContract
         }, config('transactions.count_attempts_transaction'));
     }
 
+    public function winningWeeklyRaffle(WinningWeeklyRaffleDTO $data): Transaction
+    {
+        $this->checkCorrectAmount($data->amount);
+
+        $createDTO = new CreateTransactionDTO(
+            type: TypeTransaction::WINNING_RAFFLE,
+            amount: $data->amount,
+            user_id: $data->user_id,
+            description: $data->description,
+            metadata: ['raffle_id' => $data->raffle_id],
+        );
+
+        return $this->transactionRepository->create($createDTO);
+    }
+
     private function transactionLog(string $message, TypeTransaction $type, mixed $data): void
     {
         try {
@@ -94,7 +113,7 @@ final class TransactionService implements TransactionServiceContract
         } catch (\Exception $e) {
             $data = 'Не удалось сериализовать данные транзакции';
         }
-        Log::channel(ChannelLog::TRANSACTIONS->value)->info("{$message}\nТип:{$type->label()}\n\n".$data);
+        Log::channel(ChannelLog::TRANSACTIONS->value)->info("{$message}\nТип:{$type->label()}\n\n" . $data);
     }
 
     private function checkCorrectAmount(float $amount): void
