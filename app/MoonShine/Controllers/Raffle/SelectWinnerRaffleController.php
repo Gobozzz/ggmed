@@ -16,11 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 final class SelectWinnerRaffleController extends MoonShineController
 {
     public function __construct(
-        MoonShineNotificationContract             $notification,
+        MoonShineNotificationContract $notification,
         private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
         private readonly RaffleRepositoryContract $raffleRepository,
-    )
-    {
+    ) {
         parent::__construct($notification);
     }
 

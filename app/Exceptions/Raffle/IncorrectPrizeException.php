@@ -10,7 +10,7 @@ class IncorrectPrizeException extends BaseApiException
     public function __construct()
     {
         parent::__construct(
-            "Incorrect prize for raffle",
+            'Incorrect prize for raffle',
             RaffleException::INCORRECT_PRIZE->value,
         );
     }

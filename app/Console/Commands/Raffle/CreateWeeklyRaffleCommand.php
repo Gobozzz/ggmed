@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Raffle;
 
-use App\Actions\Raffle\CreateWeeklyRaffleAction;
-use App\Enums\ChannelLog;
+use App\Services\RaffleService\RaffleServiceContract;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 final class CreateWeeklyRaffleCommand extends Command
 {
@@ -16,7 +14,7 @@ final class CreateWeeklyRaffleCommand extends Command
     protected $description = 'Создание еженедельного розыгрыша';
 
     public function __construct(
-        private readonly CreateWeeklyRaffleAction $createWeeklyRaffleAction,
+        private readonly RaffleServiceContract $raffleService,
     )
     {
         parent::__construct();
@@ -24,7 +22,6 @@ final class CreateWeeklyRaffleCommand extends Command
 
     public function handle(): void
     {
-        Log::channel(ChannelLog::INFO->value)->info('Запущена команда создания еженедельного розыгрыша');
-        $this->createWeeklyRaffleAction->execute();
+        $this->raffleService->createWeeklyRaffle();
     }
 }

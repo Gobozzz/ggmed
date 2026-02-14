@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Actions\Raffle;
 
 use App\DTO\Raffle\CreateRaffleDTO;
-use App\Enums\ChannelLog;
+use App\DTO\Raffle\ResultCreateWeeklyDTO;
 use App\Enums\RaffleType;
 use App\Repositories\RaffleRepository\RaffleRepositoryContract;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Illuminate\Support\Facades\Log;
 
 final class CreateWeeklyRaffleAction
 {
@@ -20,7 +19,7 @@ final class CreateWeeklyRaffleAction
     {
     }
 
-    public function execute(): void
+    public function execute(): ResultCreateWeeklyDTO
     {
         $data = new CreateRaffleDTO(
             type: RaffleType::WEEKLY,
@@ -31,10 +30,10 @@ final class CreateWeeklyRaffleAction
         );
 
         try {
-            $new_raffle = $this->raffleRepository->create($data);
-            Log::channel(ChannelLog::INFO->value)->info('Еженедельный розыгрыш создан', ['raffle_id' => $new_raffle->getKey()]);
+            $raffle = $this->raffleRepository->create($data);
+            return new ResultCreateWeeklyDTO(success: true, raffle_id: $raffle->getKey());
         } catch (\Exception $exception) {
-            Log::error('Не удалось создать еженедельный розыгрыш', ['exception' => $exception->getMessage()]);
+            return new ResultCreateWeeklyDTO(success: false, error_message: $exception->getMessage());
         }
     }
 }
