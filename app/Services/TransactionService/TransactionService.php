@@ -8,7 +8,7 @@ use App\Cache\BalanceCacheManager;
 use App\DTO\Transaction\AdminReplenishedDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
 use App\DTO\Transaction\CreateTransactionDTO;
-use App\DTO\Transaction\WinningRaffleDTO;
+use App\DTO\Transaction\WinningWeeklyRaffleDTO;
 use App\Enums\ChannelLog;
 use App\Enums\TypeTransaction;
 use App\Exceptions\Transactions\AmountIncorrectException;
@@ -23,9 +23,11 @@ final class TransactionService implements TransactionServiceContract
 {
     public function __construct(
         private readonly TransactionRepositoryContract $transactionRepository,
-        private readonly UserRepositoryContract $userRepository,
-        private readonly BalanceCacheManager $balanceCacheManager,
-    ) {}
+        private readonly UserRepositoryContract        $userRepository,
+        private readonly BalanceCacheManager           $balanceCacheManager,
+    )
+    {
+    }
 
     public function adminReplenished(AdminReplenishedDTO $data): void
     {
@@ -89,7 +91,7 @@ final class TransactionService implements TransactionServiceContract
         }, config('transactions.count_attempts_transaction'));
     }
 
-    public function winningRaffle(WinningRaffleDTO $data): Transaction
+    public function winningWeeklyRaffle(WinningWeeklyRaffleDTO $data): Transaction
     {
         $this->checkCorrectAmount($data->amount);
 
@@ -111,7 +113,7 @@ final class TransactionService implements TransactionServiceContract
         } catch (\Exception $e) {
             $data = 'Не удалось сериализовать данные транзакции';
         }
-        Log::channel(ChannelLog::TRANSACTIONS->value)->info("{$message}\nТип:{$type->label()}\n\n".$data);
+        Log::channel(ChannelLog::TRANSACTIONS->value)->info("{$message}\nТип:{$type->label()}\n\n" . $data);
     }
 
     private function checkCorrectAmount(float $amount): void

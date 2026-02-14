@@ -6,7 +6,7 @@ namespace App\Services\TransactionService;
 
 use App\DTO\Transaction\AdminReplenishedDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
-use App\DTO\Transaction\WinningRaffleDTO;
+use App\DTO\Transaction\WinningWeeklyRaffleDTO;
 use App\Models\Transaction;
 
 interface TransactionServiceContract
@@ -15,5 +15,5 @@ interface TransactionServiceContract
 
     public function writeOffAdmin(AdminWriteOffDTO $data): void;
 
-    public function winningRaffle(WinningRaffleDTO $data): Transaction;
+    public function winningWeeklyRaffle(WinningWeeklyRaffleDTO $data): Transaction;
 }

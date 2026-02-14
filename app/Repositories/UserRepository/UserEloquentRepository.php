@@ -17,9 +17,11 @@ final class UserEloquentRepository implements UserRepositoryContract
     public function getRandomParticipantForRaffle(int|string $raffle_id): ?User
     {
         return User::query()->actived()
-            ->whereHas('comments', function ($query) use ($raffle_id) {
-                $query->where('commentable_type', Raffle::class)
-                    ->where('commentable_id', $raffle_id);
-            })->inRandomOrder()->first();
+            ->select('users.*')
+            ->join('comments', 'users.id', '=', 'comments.user_id')
+            ->where('comments.commentable_type', Raffle::class)
+            ->where('comments.commentable_id', $raffle_id)
+            ->inRandomOrder()
+            ->first();
     }
 }

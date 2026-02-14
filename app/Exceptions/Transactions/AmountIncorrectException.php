@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Exceptions\Transactions;
 
 use App\Enums\Exceptions\TransactionException;
-use Exception;
+use App\Exceptions\BaseApiException;
 
-class AmountIncorrectException extends Exception
+class AmountIncorrectException extends BaseApiException
 {
     public function __construct()
     {

@@ -56,7 +56,7 @@ class User extends Authenticatable
 
     public function scopeActived(Builder $query): Builder
     {
-        return $query->where('status', UserStatus::ACTIVED);
+        return $query->where($this->getTable() . '.status', UserStatus::ACTIVED);
     }
 
     public function isActive(): bool
