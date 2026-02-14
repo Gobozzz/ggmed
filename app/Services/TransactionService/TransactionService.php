@@ -42,7 +42,7 @@ final class TransactionService implements TransactionServiceContract
 
             $createDTO = new CreateTransactionDTO(
                 type: TypeTransaction::ADMIN_REPLENISHED,
-                amount: $data->amount,
+                amount: abs($data->amount),
                 user_id: $data->user_id,
                 description: $data->description,
                 metadata: ['admin_id' => $data->admin_id],
@@ -75,7 +75,7 @@ final class TransactionService implements TransactionServiceContract
 
             $createDTO = new CreateTransactionDTO(
                 type: TypeTransaction::ADMIN_WRITE_OFF,
-                amount: -$data->amount,
+                amount: -abs($data->amount),
                 user_id: $data->user_id,
                 description: $data->description,
                 metadata: ['admin_id' => $data->admin_id],
@@ -97,7 +97,7 @@ final class TransactionService implements TransactionServiceContract
 
         $createDTO = new CreateTransactionDTO(
             type: TypeTransaction::WINNING_RAFFLE,
-            amount: $data->amount,
+            amount: abs($data->amount),
             user_id: $data->user_id,
             description: $data->description,
             metadata: ['raffle_id' => $data->raffle_id],

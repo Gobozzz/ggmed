@@ -10,7 +10,7 @@ class NoSetWinnerException extends BaseApiException
     public function __construct()
     {
         parent::__construct(
-            "No set winner for raffle",
+            'No set winner for raffle',
             RaffleException::NO_SET_WINNER->value,
         );
     }

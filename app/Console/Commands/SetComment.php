@@ -30,7 +30,7 @@ class SetComment extends Command
         $raffle = Raffle::query()->orderByDesc('id')->first();
         $raffle->comments()->create([
             'user_id' => User::query()->inRandomOrder()->first()->getKey(),
-            'content' => "Loremchik",
+            'content' => 'Loremchik',
         ]);
     }
 }

@@ -4,28 +4,37 @@ declare(strict_types=1);
 
 namespace App\Services\RaffleService;
 
+use App\Actions\Raffle\CreateWeeklyRaffleAction;
+use App\Actions\Raffle\ProcessSetWinnerWeeklyRaffleAction;
 use App\Actions\Raffle\SelectWinnerRaffleAction;
 use App\Cache\BalanceCacheManager;
-use App\DTO\Transaction\WinningWeeklyRaffleDTO;
 use App\Enums\ChannelLog;
 use App\Exceptions\Raffle\IncorrectPrizeException;
-use App\Exceptions\Raffle\NoSetWinnerException;
 use App\Repositories\RaffleRepository\RaffleRepositoryContract;
-use App\Repositories\UserRepository\UserRepositoryContract;
-use App\Services\TransactionService\TransactionServiceContract;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 final class RaffleService implements RaffleServiceContract
 {
     public function __construct(
-        private readonly RaffleRepositoryContract   $raffleRepository,
-        private readonly UserRepositoryContract     $userRepository,
-        private readonly TransactionServiceContract $transactionService,
-        private readonly BalanceCacheManager        $balanceCacheManager,
-        private readonly SelectWinnerRaffleAction   $selectWinnerRaffleAction,
+        private readonly RaffleRepositoryContract           $raffleRepository,
+        private readonly BalanceCacheManager                $balanceCacheManager,
+        private readonly SelectWinnerRaffleAction           $selectWinnerRaffleAction,
+        private readonly ProcessSetWinnerWeeklyRaffleAction $processSetWinnerWeeklyRaffleAction,
+        private readonly CreateWeeklyRaffleAction           $createWeeklyRaffleAction,
     )
     {
+    }
+
+    public function createWeeklyRaffle(): void
+    {
+        $result = $this->createWeeklyRaffleAction->execute();
+        if ($result->success) {
+            Log::channel(ChannelLog::INFO->value)->info("Был создан еженедельный розыгрыш", [
+                'raffle_id' => $result->raffle_id,
+            ]);
+        } else {
+            Log::error('Не удалось создать еженедельный розыгрыш', ['message' => $result->error_message]);
+        }
     }
 
     public function playWeeklyRaffle(): void
@@ -48,39 +57,23 @@ final class RaffleService implements RaffleServiceContract
             throw new IncorrectPrizeException;
         }
 
-        DB::transaction(function () use ($winner, $raffle) {
-            $this->userRepository->lockForUpdateById($winner->getKey());
+        $resultSet = $this->processSetWinnerWeeklyRaffleAction->execute($winner, $raffle);
 
-            DB::afterRollBack(function () use ($raffle, $winner) {
-                Log::error('Произошла ошибка при установке победителя розыгрыша', [
-                    'winner_id' => $winner->getKey(),
-                    'raffle_id' => $raffle->getKey(),
-                ]);
-            });
+        if ($resultSet->success) {
+            $this->balanceCacheManager->forget($winner->getKey());
+            Log::channel(ChannelLog::INFO->value)->info('Победитель еженедельного розыгрыша установлен', [
+                'winner_id' => $resultSet->winner_id,
+                'raffle_id' => $resultSet->raffle_id,
+                'amount' => $resultSet->amount,
+            ]);
+        } else {
+            Log::error('Не удалось установить победителя для еженедельного розыгрыша', [
+                'message' => $resultSet->error_message,
+                'winner_id' => $resultSet->winner_id,
+                'raffle_id' => $resultSet->raffle_id,
+                'amount' => $resultSet->amount,
+            ]);
+        }
 
-            if (!$this->raffleRepository->setWinner($winner->getKey(), $raffle->getKey())) {
-                throw new NoSetWinnerException;
-            }
-
-            $transaction = $this->transactionService->winningWeeklyRaffle(
-                new WinningWeeklyRaffleDTO(
-                    user_id: $winner->getKey(),
-                    raffle_id: $raffle->getKey(),
-                    amount: (float)$raffle->prize['amount'],
-                )
-            );
-
-            DB::afterCommit(function () use ($winner, $raffle, $transaction) {
-                $this->balanceCacheManager->forget($winner->getKey());
-                Log::channel(ChannelLog::INFO->value)->info('Установлен победитель еженедельного розыгрыша', [
-                    'raffle_id' => $raffle->getKey(),
-                    'winner_id' => $winner->getKey(),
-                    'transaction_id' => $transaction->getKey(),
-                    'amount' => (float)$raffle->prize['amount'],
-                ]);
-            });
-
-        }, config('transactions.count_attempts_transaction'));
     }
-
 }
