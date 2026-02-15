@@ -15,8 +15,7 @@ final class ClearWeeklyUnplayedRaffles extends Command
 
     public function __construct(
         private readonly RaffleRepositoryContract $raffleRepository,
-    )
-    {
+    ) {
         parent::__construct();
     }
 

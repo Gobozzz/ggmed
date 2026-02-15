@@ -16,20 +16,18 @@ use Illuminate\Support\Facades\Log;
 final class RaffleService implements RaffleServiceContract
 {
     public function __construct(
-        private readonly RaffleRepositoryContract           $raffleRepository,
-        private readonly BalanceCacheManager                $balanceCacheManager,
-        private readonly SelectWinnerRaffleAction           $selectWinnerRaffleAction,
+        private readonly RaffleRepositoryContract $raffleRepository,
+        private readonly BalanceCacheManager $balanceCacheManager,
+        private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
         private readonly ProcessSetWinnerWeeklyRaffleAction $processSetWinnerWeeklyRaffleAction,
-        private readonly CreateWeeklyRaffleAction           $createWeeklyRaffleAction,
-    )
-    {
-    }
+        private readonly CreateWeeklyRaffleAction $createWeeklyRaffleAction,
+    ) {}
 
     public function createWeeklyRaffle(): void
     {
         $result = $this->createWeeklyRaffleAction->execute();
         if ($result->success) {
-            Log::channel(ChannelLog::INFO->value)->info("Был создан еженедельный розыгрыш", [
+            Log::channel(ChannelLog::INFO->value)->info('Был создан еженедельный розыгрыш', [
                 'raffle_id' => $result->raffle_id,
             ]);
         } else {
@@ -41,7 +39,7 @@ final class RaffleService implements RaffleServiceContract
     {
         $raffle = $this->raffleRepository->getWeeklyReadyPlaying();
         if ($raffle === null) {
-            Log::channel(ChannelLog::INFO->value)->info('Не найден еженедельный розыгрыш');
+            Log::channel(ChannelLog::INFO->value)->info('Не найден еженедельный розыгрыш готовый к игре');
 
             return;
         }
@@ -53,7 +51,7 @@ final class RaffleService implements RaffleServiceContract
             return;
         }
 
-        if (!isset($raffle->prize['amount'])) {
+        if (! isset($raffle->prize['amount'])) {
             throw new IncorrectPrizeException;
         }
 
