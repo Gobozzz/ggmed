@@ -16,6 +16,8 @@ final class GigaChatAssistant implements AiAssistantContract
 
     const API_URL = 'https://gigachat.devices.sberbank.ru/api/v1';
 
+    const TIMEOUT_REQUEST = 60;
+
     public function sendRequest(array $messages): ?AiMessage
     {
         $token = $this->getAccessToken();
@@ -23,7 +25,7 @@ final class GigaChatAssistant implements AiAssistantContract
         $messages = array_map(fn (AiMessage $message) => $message->toArray(), $messages);
 
         try {
-            $response = Http::timeout(60)->withHeaders([
+            $response = Http::timeout(self::TIMEOUT_REQUEST)->withHeaders([
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'Authorization' => "Bearer {$token}",
@@ -41,7 +43,7 @@ final class GigaChatAssistant implements AiAssistantContract
 
                 return null;
             } else {
-                throw new \Exception('Не удалось получить ответ от Giga Chat: '.$response->body());
+                throw new \Exception('Не удалось получить ответ от Giga Chat');
             }
         } catch (\Exception $e) {
             Log::error('Giga Chat Get Answer Error: '.$e->getMessage());
@@ -55,7 +57,7 @@ final class GigaChatAssistant implements AiAssistantContract
         $token = $this->getAccessToken();
 
         try {
-            $response = Http::timeout(60)->withHeaders([
+            $response = Http::timeout(self::TIMEOUT_REQUEST)->withHeaders([
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'Authorization' => "Bearer {$token}",

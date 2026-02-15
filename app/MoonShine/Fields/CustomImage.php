@@ -26,10 +26,6 @@ class CustomImage extends Image
 
     private ?string $modeResize = null;
 
-    private ?string $originalFilename = null;
-
-    private ?string $originalMimeType = null;
-
     public function scale(?int $width = null, ?int $height = null): self
     {
         $this->width = $width;

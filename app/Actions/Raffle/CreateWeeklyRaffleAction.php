@@ -15,9 +15,7 @@ final class CreateWeeklyRaffleAction
 {
     public function __construct(
         private readonly RaffleRepositoryContract $raffleRepository,
-    )
-    {
-    }
+    ) {}
 
     public function execute(): ResultCreateWeeklyDTO
     {
@@ -31,6 +29,7 @@ final class CreateWeeklyRaffleAction
 
         try {
             $raffle = $this->raffleRepository->create($data);
+
             return new ResultCreateWeeklyDTO(success: true, raffle_id: $raffle->getKey());
         } catch (\Exception $exception) {
             return new ResultCreateWeeklyDTO(success: false, error_message: $exception->getMessage());

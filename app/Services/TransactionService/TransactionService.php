@@ -23,11 +23,9 @@ final class TransactionService implements TransactionServiceContract
 {
     public function __construct(
         private readonly TransactionRepositoryContract $transactionRepository,
-        private readonly UserRepositoryContract        $userRepository,
-        private readonly BalanceCacheManager           $balanceCacheManager,
-    )
-    {
-    }
+        private readonly UserRepositoryContract $userRepository,
+        private readonly BalanceCacheManager $balanceCacheManager,
+    ) {}
 
     public function adminReplenished(AdminReplenishedDTO $data): void
     {
@@ -113,7 +111,7 @@ final class TransactionService implements TransactionServiceContract
         } catch (\Exception $e) {
             $data = 'Не удалось сериализовать данные транзакции';
         }
-        Log::channel(ChannelLog::TRANSACTIONS->value)->info("{$message}\nТип:{$type->label()}\n\n" . $data);
+        Log::channel(ChannelLog::TRANSACTIONS->value)->info("{$message}\nТип:{$type->label()}\n\n".$data);
     }
 
     private function checkCorrectAmount(float $amount): void

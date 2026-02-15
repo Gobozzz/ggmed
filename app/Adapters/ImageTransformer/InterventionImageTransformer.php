@@ -11,14 +11,6 @@ use Intervention\Image\Laravel\Facades\Image;
 
 final class InterventionImageTransformer implements ImageTransformerContract
 {
-    const RESIZE_MODE_SCALE = 'scale';
-
-    const RESIZE_MODE_SCALE_DOWN = 'scaleDown';
-
-    const RESIZE_MODE_RESIZE = 'resize';
-
-    const RESIZE_MODE_RESIZE_DOWN = 'resizeDown';
-
     private ?ImageInterface $image = null;
 
     private ?int $width = null;

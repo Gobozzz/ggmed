@@ -8,6 +8,14 @@ use Illuminate\Http\UploadedFile;
 
 interface ImageTransformerContract
 {
+    const RESIZE_MODE_SCALE = 'scale';
+
+    const RESIZE_MODE_SCALE_DOWN = 'scaleDown';
+
+    const RESIZE_MODE_RESIZE = 'resize';
+
+    const RESIZE_MODE_RESIZE_DOWN = 'resizeDown';
+
     public function image(UploadedFile $image): self;
 
     public function scale(?int $width = null, ?int $height = null): self;
