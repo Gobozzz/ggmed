@@ -38,11 +38,11 @@ final class TelegramBotNotificator implements BotNotificatorContract
             $data['chat_id'] = $chatId;
             try {
                 $response = Http::post($this->getApiUrlEndpoint(), $data);
-                if (!$response->successful()) {
-                    throw new \Exception("Couldn't send message: " . $response->body());
+                if (! $response->successful()) {
+                    throw new \Exception("Couldn't send message: ".$response->body());
                 }
             } catch (\Exception $e) {
-                Log::channel(ChannelLog::FILE->value)->error('Telegram Bot Send Message Error: ' . $e->getMessage());
+                Log::channel(ChannelLog::FILE->value)->error('Telegram Bot Send Message Error: '.$e->getMessage());
 
                 return false;
             }
@@ -131,10 +131,10 @@ final class TelegramBotNotificator implements BotNotificatorContract
     {
         $baseUrl = $this->getBaseApiUrl();
         if ($this->imageUrl !== null) {
-            return $baseUrl . '/sendPhoto';
+            return $baseUrl.'/sendPhoto';
         }
 
-        return $baseUrl . '/sendMessage';
+        return $baseUrl.'/sendMessage';
     }
 
     /**
@@ -142,7 +142,7 @@ final class TelegramBotNotificator implements BotNotificatorContract
      */
     private function getBotToken(): string
     {
-        $token = config('services.bots.' . $this->bot->value . '.token');
+        $token = config('services.bots.'.$this->bot->value.'.token');
         if ($token === null) {
             throw new \Exception('Telegram Bot Token is not configured');
         }
@@ -155,7 +155,7 @@ final class TelegramBotNotificator implements BotNotificatorContract
      */
     private function getChatIds(): array
     {
-        $chatIds = config('services.bots.' . $this->bot->value . '.chat_ids');
+        $chatIds = config('services.bots.'.$this->bot->value.'.chat_ids');
         if ($chatIds === null) {
             throw new \Exception('Telegram Bot Chat_ids is not configured');
         }

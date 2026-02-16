@@ -21,11 +21,9 @@ final class TransactionService implements TransactionServiceContract
 {
     public function __construct(
         private readonly TransactionRepositoryContract $transactionRepository,
-        private readonly UserRepositoryContract        $userRepository,
-        private readonly BalanceServiceContract        $balanceService,
-    )
-    {
-    }
+        private readonly UserRepositoryContract $userRepository,
+        private readonly BalanceServiceContract $balanceService,
+    ) {}
 
     public function adminReplenished(AdminReplenishedDTO $data): void
     {
@@ -91,7 +89,7 @@ final class TransactionService implements TransactionServiceContract
 
     private function checkBalanceForWriteOff(int $userId, float $amount): void
     {
-        if (!$this->balanceService->hasSufficientBalance($userId, $amount)) {
+        if (! $this->balanceService->hasSufficientBalance($userId, $amount)) {
             throw new InsufficientFundsException;
         }
     }

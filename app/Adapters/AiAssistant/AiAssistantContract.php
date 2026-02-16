@@ -10,7 +10,8 @@ use Illuminate\Http\Client\ConnectionException;
 interface AiAssistantContract
 {
     /**
-     * @param AiMessage[] $messages
+     * @param  AiMessage[]  $messages
+     *
      * @throws ConnectionException|\Exception
      */
     public function sendRequest(array $messages): AiMessage;

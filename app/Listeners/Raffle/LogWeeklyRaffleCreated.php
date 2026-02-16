@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 final class LogWeeklyRaffleCreated
 {
-
     public function handle(WeeklyRaffleCreated $event): void
     {
         Log::channel(ChannelLog::INFO->value)->info('Был создан еженедельный розыгрыш', [

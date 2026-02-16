@@ -13,5 +13,4 @@ interface BalanceServiceContract
     public function hasSufficientBalance(int $userId, float $requiredAmount): bool;
 
     public function invalidateBalanceCache(int $userId): void;
-
 }

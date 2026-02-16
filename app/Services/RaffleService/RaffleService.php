@@ -20,14 +20,12 @@ use Illuminate\Support\Facades\DB;
 final class RaffleService implements RaffleServiceContract
 {
     public function __construct(
-        private readonly UserRepositoryContract     $userRepository,
-        private readonly RaffleRepositoryContract   $raffleRepository,
-        private readonly SelectWinnerRaffleAction   $selectWinnerRaffleAction,
-        private readonly CreateWeeklyRaffleAction   $createWeeklyRaffleAction,
+        private readonly UserRepositoryContract $userRepository,
+        private readonly RaffleRepositoryContract $raffleRepository,
+        private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
+        private readonly CreateWeeklyRaffleAction $createWeeklyRaffleAction,
         private readonly TransactionServiceContract $transactionService,
-    )
-    {
-    }
+    ) {}
 
     public function createWeeklyRaffle(): void
     {
@@ -43,7 +41,7 @@ final class RaffleService implements RaffleServiceContract
         $raffle = $this->raffleRepository->getWeeklyReadyPlaying();
 
         if ($raffle === null) {
-            event(new NotFoundReadyWeeklyRaffle());
+            event(new NotFoundReadyWeeklyRaffle);
 
             return;
         }

@@ -53,5 +53,4 @@ final class RaffleEloquentRepository implements RaffleRepositoryContract
     {
         return Raffle::query()->findOrFail($id);
     }
-
 }

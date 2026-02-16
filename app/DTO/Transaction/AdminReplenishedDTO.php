@@ -7,11 +7,9 @@ namespace App\DTO\Transaction;
 final readonly class AdminReplenishedDTO
 {
     public function __construct(
-        public int     $userId,
-        public int     $adminId,
-        public float   $amount,
+        public int $userId,
+        public int $adminId,
+        public float $amount,
         public ?string $description = null,
-    )
-    {
-    }
+    ) {}
 }

@@ -43,7 +43,7 @@ class Raffle extends Model implements Commentable, Likeable, Taggable
 
     public function getPrizeAmount(): float
     {
-        return (float)($this->prize['amount'] ?? 0);
+        return (float) ($this->prize['amount'] ?? 0);
     }
 
     public function winner(): BelongsTo

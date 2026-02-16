@@ -19,5 +19,4 @@ final class NotFoundWinnerRaffle
     {
         $this->raffle = $raffle;
     }
-
 }

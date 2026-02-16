@@ -11,7 +11,7 @@ final class TransactionEloquentRepository implements TransactionRepositoryContra
 {
     public function sumAmountByUser(int $userId): float
     {
-        return (float)Transaction::query()->where('user_id', $userId)->sum('amount');
+        return (float) Transaction::query()->where('user_id', $userId)->sum('amount');
     }
 
     public function create(CreateTransactionDTO $data): Transaction

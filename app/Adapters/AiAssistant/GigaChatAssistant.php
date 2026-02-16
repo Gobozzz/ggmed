@@ -19,7 +19,7 @@ final class GigaChatAssistant implements AiAssistantContract
     {
         $token = $this->getAccessToken();
 
-        $messages = array_map(fn(AiMessage $message) => $message->toArray(), $messages);
+        $messages = array_map(fn (AiMessage $message) => $message->toArray(), $messages);
 
         try {
             $response = Http::timeout(self::TIMEOUT_REQUEST)->withHeaders([
@@ -28,7 +28,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 'Authorization' => "Bearer {$token}",
             ])->withOptions([
                 'verify' => $this->getCertificate(),
-            ])->post($this->getApiUrl() . '/chat/completions', [
+            ])->post($this->getApiUrl().'/chat/completions', [
                 'model' => config('services.giga_chat.model'),
                 'messages' => $messages,
             ]);
@@ -38,12 +38,12 @@ final class GigaChatAssistant implements AiAssistantContract
                     return new AiMessage(content: $data['choices'][0]['message']['content'], role: AiMessageRole::ASSISTANT);
                 }
 
-                throw new \Exception("Incorrect data format");
+                throw new \Exception('Incorrect data format');
             } else {
                 throw new \Exception('The request ended with an error');
             }
         } catch (\Exception $e) {
-            Log::error('Send Request AiAssistant Error: ' . $e->getMessage());
+            Log::error('Send Request AiAssistant Error: '.$e->getMessage());
 
             throw $e;
         }
@@ -60,7 +60,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 'Authorization' => "Bearer {$token}",
             ])->withOptions([
                 'verify' => $this->getCertificate(),
-            ])->get($this->getApiUrl() . '/balance');
+            ])->get($this->getApiUrl().'/balance');
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -71,13 +71,13 @@ final class GigaChatAssistant implements AiAssistantContract
 
                     return $gigaChatItem['value'];
                 } else {
-                    throw new \Exception("Incorrect data format");
+                    throw new \Exception('Incorrect data format');
                 }
             } else {
-                throw new \Exception('Не удалось получить ответ от Giga Chat: ' . $response->body());
+                throw new \Exception('Не удалось получить ответ от Giga Chat: '.$response->body());
             }
         } catch (\Exception $e) {
-            Log::error('AiAssistant Get Remains Token Error: ' . $e->getMessage());
+            Log::error('AiAssistant Get Remains Token Error: '.$e->getMessage());
             throw $e;
         }
     }
@@ -96,7 +96,7 @@ final class GigaChatAssistant implements AiAssistantContract
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Accept' => 'application/json',
             'RqUID' => Str::uuid()->toString(),
-            'Authorization' => 'Basic ' . config('services.giga_chat.key'),
+            'Authorization' => 'Basic '.config('services.giga_chat.key'),
         ])
             ->asForm()
             ->withOptions([

@@ -13,7 +13,5 @@ final class WeeklyRaffleCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public readonly Raffle $raffle)
-    {
-    }
+    public function __construct(public readonly Raffle $raffle) {}
 }

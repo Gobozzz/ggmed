@@ -11,9 +11,7 @@ final class SelectWinnerRaffleAction
 {
     public function __construct(
         private readonly UserRepositoryContract $userRepository,
-    )
-    {
-    }
+    ) {}
 
     public function execute(int $raffleId): ?User
     {

@@ -16,9 +16,7 @@ final class WeeklyRaffleCreationFailed
 
     public function __construct(
         string $errorMessage,
-    )
-    {
+    ) {
         $this->errorMessage = $errorMessage;
     }
-
 }

@@ -10,15 +10,13 @@ final readonly class CreateRaffleDTO
 {
     public function __construct(
         public RaffleType $type,
-        public string     $title,
-        public string     $description,
-        public \DateTime  $dateEnd,
-        public ?string    $content = null,
-        public ?string    $metaTitle = null,
-        public ?string    $metaDescription = null,
-        public ?string    $image = null,
-        public ?array     $prize = null,
-    )
-    {
-    }
+        public string $title,
+        public string $description,
+        public \DateTime $dateEnd,
+        public ?string $content = null,
+        public ?string $metaTitle = null,
+        public ?string $metaDescription = null,
+        public ?string $image = null,
+        public ?array $prize = null,
+    ) {}
 }
