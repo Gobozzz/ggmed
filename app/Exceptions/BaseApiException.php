@@ -10,11 +10,13 @@ use Illuminate\Http\JsonResponse;
 abstract class BaseApiException extends Exception
 {
     protected int $errorCode;
+    protected int $httpStatus;
 
-    public function __construct(string $message, int $errorCode, ?int $code = 400)
+    public function __construct(string $message, int $errorCode, int $httpStatus = 400)
     {
-        parent::__construct($message, $code);
+        parent::__construct($message);
         $this->errorCode = $errorCode;
+        $this->httpStatus = $httpStatus;
     }
 
     public function render(): JsonResponse
@@ -22,6 +24,6 @@ abstract class BaseApiException extends Exception
         return response()->json([
             'code' => $this->errorCode,
             'message' => $this->getMessage(),
-        ], $this->code);
+        ], $this->httpStatus);
     }
 }

@@ -64,6 +64,7 @@ return [
         'pay_link' => env('GIGA_CHAT_PAY_TOKEN_LINK'),
         'auth_url' => env('GIGA_CHAT_AUTH_URL'),
         'api_url' => env('GIGA_CHAT_API_URL'),
+        'timeout_request_seconds' => env('GIGA_CHAT_TIMEOUT_REQUEST_SECONDS'),
     ],
 
 ];
