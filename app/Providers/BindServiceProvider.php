@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Adapters\AiAssistant\AiAssistantContract;
@@ -14,6 +16,8 @@ use App\Repositories\TransactionRepository\TransactionEloquentRepository;
 use App\Repositories\TransactionRepository\TransactionRepositoryContract;
 use App\Repositories\UserRepository\UserEloquentRepository;
 use App\Repositories\UserRepository\UserRepositoryContract;
+use App\Services\BalanceService\BalanceService;
+use App\Services\BalanceService\BalanceServiceContract;
 use App\Services\RaffleService\RaffleService;
 use App\Services\RaffleService\RaffleServiceContract;
 use App\Services\TransactionService\TransactionService;
@@ -30,6 +34,7 @@ class BindServiceProvider extends ServiceProvider
         // Services
         $this->app->bind(TransactionServiceContract::class, TransactionService::class);
         $this->app->bind(RaffleServiceContract::class, RaffleService::class);
+        $this->app->bind(BalanceServiceContract::class, BalanceService::class);
         // Repo
         $this->app->bind(TransactionRepositoryContract::class, TransactionEloquentRepository::class);
         $this->app->bind(UserRepositoryContract::class, UserEloquentRepository::class);

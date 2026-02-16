@@ -4,6 +4,8 @@ use Illuminate\Support\Str;
 
 return [
 
+    'balance_ttl' => env('BALANCE_CACHE_TTL', 900),
+
     /*
     |--------------------------------------------------------------------------
     | Default Cache Store

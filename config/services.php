@@ -55,13 +55,16 @@ return [
     ],
 
     'giga_chat' => [
-        'key' => env('GIGA_CHAT_ASSISTANT_AUTH_KEY', 'key'),
-        'client_id' => env('GIGA_CHAT_CLIENT_ID', 'id'),
-        'scope' => env('GIGA_CHAT_SCOPE', 'scope'),
+        'key' => env('GIGA_CHAT_ASSISTANT_AUTH_KEY'),
+        'client_id' => env('GIGA_CHAT_CLIENT_ID'),
+        'scope' => env('GIGA_CHAT_SCOPE'),
         'model' => env('GIGA_CHAT_MODEL', 'model'),
-        'model_name_for_balance' => env('GIGA_CHAT_MODEL_NAME_FOR_BALANCE', 'model'),
-        'certificate_path' => env('GIGA_CHAT_CERT_PATH', 'path'),
-        'pay_link' => env('GIGA_CHAT_PAY_TOKEN_LINK', 'path'),
+        'model_name_for_balance' => env('GIGA_CHAT_MODEL_NAME_FOR_BALANCE'),
+        'certificate_path' => env('GIGA_CHAT_CERT_PATH'),
+        'pay_link' => env('GIGA_CHAT_PAY_TOKEN_LINK'),
+        'auth_url' => env('GIGA_CHAT_AUTH_URL'),
+        'api_url' => env('GIGA_CHAT_API_URL'),
+        'timeout_request_seconds' => env('GIGA_CHAT_TIMEOUT_REQUEST_SECONDS'),
     ],
 
 ];

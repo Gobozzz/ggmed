@@ -6,8 +6,9 @@ namespace App\Exceptions\Transactions;
 
 use App\Enums\Exceptions\TransactionException;
 use App\Exceptions\BaseApiException;
+use Illuminate\Http\Response;
 
-class AmountIncorrectException extends BaseApiException
+final class AmountIncorrectException extends BaseApiException
 {
     public function __construct()
     {

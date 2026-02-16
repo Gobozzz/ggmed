@@ -9,18 +9,18 @@ use App\Models\User;
 
 final class UserEloquentRepository implements UserRepositoryContract
 {
-    public function lockForUpdateById(int|string $user_id): void
+    public function getByIdAndLock(int $userId): ?User
     {
-        User::query()->where('id', $user_id)->lockForUpdate()->exists();
+        return User::query()->lockForUpdate()->find($userId);
     }
 
-    public function getRandomParticipantForRaffle(int|string $raffle_id): ?User
+    public function getRandomParticipantForRaffle(int $raffleId): ?User
     {
         return User::query()->actived()
             ->select('users.*')
             ->join('comments', 'users.id', '=', 'comments.user_id')
             ->where('comments.commentable_type', Raffle::class)
-            ->where('comments.commentable_id', $raffle_id)
+            ->where('comments.commentable_id', $raffleId)
             ->inRandomOrder()
             ->first();
     }

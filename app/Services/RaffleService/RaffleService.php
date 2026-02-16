@@ -5,72 +5,73 @@ declare(strict_types=1);
 namespace App\Services\RaffleService;
 
 use App\Actions\Raffle\CreateWeeklyRaffleAction;
-use App\Actions\Raffle\ProcessSetWinnerWeeklyRaffleAction;
 use App\Actions\Raffle\SelectWinnerRaffleAction;
-use App\Cache\BalanceCacheManager;
-use App\Enums\ChannelLog;
-use App\Exceptions\Raffle\IncorrectPrizeException;
+use App\DTO\Transaction\WinningWeeklyRaffleDTO;
+use App\Events\Raffle\NotFoundReadyWeeklyRaffle;
+use App\Events\Raffle\NotFoundWinnerRaffle;
+use App\Events\Raffle\WeeklyRaffleCreationFailed;
+use App\Events\Raffle\WinnerRaffleSelected;
+use App\Events\Raffle\WinnerRaffleSelectionFailed;
 use App\Repositories\RaffleRepository\RaffleRepositoryContract;
-use Illuminate\Support\Facades\Log;
+use App\Repositories\UserRepository\UserRepositoryContract;
+use App\Services\TransactionService\TransactionServiceContract;
+use Illuminate\Support\Facades\DB;
 
 final class RaffleService implements RaffleServiceContract
 {
     public function __construct(
+        private readonly UserRepositoryContract $userRepository,
         private readonly RaffleRepositoryContract $raffleRepository,
-        private readonly BalanceCacheManager $balanceCacheManager,
         private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
-        private readonly ProcessSetWinnerWeeklyRaffleAction $processSetWinnerWeeklyRaffleAction,
         private readonly CreateWeeklyRaffleAction $createWeeklyRaffleAction,
+        private readonly TransactionServiceContract $transactionService,
     ) {}
 
     public function createWeeklyRaffle(): void
     {
-        $result = $this->createWeeklyRaffleAction->execute();
-        if ($result->success) {
-            Log::channel(ChannelLog::INFO->value)->info('Был создан еженедельный розыгрыш', [
-                'raffle_id' => $result->raffle_id,
-            ]);
-        } else {
-            Log::error('Не удалось создать еженедельный розыгрыш', ['message' => $result->error_message]);
+        try {
+            $this->createWeeklyRaffleAction->execute();
+        } catch (\Exception $e) {
+            event(new WeeklyRaffleCreationFailed($e->getMessage()));
         }
     }
 
     public function playWeeklyRaffle(): void
     {
         $raffle = $this->raffleRepository->getWeeklyReadyPlaying();
+
         if ($raffle === null) {
-            Log::channel(ChannelLog::INFO->value)->info('Не найден еженедельный розыгрыш готовый к игре');
+            event(new NotFoundReadyWeeklyRaffle);
 
             return;
         }
         $winner = $this->selectWinnerRaffleAction->execute($raffle->getKey());
 
         if ($winner === null) {
-            Log::channel(ChannelLog::INFO->value)->info('Не смогли определить победителя еженедельного розыгрыша');
+            event(new NotFoundWinnerRaffle($raffle));
 
             return;
         }
 
-        if (! isset($raffle->prize['amount'])) {
-            throw new IncorrectPrizeException;
-        }
+        try {
+            DB::transaction(function () use ($winner, $raffle) {
+                $this->userRepository->getByIdAndLock($winner->getKey());
 
-        $resultSet = $this->processSetWinnerWeeklyRaffleAction->execute($winner, $raffle);
+                $this->raffleRepository->setWinner($winner->getKey(), $raffle->getKey());
 
-        if ($resultSet->success) {
-            $this->balanceCacheManager->forget($winner->getKey());
-            Log::channel(ChannelLog::INFO->value)->info('Победитель еженедельного розыгрыша установлен', [
-                'winner_id' => $resultSet->winner_id,
-                'raffle_id' => $resultSet->raffle_id,
-                'amount' => $resultSet->amount,
-            ]);
-        } else {
-            Log::error('Не удалось установить победителя для еженедельного розыгрыша', [
-                'message' => $resultSet->error_message,
-                'winner_id' => $resultSet->winner_id,
-                'raffle_id' => $resultSet->raffle_id,
-                'amount' => $resultSet->amount,
-            ]);
+                $this->transactionService->winningWeeklyRaffle(
+                    new WinningWeeklyRaffleDTO(
+                        userId: $winner->getKey(),
+                        raffleId: $raffle->getKey(),
+                        amount: $raffle->getPrizeAmount(),
+                    )
+                );
+
+            }, config('transactions.count_attempts_transaction'));
+
+            event(new WinnerRaffleSelected($raffle));
+        } catch (\Throwable $e) {
+            event(new WinnerRaffleSelectionFailed($e->getMessage(), $raffle, $winner));
         }
 
     }

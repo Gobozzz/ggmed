@@ -9,7 +9,7 @@ use App\Models\Transaction;
 
 interface TransactionRepositoryContract
 {
-    public function calculateBalanceUser(int $user_id): float;
+    public function sumAmountByUser(int $userId): float;
 
     public function create(CreateTransactionDTO $data): Transaction;
 }

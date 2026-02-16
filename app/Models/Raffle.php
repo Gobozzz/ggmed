@@ -41,6 +41,11 @@ class Raffle extends Model implements Commentable, Likeable, Taggable
         'prize' => 'array',
     ];
 
+    public function getPrizeAmount(): float
+    {
+        return (float) ($this->prize['amount'] ?? 0);
+    }
+
     public function winner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'winner_id');

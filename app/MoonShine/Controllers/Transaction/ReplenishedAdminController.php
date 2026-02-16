@@ -29,8 +29,8 @@ final class ReplenishedAdminController extends MoonShineController
         ]);
 
         $data = new AdminReplenishedDTO(
-            user_id: $user->getKey(),
-            admin_id: $this->auth()->id(),
+            userId: $user->getKey(),
+            adminId: $this->auth()->id(),
             amount: (float) $request->get('amount'),
             description: $request->get('description'),
         );

@@ -8,7 +8,7 @@ use App\Models\User;
 
 interface UserRepositoryContract
 {
-    public function lockForUpdateById(int|string $user_id): void;
+    public function getByIdAndLock(int $userId): ?User;
 
-    public function getRandomParticipantForRaffle(int|string $raffle_id): ?User;
+    public function getRandomParticipantForRaffle(int $raffleId): ?User;
 }

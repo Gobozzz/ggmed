@@ -12,10 +12,10 @@ final readonly class CreateRaffleDTO
         public RaffleType $type,
         public string $title,
         public string $description,
-        public \DateTime $date_end,
+        public \DateTime $dateEnd,
         public ?string $content = null,
-        public ?string $meta_title = null,
-        public ?string $meta_description = null,
+        public ?string $metaTitle = null,
+        public ?string $metaDescription = null,
         public ?string $image = null,
         public ?array $prize = null,
     ) {}

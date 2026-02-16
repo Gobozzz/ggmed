@@ -13,8 +13,8 @@ final class SelectWinnerRaffleAction
         private readonly UserRepositoryContract $userRepository,
     ) {}
 
-    public function execute(int|string $raffle_id): ?User
+    public function execute(int $raffleId): ?User
     {
-        return $this->userRepository->getRandomParticipantForRaffle($raffle_id);
+        return $this->userRepository->getRandomParticipantForRaffle($raffleId);
     }
 }
