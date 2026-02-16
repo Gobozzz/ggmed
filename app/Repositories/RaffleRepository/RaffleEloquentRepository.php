@@ -37,7 +37,9 @@ final class RaffleEloquentRepository implements RaffleRepositoryContract
     public function setWinner(int $userId, int $raffleId): Raffle
     {
         $raffle = $this->findOrFail($raffleId);
-        $raffle->updateOrFail(['winner_id' => $userId]);
+        $raffle->winner_id = $userId;
+
+        $raffle->saveOrFail();
 
         return $raffle->fresh();
     }
