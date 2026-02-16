@@ -19,8 +19,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
-        // Observers
-        Transaction::observe(TransactionObserver::class);
     }
 
     /**
@@ -28,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Transaction::observe(TransactionObserver::class);
     }
 }
