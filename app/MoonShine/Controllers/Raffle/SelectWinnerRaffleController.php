@@ -16,10 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 final class SelectWinnerRaffleController extends MoonShineController
 {
     public function __construct(
-        MoonShineNotificationContract $notification,
+        MoonShineNotificationContract             $notification,
         private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
         private readonly RaffleRepositoryContract $raffleRepository,
-    ) {
+    )
+    {
         parent::__construct($notification);
     }
 
@@ -31,10 +32,12 @@ final class SelectWinnerRaffleController extends MoonShineController
         if ($winner === null) {
             return $this->json(message: 'Не нашлось победителя', status: Response::HTTP_NOT_FOUND);
         }
-        if ($this->raffleRepository->setWinner($winner->getKey(), $raffle->getKey())) {
-            return $this->json(message: 'Победитель обнаружен', data: ['winner' => $winner]);
+        try {
+            $this->raffleRepository->setWinner($winner->getKey(), $raffle->getKey());
+        } catch (\Exception $e) {
+            return $this->json(message: 'Не удалось установить победителя', status: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $this->json(message: 'Не удалось установить победителя', status: Response::HTTP_INTERNAL_SERVER_ERROR);
+        return $this->json(message: 'Победитель обнаружен', data: ['winner' => $winner]);
     }
 }
