@@ -4,7 +4,7 @@
 
 Проект представляет из себя REST API интерфейс.
 
-Стэк: Laravel 12, MySQL, Sanctum, MoonShine.
+Стэк: Laravel 12, MySQL,Redis, anctum, MoonShine.
 
 ## Как стартануть
 
