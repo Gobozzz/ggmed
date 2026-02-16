@@ -2,7 +2,7 @@
 
 return [
     'weekly' => [
-        'min_prize' => 3.00,
-        'max_prize' => 5.00,
+        'min_prize' => 3,
+        'max_prize' => 5,
     ],
 ];

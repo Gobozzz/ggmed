@@ -16,7 +16,9 @@ final class CreateWeeklyRaffleAction
 {
     public function __construct(
         private readonly RaffleRepositoryContract $raffleRepository,
-    ) {}
+    )
+    {
+    }
 
     public function execute(): Raffle
     {
