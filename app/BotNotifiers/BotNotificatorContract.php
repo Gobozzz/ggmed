@@ -19,10 +19,10 @@ interface BotNotificatorContract
     public function withImage(string $url): self;
 
     /**
-     * @param  array  $items  Пример
-     *                        [
-     *                        ['text' => "Перейти", 'url' => "https://example.com"]
-     *                        ]
+     * @param array $items Пример
+     *  [
+     *      ['text' => "Перейти", 'url' => "https://example.com"]
+     *  ]
      */
     public function withInlineKeyboards(array $items): self;
 }

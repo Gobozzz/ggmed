@@ -10,9 +10,11 @@ final readonly class CreateTransactionDTO
 {
     public function __construct(
         public TypeTransaction $type,
-        public float $amount,
-        public int|string $user_id,
-        public ?string $description = null,
-        public array $metadata = [],
-    ) {}
+        public float           $amount,
+        public int|string      $userId,
+        public ?string         $description = null,
+        public array           $metadata = [],
+    )
+    {
+    }
 }

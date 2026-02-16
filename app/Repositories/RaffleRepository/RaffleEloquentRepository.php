@@ -17,9 +17,9 @@ final class RaffleEloquentRepository implements RaffleRepositoryContract
             'title' => $data->title,
             'description' => $data->description,
             'content' => $data->content,
-            'date_end' => $data->date_end,
-            'meta_title' => $data->meta_title,
-            'meta_description' => $data->meta_description,
+            'date_end' => $data->dateEnd,
+            'meta_title' => $data->metaTitle,
+            'meta_description' => $data->metaDescription,
             'image' => $data->image,
             'prize' => $data->prize,
         ]);
@@ -34,9 +34,12 @@ final class RaffleEloquentRepository implements RaffleRepositoryContract
             ->first();
     }
 
-    public function setWinner(int|string $user_id, int|string $raffle_id): bool
+    public function setWinner(int $userId, int $raffleId): Raffle
     {
-        return (bool) Raffle::query()->where('id', $raffle_id)->update(['winner_id' => $user_id]);
+        $raffle = $this->findOrFail($raffleId);
+        $raffle->updateOrFail(['winner_id' => $userId]);
+
+        return $raffle->fresh();
     }
 
     public function deleteAllWeeklyUnplayed(): void
@@ -45,4 +48,10 @@ final class RaffleEloquentRepository implements RaffleRepositoryContract
             ->where('date_end', '<', now()->startOfDay())
             ->whereNull('winner_id')->delete();
     }
+
+    public function findOrFail(int $id): Raffle
+    {
+        return Raffle::query()->findOrFail($id);
+    }
+
 }

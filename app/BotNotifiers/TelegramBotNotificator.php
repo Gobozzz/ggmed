@@ -23,23 +23,26 @@ final class TelegramBotNotificator implements BotNotificatorContract
 
     private ?array $inlineKeyboards = null;
 
+    /**
+     * @throws \Exception
+     */
     public function sendMessage(string $message): bool
     {
         $this->checkBotData();
 
-        $chat_ids = $this->getChatIds();
+        $chatIds = $this->getChatIds();
 
         $data = $this->prepareData($message);
 
-        foreach ($chat_ids as $chat_id) {
-            $data['chat_id'] = $chat_id;
+        foreach ($chatIds as $chatId) {
+            $data['chat_id'] = $chatId;
             try {
                 $response = Http::post($this->getApiUrlEndpoint(), $data);
-                if (! $response->successful()) {
-                    throw new \Exception("Couldn't send message: ".$response->body());
+                if (!$response->successful()) {
+                    throw new \Exception("Couldn't send message: " . $response->body());
                 }
             } catch (\Exception $e) {
-                Log::channel(ChannelLog::FILE->value)->error('Telegram Bot Send Message Error: '.$e->getMessage());
+                Log::channel(ChannelLog::FILE->value)->error('Telegram Bot Send Message Error: ' . $e->getMessage());
 
                 return false;
             }
@@ -109,6 +112,9 @@ final class TelegramBotNotificator implements BotNotificatorContract
         return $data;
     }
 
+    /**
+     * @throws \Exception
+     */
     private function checkBotData(): void
     {
         if ($this->bot === null) {
@@ -125,15 +131,18 @@ final class TelegramBotNotificator implements BotNotificatorContract
     {
         $baseUrl = $this->getBaseApiUrl();
         if ($this->imageUrl !== null) {
-            return $baseUrl.'/sendPhoto';
+            return $baseUrl . '/sendPhoto';
         }
 
-        return $baseUrl.'/sendMessage';
+        return $baseUrl . '/sendMessage';
     }
 
+    /**
+     * @throws \Exception
+     */
     private function getBotToken(): string
     {
-        $token = config('services.bots.'.$this->bot->value.'.token');
+        $token = config('services.bots.' . $this->bot->value . '.token');
         if ($token === null) {
             throw new \Exception('Telegram Bot Token is not configured');
         }
@@ -141,14 +150,17 @@ final class TelegramBotNotificator implements BotNotificatorContract
         return $token;
     }
 
+    /**
+     * @throws \Exception
+     */
     private function getChatIds(): array
     {
-        $chat_ids = config('services.bots.'.$this->bot->value.'.chat_ids');
-        if ($chat_ids === null) {
+        $chatIds = config('services.bots.' . $this->bot->value . '.chat_ids');
+        if ($chatIds === null) {
             throw new \Exception('Telegram Bot Chat_ids is not configured');
         }
 
-        return explode(',', $chat_ids);
+        return explode(',', $chatIds);
     }
 
     private function formattedMessage(string $message): string

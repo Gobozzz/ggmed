@@ -7,7 +7,7 @@ namespace App\Exceptions\Transactions;
 use App\Enums\Exceptions\TransactionException;
 use App\Exceptions\BaseApiException;
 
-class InsufficientFundsException extends BaseApiException
+final class InsufficientFundsException extends BaseApiException
 {
     public function __construct()
     {

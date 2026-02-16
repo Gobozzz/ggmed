@@ -13,7 +13,12 @@ interface RaffleRepositoryContract
 
     public function getWeeklyReadyPlaying(): ?Raffle;
 
-    public function setWinner(int|string $user_id, int|string $raffle_id): bool;
+    /**
+     * @throws \Throwable
+     */
+    public function setWinner(int $userId, int $raffleId): Raffle;
 
     public function deleteAllWeeklyUnplayed(): void;
+
+    public function findOrFail(int $id): Raffle;
 }
