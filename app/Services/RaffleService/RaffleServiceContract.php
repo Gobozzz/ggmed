@@ -6,7 +6,8 @@ namespace App\Services\RaffleService;
 
 interface RaffleServiceContract
 {
-    public function createWeeklyRaffle(): void;
-
+    /**
+     * @throws \Throwable
+     */
     public function playWeeklyRaffle(): void;
 }

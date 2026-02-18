@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Raffle;
 
-use App\Services\RaffleService\RaffleServiceContract;
+use App\Actions\Raffle\CreateWeeklyRaffleAction;
 use Illuminate\Console\Command;
 
 final class CreateWeeklyRaffleCommand extends Command
@@ -14,13 +14,14 @@ final class CreateWeeklyRaffleCommand extends Command
     protected $description = 'Создание еженедельного розыгрыша';
 
     public function __construct(
-        private readonly RaffleServiceContract $raffleService,
-    ) {
+        private readonly CreateWeeklyRaffleAction $createWeeklyRaffleAction,
+    )
+    {
         parent::__construct();
     }
 
     public function handle(): void
     {
-        $this->raffleService->createWeeklyRaffle();
+        $this->createWeeklyRaffleAction->execute();
     }
 }

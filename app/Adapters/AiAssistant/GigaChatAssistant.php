@@ -35,7 +35,7 @@ final class GigaChatAssistant implements AiAssistantContract
 
             throw new AiInvalidResponseException;
         } else {
-            throw new AiInvalidResponseException($response->body());
+            throw new AiInvalidResponseException;
         }
     }
 
@@ -51,7 +51,7 @@ final class GigaChatAssistant implements AiAssistantContract
                 throw new AiInvalidResponseException;
             }
         } else {
-            throw new AiInvalidResponseException($response->body());
+            throw new AiInvalidResponseException;
         }
     }
 
@@ -70,7 +70,7 @@ final class GigaChatAssistant implements AiAssistantContract
             }
         }
 
-        throw new AiInvalidResponseException("Balance for model {$modelName} not found");
+        throw new AiInvalidResponseException();
     }
 
     private function createHttpClient(): PendingRequest
@@ -110,6 +110,10 @@ final class GigaChatAssistant implements AiAssistantContract
             ]);
         if ($response->successful()) {
             $data = $response->json();
+
+            if (!isset($data['access_token'])) {
+                throw new AiInvalidResponseException;
+            }
 
             return $data['access_token'];
         } else {

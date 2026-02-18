@@ -7,7 +7,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-abstract class BaseApiException extends Exception
+abstract class BaseException extends Exception
 {
     protected int $errorCode;
     protected int $httpStatus;

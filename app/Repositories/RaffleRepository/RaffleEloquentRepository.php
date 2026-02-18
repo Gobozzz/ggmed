@@ -25,7 +25,7 @@ final class RaffleEloquentRepository implements RaffleRepositoryContract
         ]);
     }
 
-    public function getWeeklyReadyPlaying(): ?Raffle
+    public function getWeeklyReadyPlayingNow(): ?Raffle
     {
         return Raffle::query()->where('type', RaffleType::WEEKLY)
             ->where('date_end', '>=', now()->startOfDay())

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Exceptions\AiAssistant;
 
-final class AiAuthenticationException extends AiAssistantException
+use App\Enums\Exceptions\AiAssistantException;
+use App\Exceptions\BaseException;
+
+final class AiAuthenticationException extends BaseException
 {
-    public function __construct(string $message = "Ai Authentication failed")
+    public function __construct()
     {
-        parent::__construct($message);
+        parent::__construct("Ai Authentication failed", AiAssistantException::AUTHENTICATION_ERROR->value);
     }
 }
