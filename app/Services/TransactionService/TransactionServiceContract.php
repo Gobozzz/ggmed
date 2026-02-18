@@ -6,7 +6,7 @@ namespace App\Services\TransactionService;
 
 use App\DTO\Transaction\AdminReplenishedDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
-use App\DTO\Transaction\WinningWeeklyRaffleDTO;
+use App\DTO\Transaction\PayPrizeRaffleDTO;
 use App\Exceptions\Transactions\AmountIncorrectException;
 use App\Exceptions\Transactions\InsufficientFundsException;
 use App\Models\Transaction;
@@ -26,5 +26,5 @@ interface TransactionServiceContract
     /**
      * @throws AmountIncorrectException|\Throwable
      */
-    public function winningWeeklyRaffle(WinningWeeklyRaffleDTO $data): Transaction;
+    public function payPrizeRaffle(PayPrizeRaffleDTO $data): Transaction;
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Transaction;
 
-final readonly class WinningWeeklyRaffleDTO
+final readonly class PayPrizeRaffleDTO
 {
     public function __construct(
         public int $userId,

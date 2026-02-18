@@ -6,7 +6,7 @@ namespace App\Services\RaffleService;
 
 use App\Actions\Raffle\CreateWeeklyRaffleAction;
 use App\Actions\Raffle\SelectWinnerRaffleAction;
-use App\DTO\Transaction\WinningWeeklyRaffleDTO;
+use App\DTO\Transaction\PayPrizeRaffleDTO;
 use App\Events\Raffle\NotFoundReadyWeeklyRaffle;
 use App\Events\Raffle\NotFoundWinnerRaffle;
 use App\Events\Raffle\WeeklyRaffleCreationFailed;
@@ -59,8 +59,8 @@ final class RaffleService implements RaffleServiceContract
 
                 $this->raffleRepository->setWinner($winner->getKey(), $raffle->getKey());
 
-                $this->transactionService->winningWeeklyRaffle(
-                    new WinningWeeklyRaffleDTO(
+                $this->transactionService->payPrizeRaffle(
+                    new PayPrizeRaffleDTO(
                         userId: $winner->getKey(),
                         raffleId: $raffle->getKey(),
                         amount: $raffle->getPrizeAmount(),
