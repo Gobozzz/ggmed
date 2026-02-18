@@ -3,10 +3,14 @@
 declare(strict_types=1);
 
 namespace App\Exceptions\AiAssistant;
-final class AiInvalidResponseException extends AiAssistantException
+
+use App\Enums\Exceptions\AiAssistantException;
+use App\Exceptions\BaseException;
+
+final class AiInvalidResponseException extends BaseException
 {
-    public function __construct(string $message = "Ai Invalid Response")
+    public function __construct()
     {
-        parent::__construct($message);
+        parent::__construct("AI Invalid Response", AiAssistantException::INVALID_RESPONSE->value);
     }
 }

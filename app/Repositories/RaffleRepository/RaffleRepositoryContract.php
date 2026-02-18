@@ -11,7 +11,7 @@ interface RaffleRepositoryContract
 {
     public function create(CreateRaffleDTO $data): Raffle;
 
-    public function getWeeklyReadyPlaying(): ?Raffle;
+    public function getWeeklyReadyPlayingNow(): ?Raffle;
 
     /**
      * @throws \Throwable
