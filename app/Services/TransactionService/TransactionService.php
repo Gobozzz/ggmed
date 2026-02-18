@@ -7,7 +7,7 @@ namespace App\Services\TransactionService;
 use App\DTO\Transaction\AdminReplenishedDTO;
 use App\DTO\Transaction\AdminWriteOffDTO;
 use App\DTO\Transaction\CreateTransactionDTO;
-use App\DTO\Transaction\WinningWeeklyRaffleDTO;
+use App\DTO\Transaction\PayPrizeRaffleDTO;
 use App\Enums\TypeTransaction;
 use App\Exceptions\Transactions\AmountIncorrectException;
 use App\Exceptions\Transactions\InsufficientFundsException;
@@ -21,9 +21,11 @@ final class TransactionService implements TransactionServiceContract
 {
     public function __construct(
         private readonly TransactionRepositoryContract $transactionRepository,
-        private readonly UserRepositoryContract $userRepository,
-        private readonly BalanceServiceContract $balanceService,
-    ) {}
+        private readonly UserRepositoryContract        $userRepository,
+        private readonly BalanceServiceContract        $balanceService,
+    )
+    {
+    }
 
     public function adminReplenished(AdminReplenishedDTO $data): void
     {
@@ -65,7 +67,7 @@ final class TransactionService implements TransactionServiceContract
         }, config('transactions.count_attempts_transaction'));
     }
 
-    public function winningWeeklyRaffle(WinningWeeklyRaffleDTO $data): Transaction
+    public function payPrizeRaffle(PayPrizeRaffleDTO $data): Transaction
     {
         $this->checkCorrectAmount($data->amount);
 
@@ -89,7 +91,7 @@ final class TransactionService implements TransactionServiceContract
 
     private function checkBalanceForWriteOff(int $userId, float $amount): void
     {
-        if (! $this->balanceService->hasSufficientBalance($userId, $amount)) {
+        if (!$this->balanceService->hasSufficientBalance($userId, $amount)) {
             throw new InsufficientFundsException;
         }
     }

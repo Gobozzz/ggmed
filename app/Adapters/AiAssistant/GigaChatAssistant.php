@@ -8,11 +8,9 @@ use App\DTO\AI\AiMessage;
 use App\Enums\AI\AiMessageRole;
 use App\Exceptions\AiAssistant\AiAuthenticationException;
 use App\Exceptions\AiAssistant\AiInvalidResponseException;
-use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 final class GigaChatAssistant implements AiAssistantContract
