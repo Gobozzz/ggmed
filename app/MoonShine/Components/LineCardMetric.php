@@ -37,7 +37,7 @@ final class LineCardMetric extends MoonShineComponent
      */
     protected function viewData(): array
     {
-        $change = $this->getNewEntitiesThisMonth();
+        $change = $this->getCountNewEntitiesThisMonth();
         $values = [0, $change];
         if ($change === 0) {
             $values = [1, 1];
@@ -54,7 +54,7 @@ final class LineCardMetric extends MoonShineComponent
         ];
     }
 
-    protected function getNewEntitiesThisMonth(): int
+    protected function getCountNewEntitiesThisMonth(): int
     {
         $today = Carbon::today()->endOfDay();
         $startOfMonth = Carbon::today()->startOfMonth();

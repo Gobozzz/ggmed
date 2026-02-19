@@ -17,6 +17,7 @@ use App\MoonShine\Resources\Raffle\RaffleResource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use MoonShine\Apexcharts\Components\SparklineChartMetric;
+use MoonShine\Contracts\Core\DependencyInjection\CoreContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Laravel\Pages\Page;
 use MoonShine\Laravel\TypeCasts\ModelCaster;
@@ -33,19 +34,11 @@ use MoonShine\UI\Components\Link;
 #[\MoonShine\MenuManager\Attributes\SkipMenu]
 class Dashboard extends Page
 {
-    /**
-     * @return array<string, string>
-     */
-    public function getBreadcrumbs(): array
-    {
-        return [
-            '#' => $this->getTitle(),
-        ];
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title ?: '';
+    public function __construct(
+        CoreContract $core,
+        private readonly AiAssistantContract $aiAssistant,
+    ) {
+        parent::__construct($core);
     }
 
     /**
@@ -53,8 +46,11 @@ class Dashboard extends Page
      */
     protected function components(): iterable
     {
-        $aiAssistant = app(AiAssistantContract::class);
-        $remainsTokens = $aiAssistant->getRemainsTokens();
+        try {
+            $remainsTokens = $this->aiAssistant->getRemainsTokens();
+        } catch (\Exception $e) {
+            $remainsTokens = 0;
+        }
         $actual_raffles = Raffle::query()->where('type', RaffleType::MANUAL)->whereNull('winner_id')->orderBy('date_end')->paginate(3, ['id', 'title', 'description', 'image', 'date_end']);
         $actual_questions = Question::query()->whereNull('answer')->paginate(3, ['id', 'title', 'user_id']);
 
@@ -123,7 +119,7 @@ class Dashboard extends Page
                             Card::make(
                                 thumbnail: '/admin-files/ai.jpg',
                                 values: [
-                                    'Остаток токенов' => Link::make($aiAssistant->getPayLink(), fn () => $remainsTokens ? (number_format($remainsTokens, 0, '', ' ').' токенов') : 'Нет информации')->icon('cpu-chip')
+                                    'Остаток токенов' => Link::make($this->aiAssistant->getPayLink(), fn () => $remainsTokens ? (number_format($remainsTokens, 0, '', ' ').' токенов') : 'Нет информации')->icon('cpu-chip')
                                         ->style(['background:'.($remainsTokens === null || $remainsTokens <= 200000 ? '#ff0000' : ($remainsTokens <= 600000 ? '#ff6600' : '#178a00')), 'padding:5px 10px', 'border-radius:4px', 'color:white']),
                                 ]
                             ),

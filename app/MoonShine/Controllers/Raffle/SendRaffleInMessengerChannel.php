@@ -9,15 +9,22 @@ use App\Enums\Bots\TypeBot;
 use App\Models\Raffle;
 use Illuminate\Support\Facades\Storage;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;
+use MoonShine\Crud\Contracts\Notifications\MoonShineNotificationContract;
 use MoonShine\Laravel\Http\Controllers\MoonShineController;
 use Symfony\Component\HttpFoundation\Response;
 
 final class SendRaffleInMessengerChannel extends MoonShineController
 {
-    public function __invoke(CrudRequestContract $request, Raffle $raffle, BotNotificatorContract $botNotificator): Response
-    {
+    public function __construct(
+        MoonShineNotificationContract $notification,
+        private readonly BotNotificatorContract $botNotificator,
+    ) {
+        parent::__construct($notification);
+    }
 
-        $message = $botNotificator->bot(TypeBot::ADMIN_CHANNEL_BOT)
+    public function __invoke(CrudRequestContract $request, Raffle $raffle): Response
+    {
+        $message = $this->botNotificator->bot(TypeBot::ADMIN_CHANNEL_BOT)
             ->parseModeHTML()
             ->withInlineKeyboards([
                 [
