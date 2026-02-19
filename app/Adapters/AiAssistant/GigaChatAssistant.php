@@ -26,9 +26,8 @@ final class GigaChatAssistant implements AiAssistantContract
         ]);
         if ($response->successful()) {
             return $this->parseResponseForRequest($response->json());
-        } else {
-            throw new AiInvalidResponseException;
         }
+        throw new AiInvalidResponseException;
     }
 
     public function getRemainsTokens(): int
@@ -39,9 +38,8 @@ final class GigaChatAssistant implements AiAssistantContract
             $data = $response->json();
 
             return $this->parseBalanceTokens($data);
-        } else {
-            throw new AiInvalidResponseException;
         }
+        throw new AiInvalidResponseException;
     }
 
     public function getPayLink(): string
@@ -124,9 +122,8 @@ final class GigaChatAssistant implements AiAssistantContract
             }
 
             return $data['access_token'];
-        } else {
-            throw new AiAuthenticationException;
         }
+        throw new AiAuthenticationException;
     }
 
     private function getCurrentModel(): string
