@@ -11,18 +11,26 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;
+use MoonShine\Crud\Contracts\Notifications\MoonShineNotificationContract;
 use MoonShine\Laravel\Http\Controllers\MoonShineController;
 use Symfony\Component\HttpFoundation\Response;
 
 final class UploadImageController extends MoonShineController
 {
-    public function byFile(CrudRequestContract $request, ImageTransformerContract $imageTransformer): Response
+    public function __construct(
+        MoonShineNotificationContract $notification,
+        private readonly ImageTransformerContract $imageTransformer,
+    ) {
+        parent::__construct($notification);
+    }
+
+    public function byFile(CrudRequestContract $request): Response
     {
         $request->validate([
             'image' => 'required|image|max:4000',
         ]);
 
-        $image = $imageTransformer->image($request->file('image'))->scaleDown(width: 800)->quality(70)->get();
+        $image = $this->imageTransformer->image($request->file('image'))->scaleDown(width: 800)->quality(70)->get();
 
         $imagePath = Storage::putFileAs(
             path: 'uploads/'.Carbon::now()->format('Y-m'),
@@ -33,7 +41,7 @@ final class UploadImageController extends MoonShineController
         return response()->json(['url' => Storage::url($imagePath)]);
     }
 
-    public function byUrl(CrudRequestContract $request, ImageTransformerContract $imageTransformer): Response
+    public function byUrl(CrudRequestContract $request): Response
     {
         $request->validate([
             'url' => 'required|url',
@@ -81,7 +89,7 @@ final class UploadImageController extends MoonShineController
                 true
             );
 
-            $image = $imageTransformer->image($image)->scaleDown(width: 800)->quality(70)->get();
+            $image = $this->imageTransformer->image($image)->scaleDown(width: 800)->quality(70)->get();
 
             $imagePath = Storage::putFileAs(
                 path: 'uploads/'.Carbon::now()->format('Y-m'),
@@ -95,7 +103,7 @@ final class UploadImageController extends MoonShineController
             return response()->json(['url' => Storage::url($imagePath)]);
 
         } catch (\Exception $e) {
-            return response()->json(['success' => 0], 500);
+            return response()->json(['success' => 0], 400);
         }
 
     }

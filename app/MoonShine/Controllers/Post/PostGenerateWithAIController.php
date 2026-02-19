@@ -17,12 +17,22 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MoonShine\Contracts\Core\DependencyInjection\CrudRequestContract;
+use MoonShine\Crud\Contracts\Notifications\MoonShineNotificationContract;
 use MoonShine\Laravel\Http\Controllers\MoonShineController;
 use Symfony\Component\HttpFoundation\Response;
 
 final class PostGenerateWithAIController extends MoonShineController
 {
-    public function __invoke(CrudRequestContract $request, AiAssistantContract $aiAssistant, MarkdownToEditorJsConverter $editorConverter, ImageTransformerContract $imageTransformer): Response
+    public function __construct(
+        MoonShineNotificationContract $notification,
+        private readonly AiAssistantContract $aiAssistant,
+        private readonly MarkdownToEditorJsConverter $mdToEditorJsConverter,
+        private readonly ImageTransformerContract $imageTransformer,
+    ) {
+        parent::__construct($notification);
+    }
+
+    public function __invoke(CrudRequestContract $request): Response
     {
         Gate::authorize('ai-generate', Post::class);
 
@@ -36,7 +46,7 @@ final class PostGenerateWithAIController extends MoonShineController
             'image.max' => 'Фото должно быть не больше 1Мб',
         ]);
 
-        $image = $imageTransformer->image($request->file('image'))->scaleDown(width: 1200)->quality(70)->get();
+        $image = $this->imageTransformer->image($request->file('image'))->scaleDown(width: 1200)->quality(70)->get();
 
         $imagePath = Storage::putFileAs(
             path: 'posts/'.Carbon::now()->format('Y-m'),
@@ -44,18 +54,14 @@ final class PostGenerateWithAIController extends MoonShineController
             name: Str::random(50).'.'.$image->getClientOriginalExtension()
         );
 
-        $aiAnswerContent = $aiAssistant->sendRequest([
+        $aiAnswer = $this->aiAssistant->sendRequest([
             new AiMessage(content: $this->getSystemPromptForEditor(), role: AiMessageRole::SYSTEM),
             new AiMessage(content: 'Тема статьи:'.request()->get('theme'), role: AiMessageRole::USER),
         ]);
 
-        if ($aiAnswerContent === null) {
-            return $this->json(message: 'Не удалось получить ответ от AI', status: Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $content = $this->mdToEditorJsConverter->convert($aiAnswer->content);
 
-        $content = $editorConverter->convert($aiAnswerContent->content);
-
-        $aiAnswerSeo = $aiAssistant->sendRequest([
+        $aiAnswerSeo = $this->aiAssistant->sendRequest([
             new AiMessage(content: $this->getSystemPromptForSeo(), role: AiMessageRole::SYSTEM),
             new AiMessage(content: 'Тема статьи:'.request()->get('theme'), role: AiMessageRole::USER),
         ]);
@@ -65,7 +71,7 @@ final class PostGenerateWithAIController extends MoonShineController
             if ($seoData === null) {
                 throw new \Exception;
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
             return $this->json(message: 'AI не смогла сформировать SEO ядро. Попробуйте еще раз.');
         }
 

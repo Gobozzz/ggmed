@@ -23,9 +23,6 @@ final class TelegramBotNotificator implements BotNotificatorContract
 
     private ?array $inlineKeyboards = null;
 
-    /**
-     * @throws \Exception
-     */
     public function sendMessage(string $message): bool
     {
         $this->checkBotData();
@@ -112,9 +109,6 @@ final class TelegramBotNotificator implements BotNotificatorContract
         return $data;
     }
 
-    /**
-     * @throws \Exception
-     */
     private function checkBotData(): void
     {
         if ($this->bot === null) {
@@ -137,9 +131,6 @@ final class TelegramBotNotificator implements BotNotificatorContract
         return $baseUrl.'/sendMessage';
     }
 
-    /**
-     * @throws \Exception
-     */
     private function getBotToken(): string
     {
         $token = config('services.bots.'.$this->bot->value.'.token');
@@ -150,9 +141,6 @@ final class TelegramBotNotificator implements BotNotificatorContract
         return $token;
     }
 
-    /**
-     * @throws \Exception
-     */
     private function getChatIds(): array
     {
         $chatIds = config('services.bots.'.$this->bot->value.'.chat_ids');
