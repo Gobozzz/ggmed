@@ -7,10 +7,10 @@ namespace App\Exceptions\AiAssistant;
 use App\Enums\Exceptions\AiAssistantException;
 use App\Exceptions\BaseException;
 
-final class AiInvalidResponseException extends BaseException
+final class AiInvalidDataResponseException extends BaseException
 {
     public function __construct()
     {
-        parent::__construct('AI Invalid Response', AiAssistantException::INVALID_RESPONSE->value);
+        parent::__construct('AI Invalid Response', AiAssistantException::INVALID_RESPONSE_DATA->value);
     }
 }

@@ -13,9 +13,6 @@ interface RaffleRepositoryContract
 
     public function getWeeklyReadyPlayingNow(): ?Raffle;
 
-    /**
-     * @throws \Throwable
-     */
     public function setWinner(int $userId, int $raffleId): Raffle;
 
     public function deleteAllWeeklyUnplayed(): void;

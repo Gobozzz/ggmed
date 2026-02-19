@@ -15,8 +15,7 @@ final class CreateWeeklyRaffleCommand extends Command
 
     public function __construct(
         private readonly CreateWeeklyRaffleAction $createWeeklyRaffleAction,
-    )
-    {
+    ) {
         parent::__construct();
     }
 

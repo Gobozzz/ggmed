@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 abstract class BaseException extends Exception
 {
     protected int $errorCode;
+
     protected int $httpStatus;
 
     public function __construct(string $message, int $errorCode, int $httpStatus = 400)

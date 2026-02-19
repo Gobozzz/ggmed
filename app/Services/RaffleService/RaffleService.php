@@ -17,13 +17,11 @@ use Illuminate\Support\Facades\DB;
 final class RaffleService implements RaffleServiceContract
 {
     public function __construct(
-        private readonly UserRepositoryContract     $userRepository,
-        private readonly RaffleRepositoryContract   $raffleRepository,
-        private readonly SelectWinnerRaffleAction   $selectWinnerRaffleAction,
+        private readonly UserRepositoryContract $userRepository,
+        private readonly RaffleRepositoryContract $raffleRepository,
+        private readonly SelectWinnerRaffleAction $selectWinnerRaffleAction,
         private readonly TransactionServiceContract $transactionService,
-    )
-    {
-    }
+    ) {}
 
     public function playWeeklyRaffle(): void
     {
@@ -55,8 +53,13 @@ final class RaffleService implements RaffleServiceContract
                 )
             );
 
-        }, config('raffle.count_attempts_transaction'));
+        }, $this->getCountAttemptsForPayPrize());
 
         event(new WeeklyRafflePlayed($raffle));
+    }
+
+    private function getCountAttemptsForPayPrize(): int
+    {
+        return config('raffle.count_attempts_transaction');
     }
 }

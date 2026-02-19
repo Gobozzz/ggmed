@@ -11,4 +11,5 @@ enum AiAssistantException: int
 {
     case INVALID_RESPONSE = 300;
     case AUTHENTICATION_ERROR = 301;
+    case INVALID_RESPONSE_DATA = 302;
 }

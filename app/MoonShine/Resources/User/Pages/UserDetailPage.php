@@ -55,9 +55,9 @@ class UserDetailPage extends DetailPage
             Text::make('Имя', 'name'),
             Phone::make('Телефон', 'phone'),
             Email::make('Почта', 'email'),
-            Text::make('Статус', 'status', fn(Model $model) => $model->status->label()),
+            Text::make('Статус', 'status', fn (Model $model) => $model->status->label()),
             Date::make('Дата регистрации', 'created_at'),
-            Text::make('Баланс, GG COIN', 'balance', formatted: fn() => (string)$this->balanceService->getUserBalanceCached($this->getItem()->getKey())),
+            Text::make('Баланс, GG COIN', 'balance', formatted: fn () => (string) $this->balanceService->getUserBalanceCached($this->getItem()->getKey())),
             HasMany::make('Вопросы', 'questions', resource: QuestionResource::class)->tabMode(),
             HasMany::make('Лайки', 'likes', resource: LikeResource::class)->tabMode(),
             HasMany::make('Комментарии', 'comments', resource: CommentResource::class)->tabMode(),
@@ -71,7 +71,7 @@ class UserDetailPage extends DetailPage
     }
 
     /**
-     * @param TableBuilder $component
+     * @param  TableBuilder  $component
      * @return TableBuilder
      */
     protected function modifyDetailComponent(ComponentContract $component): ComponentContract
@@ -93,7 +93,7 @@ class UserDetailPage extends DetailPage
                     title: 'Начисление GG COIN',
                     content: 'Укажите сумму и комментарий',
                     name: 'admin-replenished-modal',
-                    builder: fn(Modal $modal, ActionButton $ctx) => $modal,
+                    builder: fn (Modal $modal, ActionButton $ctx) => $modal,
                     components: [
                         FormBuilder::make(fields: [
                             Number::make('Сумма', 'amount')->step(0.01),
@@ -111,7 +111,7 @@ class UserDetailPage extends DetailPage
                     title: 'Списание GG COIN',
                     content: 'Укажите сумму и комментарий',
                     name: 'admin-write-off-modal',
-                    builder: fn(Modal $modal, ActionButton $ctx) => $modal,
+                    builder: fn (Modal $modal, ActionButton $ctx) => $modal,
                     components: [
                         FormBuilder::make(fields: [
                             Number::make('Сумма', 'amount')->step(0.01),

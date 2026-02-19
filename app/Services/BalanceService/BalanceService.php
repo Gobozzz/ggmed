@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 final class BalanceService implements BalanceServiceContract
 {
-    public function __construct(private readonly TransactionRepositoryContract $transactionRepository)
-    {
-    }
+    public function __construct(private readonly TransactionRepositoryContract $transactionRepository) {}
 
     public function getUserBalance(int $userId): float
     {
@@ -20,10 +18,10 @@ final class BalanceService implements BalanceServiceContract
 
     public function getUserBalanceCached(int $userId): float
     {
-        return (float)Cache::remember(
+        return (float) Cache::remember(
             $this->getCacheKey($userId),
             config('cache.balance_ttl', 900),
-            fn() => $this->getUserBalance($userId)
+            fn () => $this->getUserBalance($userId)
         );
     }
 
