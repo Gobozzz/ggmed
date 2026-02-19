@@ -12,9 +12,7 @@ final class TransactionObserver implements ShouldHandleEventsAfterCommit
 {
     public function __construct(
         private readonly BalanceServiceContract $balanceService,
-    )
-    {
-    }
+    ) {}
 
     public function created(Transaction $transaction): void
     {
